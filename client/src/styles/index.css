@@ -1,0 +1,293 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+ * AKEEZO theme
+ *
+ * The interface language is modelled on MakeMyTrip — icon tab strip, a
+ * segmented search card overlapping the hero, a pill gradient CTA, Lato, a
+ * 10px card radius — but the palette stays AKEEZO teal rather than MMT blue.
+ * Red is reserved for emergency affordances only.
+ *
+ * Dark mode is driven by prefers-color-scheme (there is no theme toggle yet),
+ * so tokens are redefined in a media query. Deliberately NOT light-dark():
+ * Chrome resolves that against the light scheme inside form controls, which
+ * previously gave near-white text on white inputs.
+ * ------------------------------------------------------------------------ */
+
+@theme inline {
+  --font-sans: "Lato", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Lato", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* AKEEZO-specific, beyond the shadcn set */
+  --color-hero-band: var(--hero-band);
+  --color-navy: var(--navy);
+  --color-navy-foreground: var(--navy-foreground);
+  --color-emergency: var(--emergency);
+  --color-emergency-strong: var(--emergency-strong);
+  --color-emergency-surface: var(--emergency-surface);
+  --color-emergency-ink: var(--emergency-ink);
+  --color-mint: var(--mint);
+  --color-ink-strong: var(--ink-strong);
+  --color-rule: var(--rule);
+  --color-sunk: var(--sunk);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+
+  --shadow-widget: var(--widget-shadow);
+  --shadow-card: var(--card-shadow);
+  --shadow-tab: var(--tab-shadow);
+}
+
+:root {
+  /* MMT uses a 10px card radius throughout. */
+  --radius: 0.625rem;
+
+  --background: #ffffff;
+  --foreground: #262626;
+  --ink-strong: #171717;
+
+  --card: #ffffff;
+  --card-foreground: #262626;
+  --popover: #ffffff;
+  --popover-foreground: #262626;
+
+  --primary: #52a5e9;
+  --primary-foreground: #ffffff;
+
+  --secondary: #ebf5fd;
+  --secondary-foreground: #1d265d;
+
+  --muted: #f4f6f9;
+  --muted-foreground: #595959;
+
+  --accent: #ebf5fd;
+  --accent-foreground: #1d265d;
+
+  --destructive: #d92d20;
+  --destructive-foreground: #ffffff;
+
+  --border: #e2e8f0;
+  --rule: #e2e8f0;
+  --input: #cbd5e1;
+  --ring: #52a5e9;
+
+  --sunk: #f4f6f9;
+
+  /* The hero band carries white copy, anchored by Midnight Navy #1D265D. */
+  --hero-band: #1d265d;
+
+  /* Top utility bar, using Midnight Navy #1D265D. */
+  --navy: #1d265d;
+  --navy-foreground: #ffffff;
+
+  --mint: #52a5e9;
+
+  /* Emergency only. Never decorative. */
+  --emergency: #d92d20;
+  --emergency-strong: #a32118;
+  --emergency-surface: #fdf2f1;
+  --emergency-ink: #99201a;
+
+  /* The pill CTA gradient — Sky Blue #52A5E9 to Midnight Navy #1D265D. */
+  --cta-from: #52a5e9;
+  --cta-to: #1d265d;
+  --cta-from-hover: #3b8ed4;
+  --cta-to-hover: #131a43;
+
+  --widget-shadow: 0 2px 4px rgb(29 38 93 / 0.08), 0 8px 24px rgb(29 38 93 / 0.14);
+  --card-shadow: 0 1px 2px rgb(29 38 93 / 0.05), 0 4px 14px rgb(29 38 93 / 0.09);
+  --tab-shadow: 0 1px 6px rgb(29 38 93 / 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0e1434;
+    --foreground: #f1f5f9;
+    --ink-strong: #ffffff;
+
+    --card: #131a43;
+    --card-foreground: #f1f5f9;
+    --popover: #131a43;
+    --popover-foreground: #f1f5f9;
+
+    --primary: #52a5e9;
+    --primary-foreground: #0e1434;
+
+    --secondary: #1d265d;
+    --secondary-foreground: #92c6f2;
+
+    --muted: #182252;
+    --muted-foreground: #94a3b8;
+
+    --accent: #1d265d;
+    --accent-foreground: #92c6f2;
+
+    --destructive: #e5342a;
+    --destructive-foreground: #ffffff;
+
+    --border: #253275;
+    --rule: #253275;
+    --input: #3a4b92;
+    --ring: #52a5e9;
+
+    --sunk: #090d26;
+
+    --hero-band: #0e1434;
+
+    --navy: #090d26;
+    --navy-foreground: #ffffff;
+
+    --emergency: #d92d20;
+    --emergency-strong: #a32118;
+    --emergency-surface: #2a0f0d;
+    --emergency-ink: #ff9d95;
+
+    --cta-from: #52a5e9;
+    --cta-to: #2b78bd;
+    --cta-from-hover: #7bc0f3;
+    --cta-to-hover: #1d265d;
+
+    --widget-shadow: 0 2px 4px rgb(0 0 0 / 0.45), 0 8px 28px rgb(0 0 0 / 0.55);
+    --card-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px rgb(0 0 0 / 0.45);
+    --tab-shadow: 0 1px 6px rgb(0 0 0 / 0.5);
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    /* Anchor scrolling must clear the sticky header. */
+    scroll-padding-top: 7.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    accent-color: var(--primary);
+    text-underline-offset: 0.15em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--ink-strong);
+    font-weight: 900;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--mint);
+    color: #04211f;
+  }
+
+  /* Reduced motion: damp transitions rather than zeroing them globally. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* MMT's search button: a wide gradient pill that straddles the card edge. */
+  .cta-gradient {
+    /* Solid colour underneath the gradient: background-image is dropped in
+       forced-colors mode and when printing, and the label is white either
+       way, so the button needs a ground that is always painted. */
+    background-color: var(--cta-to);
+    background-image: linear-gradient(93deg, var(--cta-from), var(--cta-to));
+  }
+
+  .cta-gradient:hover {
+    background-image: linear-gradient(93deg, var(--cta-from-hover), var(--cta-to-hover));
+  }
+
+  .cta-gradient-danger {
+    background-color: var(--emergency-strong);
+    background-image: linear-gradient(93deg, var(--emergency), var(--emergency-strong));
+  }
+
+  .cta-gradient-danger:hover {
+    background-image: linear-gradient(93deg, var(--emergency-strong), var(--emergency-strong));
+  }
+
+  /* Available to screen readers, invisible on screen — but reappears when it
+     or anything inside it takes focus, which is what makes a skip link work. */
+  .visually-hidden:where(:not(:focus-within, :active)) {
+    position: absolute !important;
+    clip-path: inset(50%) !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Horizontal rails (the icon tab strip, offer carousels) scroll without a
+     visible scrollbar, the way MMT's do. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
