@@ -1,25 +1,19 @@
 {
-  "name": "akeezo",
-  "version": "0.1.0",
+  "name": "akeezo-monorepo",
   "private": true,
-  "description": "AKEEZO — healthcare journey platform (medical tourism, emergency healthcare, home healthcare)",
   "type": "module",
-  "engines": {
-    "node": ">=20"
-  },
-  "workspaces": [
-    "client",
-    "server"
-  ],
   "scripts": {
-    "dev": "concurrently -n api,web -c cyan,magenta \"npm:dev:server\" \"npm:dev:client\"",
-    "dev:client": "npm run dev --workspace client",
-    "dev:server": "npm run dev --workspace server",
-    "build": "npm run build --workspace client",
-    "start": "npm run start --workspace server",
-    "lint": "npm run lint --workspaces --if-present"
+    "build": "cd client && npm install && npm run build",
+    "postinstall": "cd server && npm install"
   },
-  "devDependencies": {
-    "concurrently": "^9.1.2"
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.13.2",
+    "zod": "^3.24.2"
   }
 }
