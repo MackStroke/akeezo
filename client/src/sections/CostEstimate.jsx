@@ -48,7 +48,7 @@ export function CostEstimate() {
             id="cost-heading"
             className="mt-3 text-xl sm:text-2xl lg:text-[2rem] font-black tracking-tight text-ink-strong leading-tight"
           >
-            You see the whole medical bill, not just the surgery
+            You See the Whole Medical Bill, Not Just the Surgery
           </h2>
 
           <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
@@ -107,7 +107,7 @@ export function CostEstimate() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-sm sm:text-lg font-black tracking-tight text-white">AKEEZO MEDICAL BILL ESTIMATE</h3>
+                      <h3 className="text-sm sm:text-lg font-black tracking-tight text-white">AKEEZO Medical Bill Estimate</h3>
                       <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-wider font-extrabold px-2 py-0.5">
                         Verified Quote
                       </Badge>

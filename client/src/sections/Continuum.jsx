@@ -79,7 +79,7 @@ export function Continuum() {
           The AKEEZO model
         </p>
         <h2 id="continuum-heading" className="mt-2 text-2xl sm:text-[1.85rem] font-black text-ink-strong">
-          Coordinated across the whole arc of care
+          Coordinated Across the Whole Arc of Care
         </h2>
         <p className="mt-3 max-w-3xl text-sm text-muted-foreground">
           A healthcare journey platform that helps patients discover, plan, access and coordinate

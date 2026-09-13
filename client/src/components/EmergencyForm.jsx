@@ -260,7 +260,7 @@ export function EmergencyForm() {
   return (
     <form onSubmit={onSubmit} className="rounded-[var(--radius)] bg-card p-5 shadow-widget sm:p-6 text-foreground border border-rule">
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-black text-ink-strong">Request emergency help</h3>
+        <h3 className="text-xl font-black text-ink-strong">Request Emergency Help</h3>
         <span className="rounded-full bg-emergency/10 px-2.5 py-0.5 text-xs font-bold text-emergency">
           Fast Intake
         </span>

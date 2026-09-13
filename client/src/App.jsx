@@ -19,6 +19,10 @@ import AdminUserDetailsPage from './pages/admin/AdminUserDetailsPage';
 import SocialSettingsPage from './pages/admin/SocialSettingsPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
+import PrivacyPolicyPage from './pages/legal/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/legal/TermsOfServicePage';
+import MedicalDisclaimerPage from './pages/legal/MedicalDisclaimerPage';
+import PatientConsentPage from './pages/legal/PatientConsentPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import CustomerProfilePage from './pages/customer/CustomerProfilePage';
 import { CustomerAuthProvider, useCustomerAuth } from './context/CustomerAuthContext';
@@ -85,6 +89,12 @@ export default function App() {
                 }
               />
               
+                {/* Public Legal Routes */}
+                <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                <Route path="/terms" element={<TermsOfServicePage />} />
+                <Route path="/disclaimer" element={<MedicalDisclaimerPage />} />
+                <Route path="/consent" element={<PatientConsentPage />} />
+
                 {/* Public Blog Routes */}
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:slug" element={<BlogPostPage />} />

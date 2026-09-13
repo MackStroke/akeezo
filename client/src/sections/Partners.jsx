@@ -43,7 +43,7 @@ export function Partners() {
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-bold tracking-[0.1em] text-primary uppercase">For partners</p>
           <h2 id="partners-heading" className="mt-2 text-2xl sm:text-[1.85rem]">
-            Your healthcare partner in India
+            Your Healthcare Partner in India
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
             Organisations raise cases, track them and get documentation through a single desk.
@@ -55,12 +55,12 @@ export function Partners() {
         <ul className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {PARTNERS.map(({ icon: Icon, t, d }) => (
             <li key={t}>
-              <Card className="h-full gap-2.5 p-5">
-                <span className="flex size-11 items-center justify-center rounded-md bg-accent text-primary">
+              <Card className="group h-full gap-2.5 p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-widget cursor-pointer">
+                <span className="flex size-11 items-center justify-center rounded-md bg-accent text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
                   <Icon className="size-6" aria-hidden="true" strokeWidth={1.7} />
                 </span>
-                <h3 className="text-base">{t}</h3>
-                <p className="text-sm text-muted-foreground">{d}</p>
+                <h3 className="text-base font-bold text-ink-strong group-hover:text-primary transition-colors">{t}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{d}</p>
               </Card>
             </li>
           ))}

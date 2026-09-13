@@ -29,7 +29,7 @@ export function Faq() {
                   24/7 Personal Coordinator Support
                 </span>
                 <h3 className="mt-3 text-xl font-bold leading-snug tracking-tight text-white drop-shadow">
-                  Have questions about your healthcare journey in India?
+                  Have Questions About Your Healthcare Journey in India?
                 </h3>
                 <p className="mt-1.5 text-xs font-medium text-white/90 leading-relaxed drop-shadow">
                   Our dedicated care team guides you through every step — from first enquiry to post-care recovery.
@@ -58,7 +58,7 @@ export function Faq() {
           <div className="lg:col-span-7 flex flex-col">
             <p className="text-xs font-bold tracking-[0.1em] text-primary uppercase">Questions</p>
             <h2 id="faq-heading" className="mt-2 text-2xl sm:text-[1.85rem]">
-              Before you ask
+              Before You Ask
             </h2>
 
             <Accordion type="single" collapsible defaultValue="faq-0" className="mt-7 flex flex-col gap-3">

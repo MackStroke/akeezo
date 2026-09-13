@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Globe, Handshake, HeartHandshake, PhoneCall } from 'lucide-react';
+import { Globe, Handshake, HeartHandshake, PhoneCall, ShieldAlert } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Logomark } from '@/components/Logomark';
 import { navigation, site, formatPhone, telHref } from '@/lib/site';
@@ -147,26 +147,39 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {navigation.map((group) => (
-              <div key={group.label}>
-                <h3 className="text-[0.7rem] font-bold tracking-[0.08em] text-muted-foreground uppercase">
-                  {group.label}
-                </h3>
-                <ul className="mt-3 flex flex-col gap-1.5">
-                  {group.items.map((item) => (
-                    <li key={item.label}>
-                      <a
-                        href={item.href}
-                        className="text-sm text-muted-foreground hover:text-primary hover:underline"
-                      >
-                        {item.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+          <div className="flex flex-col justify-between">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {navigation.map((group) => (
+                <div key={group.label}>
+                  <h3 className="text-[0.7rem] font-bold tracking-[0.08em] text-muted-foreground uppercase">
+                    {group.label}
+                  </h3>
+                  <ul className="mt-3 flex flex-col gap-1.5">
+                    {group.items.map((item) => (
+                      <li key={item.label}>
+                        <a
+                          href={item.href}
+                          className="text-sm text-muted-foreground hover:text-primary hover:underline"
+                        >
+                          {item.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {/* Medical Disclaimer Banner */}
+            <div className="mt-8 rounded-xl border border-rule/80 bg-accent/40 p-4 sm:p-5 text-xs text-muted-foreground leading-relaxed shadow-xs">
+              <div className="flex items-center gap-2 font-extrabold text-ink-strong text-xs mb-1.5 uppercase tracking-wider">
+                <ShieldAlert className="size-4 text-primary shrink-0" />
+                <span>Medical Disclaimer</span>
               </div>
-            ))}
+              <p>
+                AKEEZO coordinates healthcare journey services; it does not practise medicine and does not provide medical advice, diagnosis, or treatment. All clinical decisions rest entirely with accredited treating doctors and hospitals. Costs displayed across this platform are estimates subject to clinical evaluation. In a life-threatening emergency, contact your local emergency response immediately.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -179,15 +192,18 @@ export function SiteFooter() {
           {/* Placeholder targets: the legal pages are a Phase 1 launch
               blocker, tracked in docs/PHASES.md. */}
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
-            {['Privacy policy', 'Terms of service', 'Medical disclaimer', 'Patient data & consent'].map(
-              (label) => (
-                <li key={label}>
-                  <a href="#faq" className="hover:text-primary hover:underline">
-                    {label}
-                  </a>
-                </li>
-              ),
-            )}
+            {[
+              { label: 'Privacy policy', path: '/privacy' },
+              { label: 'Terms of service', path: '/terms' },
+              { label: 'Medical disclaimer', path: '/disclaimer' },
+              { label: 'Patient data & consent', path: '/consent' },
+            ].map(({ label, path }) => (
+              <li key={label}>
+                <Link to={path} className="hover:text-primary hover:underline">
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

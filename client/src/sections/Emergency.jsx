@@ -84,7 +84,7 @@ export function Emergency() {
             </div>
 
             <h2 id="emergency-heading" className="text-2xl sm:text-[2rem] font-black tracking-tight leading-tight">
-              Act now. Four questions, then we call you.
+              Act Now. Four Questions, Then We Call You.
             </h2>
             <p className="mt-3 text-sm text-white/80 leading-relaxed">
               An emergency is not the time for a long form. We ask where the patient is, what
@@ -138,7 +138,7 @@ export function Emergency() {
           <div className="rounded-[var(--radius)] border border-white/15 bg-white/5 p-4.5">
             <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
               <ShieldAlert className="size-4 text-emergency" />
-              Who raises emergency cases with AKEEZO
+              Who Raises Emergency Cases With AKEEZO
             </h3>
             <dl className="mt-2.5 grid gap-2.5 sm:grid-cols-2">
               {REQUESTERS.map((r) => (

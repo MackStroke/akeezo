@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 const ENTRIES = [
   {
     icon: Plane,
-    title: 'Plan my treatment',
+    title: 'Plan My Treatment',
     blurb:
       'Treatment, surgery, a consultation or a second opinion in India — planned properly, with the cost visible before you travel.',
     bullets: ['Hospital & doctor options', 'Itemised estimate', 'Visa, travel & stay'],
@@ -24,7 +24,7 @@ const ENTRIES = [
   },
   {
     icon: Ambulance,
-    title: 'I need emergency help',
+    title: 'I Need Emergency Help',
     blurb:
       'Someone needs urgent medical help — at home, in a hotel, at an airport or while travelling. Four questions, then we call you.',
     bullets: ['Ambulance & emergency response', 'Receiving hospital identified', 'Family kept informed'],
@@ -36,7 +36,7 @@ const ENTRIES = [
   },
   {
     icon: HouseHeart,
-    title: "I'm looking for home healthcare",
+    title: "I'm Looking for Home Healthcare",
     blurb:
       'A nurse, attendant, physiotherapist or doctor visit at home — including post-operative and elder care.',
     bullets: ['Nurses & caregivers', 'Physiotherapy & doctor visits', 'Post-operative & elder care'],
@@ -53,7 +53,7 @@ export function EntryPoints() {
     <section aria-labelledby="entry-heading" className="bg-sunk py-12">
       <div className="mx-auto max-w-[76rem] px-4">
         <h2 id="entry-heading" className="text-2xl sm:text-[1.75rem]">
-          What do you need help with?
+          What Do You Need Help With?
         </h2>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
           Three different journeys, because they are genuinely different. One has time to plan; one

@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { navigation, site, formatPhone, telHref } from '@/lib/site';
+import { navigation, site, formatPhone, telHref, whatsappHref } from '@/lib/site';
 import { Logomark } from '@/components/Logomark';
 import { LocaleSelector } from '@/components/LocaleSelector';
 import { useCustomerAuth } from '@/context/CustomerAuthContext';
@@ -26,17 +26,26 @@ function UtilityBar({ onOpenLogin }) {
 
   return (
     <div className="bg-black text-white">
-      <div className="mx-auto flex max-w-[76rem] flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-1.5 text-[0.78rem]">
-        <p className="flex items-center gap-2 font-bold">
+      <div className="mx-auto flex max-w-[76rem] flex-wrap items-center justify-between gap-x-6 gap-y-1.5 px-4 py-1.5 text-[0.78rem]">
+        <p className="flex items-center gap-2 font-bold flex-wrap">
           <span className="relative flex size-2 shrink-0">
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-emergency opacity-75 motion-reduce:animate-none" />
             <span className="relative inline-flex size-2 rounded-full bg-emergency" />
           </span>
-          Medical emergency?
-          <a href={telHref(site.emergencyPhone)} className="underline decoration-2">
+          Medical emergency? Call:
+          <a href={telHref(site.emergencyPhone)} className="underline decoration-2 text-white hover:text-primary transition-colors">
             {formatPhone(site.emergencyPhone)}
           </a>
-          <span className="font-normal text-navy-foreground/70">· 24/7</span>
+          <span className="font-normal text-white/50">· 24/7</span>
+          <span className="text-white/30 hidden sm:inline">|</span>
+          <a
+            href={whatsappHref('Hello AKEEZO, I need help with a healthcare requirement.')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 font-bold text-[#25D366] hover:underline"
+          >
+            WhatsApp: {formatPhone(site.emergencyPhone)}
+          </a>
         </p>
 
         <ul className="flex flex-wrap items-center gap-x-5 gap-y-1">
