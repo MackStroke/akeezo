@@ -454,7 +454,8 @@ export default function LeadsPage() {
                         <td className="px-6 py-4 align-middle font-medium text-muted-foreground">
                           {new Date(lead.createdAt || lead.date).toLocaleDateString()}
                         </td>
-                        <td className="px-6 py-4 align-middle text-right space-x-1">
+                        <td className="px-6 py-4 align-middle">
+                          <div className="flex items-center justify-end gap-1">
                           {/* View */}
                           <Button variant="ghost" size="icon" asChild className="size-8 text-muted-foreground hover:text-primary">
                             <Link to={`/admin/leads/${id}`} title="View lead">
@@ -477,6 +478,7 @@ export default function LeadsPage() {
                           >
                             <Trash2 className="size-3.5" />
                           </Button>
+                          </div>
                         </td>
                       </tr>
                     );

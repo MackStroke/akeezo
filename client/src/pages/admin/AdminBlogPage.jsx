@@ -389,7 +389,8 @@ export default function AdminBlogPage() {
                         {post.views || 0}
                       </td>
 
-                      <td className="px-6 py-4 align-middle text-right space-x-1">
+                      <td className="px-6 py-4 align-middle">
+                        <div className="flex items-center justify-end gap-1">
                         {/* Toggle Published/Draft */}
                         <Button
                           variant="ghost"
@@ -447,6 +448,7 @@ export default function AdminBlogPage() {
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>
+                        </div>
                       </td>
                     </tr>
                   ))
