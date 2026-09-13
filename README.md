@@ -4,9 +4,9 @@
 > coordinate healthcare — from emergency assistance and hospital care to medical
 > tourism and recovery at home.
 
-MERN monorepo. **Phase 1 (landing page) is complete** — see
-[`docs/PHASES.md`](docs/PHASES.md) for the full roadmap and the launch blockers
-that are still open.
+MERN monorepo. **Phase 1 is complete** — public website, full admin panel, and MongoDB-backed data layer are live.
+
+---
 
 ## Stack
 
@@ -15,26 +15,34 @@ that are still open.
 | Database | MongoDB + Mongoose 8 |
 | API | Express 5 on Node 20+, ESM, Zod validation |
 | Frontend | React 19 + Vite 6 |
-| UI | Tailwind CSS v4 + shadcn/ui (unified `radix-ui`, `lucide-react`) |
-| Design language | MakeMyTrip-style: icon tab strip, segmented search card, gradient pill CTA, Lato, 10px radius — in AKEEZO teal |
+| UI | Tailwind CSS v4 + shadcn/ui (Radix UI, Lucide React) |
+| Auth | JWT (admin) + localStorage session (customer portal) |
 
-## Quick start
+---
+
+## Quick Start
 
 ```bash
 npm install
-cp .env.example .env
+cp .env .env.local    # fill in values
 npm run dev
 ```
 
-The frontend is on <http://localhost:5173>, the API on <http://localhost:5000>.
-Vite proxies `/api` to the API, so the browser sees one origin and CORS never
-applies in dev.
+- Frontend → http://localhost:5173
+- API → http://localhost:5000
+- Vite proxies `/api` to the API — no CORS in dev.
 
-**MongoDB is optional locally.** Leave `MONGODB_URI` blank and the repository
-layer writes to JSON files under `server/.data/` so the forms work end to end
-without a local Mongo. It is a demo convenience with no concurrency guarantees —
-the API refuses to start without a real `MONGODB_URI` when
-`NODE_ENV=production`.
+**MongoDB is optional locally.** Leave `MONGODB_URI` blank and the server falls back to JSON files under `server/.data/`. Set it to use a real database:
+
+```env
+# Local
+MONGODB_URI=mongodb://127.0.0.1:27017/akeezo
+
+# Atlas
+MONGODB_URI=mongodb+srv://<user>:<pass>@<cluster>.mongodb.net/akeezo?retryWrites=true&w=majority
+```
+
+---
 
 ## Scripts
 
@@ -46,93 +54,135 @@ the API refuses to start without a real `MONGODB_URI` when
 | `npm run build` | Production frontend build into `client/dist` |
 | `npm start` | Production API |
 
-## Layout
+---
 
-```
-client/
-  index.html            meta, Open Graph, canonical
-  src/
-    App.jsx             page composition
-    main.jsx            entry; injects JSON-LD once
-    components/
-      SearchWidget.jsx  the MMT-style tabbed intake — primary conversion point
-      WidgetField.jsx   one segmented cell: label / big value / caption
-      EnquiryDialog.jsx step two: identity + the required consent gate
-      EmergencyForm.jsx full emergency intake with the triage interlock
-      ui/               shadcn primitives (our source — edit, don't wrap)
-    sections/           one file per landing-page section
-    lib/
-      site.js           contact details + content constants (single source of truth)
-      api.js            fetch client with timeout and field-level errors
-      utils.js          cn() — every shadcn component imports this
-      structuredData.js JSON-LD graph, derived from site.js
-    styles/
-      index.css         Tailwind entry + @theme tokens (light, dark, forced colors)
-server/
-  src/
-    app.js              Express app: helmet, CORS, routes
-    index.js            entry + graceful shutdown
-    config/             env validation, Mongo connection
-    models/             Lead, EmergencyRequest
-    routes/             leads, emergency, health
-    middleware/          error handler, rate limits
-    utils/              journey ids, repository facade
-docs/PHASES.md          delivery roadmap
-```
+## What's Built
 
-## API
+### 🌐 Website (Public)
+
+| Feature | Details |
+| --- | --- |
+| **Landing Page** | Hero, services overview, cost estimator, FAQ, emergency CTA |
+| **Lead/Enquiry Form** | Multi-step widget — intent, treatment, urgency, contact → saved to MongoDB |
+| **Emergency SOS Form** | Full triage intake — vitals, location, contact → saved to MongoDB |
+| **Blog** | `/blog` listing + `/blog/:slug` article detail with live view counter |
+| **Customer Portal** | Patient login/signup + journey tracker with visa, hotel, doctor status |
+| **SEO** | Dynamic meta, Open Graph, canonical URLs, JSON-LD structured data |
+| **Floating Actions** | Fixed bar with emergency call, WhatsApp, chat buttons |
+
+### 🛡️ Admin Panel (`/admin`)
+
+| Feature | Details |
+| --- | --- |
+| **Secure Login** | JWT auth, protected routes |
+| **Dashboard** | Live stats — leads, active cases, conversion rate, revenue in ₹ INR |
+| **Leads Management** | Table with search/filter/bulk-select; detail page with status updates and internal notes |
+| **Emergency Control Desk** | Live triage table (10s polling + audio ping); dispatch timeline and notes per case |
+| **Registered Users** | Lists all platform users; links each user to their associated leads and queries |
+| **Blog Manager** | Create / edit / publish / delete articles — fully synced to MongoDB |
+| **Notification Bell** | Slide-out sidebar — active emergencies, new leads, system alerts |
+| **Global Search** | Header search across the admin panel |
+| **Admin Profile** | Real backend-synced name, role, avatar, department |
+| **Theme Settings** | Light/dark mode, RTL/LTR direction |
+| **Alert Dialogs** | Confirm prompts on all destructive actions (close case, mark as lost, sign out) |
+
+### 🗄️ Database Collections (MongoDB)
+
+| Collection | Stores |
+| --- | --- |
+| `leads` | Patient enquiries from the website form |
+| `emergencyrequests` | Emergency SOS submissions |
+| `users` | Registered platform users (patients) |
+| `blogs` | Blog articles with view counts |
+
+---
+
+## API Reference
+
+### Public
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| `GET` | `/api/health` | Liveness; reports the active store |
-| `POST` | `/api/leads` | Planned-care / home-care enquiry → `AKZ-<CC>-NNNNNN` |
+| `GET` | `/api/health` | Liveness — reports active store |
+| `POST` | `/api/leads` | Planned-care enquiry → `AKZ-<CC>-NNNNNN` |
 | `POST` | `/api/emergency` | Emergency request → `AKZ-EMG-NNNNNN` |
+| `GET` | `/api/blog` | All published blog posts |
+| `GET` | `/api/blog/:slug` | Single post (increments view count) |
 
-Responses are `{ ok: true, data }` or `{ ok: false, error: { message, fields? } }`.
-Validation failures return `422` with per-field messages the UI renders inline.
+### Admin (JWT required)
 
-```bash
-curl -X POST http://localhost:5000/api/leads \
-  -H 'Content-Type: application/json' \
-  -d '{"intent":"medical_tourism","name":"Test","phone":"+254712345678","country":"Kenya","consent":true}'
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `POST` | `/api/admin/login` | Obtain JWT |
+| `GET` | `/api/admin/stats` | Dashboard counts |
+| `GET/PATCH/DELETE` | `/api/admin/leads/:id` | Lead CRUD |
+| `POST` | `/api/admin/leads/:id/notes` | Add internal note |
+| `GET/PATCH` | `/api/admin/emergencies/:id` | Emergency detail and status |
+| `GET/PATCH/DELETE` | `/api/admin/blog/:id` | Blog CRUD |
+| `GET/PATCH` | `/api/admin/users/:id` | User detail and edit |
+
+Responses: `{ ok: true, data }` or `{ ok: false, error: { message, fields? } }`
+
+---
+
+## Project Structure
+
+```
+client/src/
+  App.jsx                        route composition
+  pages/
+    LandingPage.jsx              public homepage
+    BlogPage.jsx                 public blog listing
+    BlogPostPage.jsx             public blog article
+    admin/
+      AdminLayout.jsx            sidebar + header shell
+      DashboardPage.jsx          stats overview
+      LeadsPage.jsx              leads table
+      LeadDetailsPage.jsx        lead detail + notes
+      EmergenciesPage.jsx        emergency triage table
+      EmergencyDetailsPage.jsx   dispatch and timeline
+      AdminUsersPage.jsx         registered users list
+      AdminUserDetailsPage.jsx   user profile + linked leads
+      AdminBlogPage.jsx          blog CMS
+      ProfilePage.jsx            admin profile
+    customer/
+      CustomerProfilePage.jsx    patient journey portal
+  components/
+    SearchWidget.jsx             tabbed intake - primary conversion
+    EnquiryDialog.jsx            identity + consent gate
+    EmergencyForm.jsx            emergency intake with triage interlock
+    ui/                          shadcn primitives
+  lib/
+    site.js                      contact details + content constants
+    blogStore.js                 localStorage fallback for blog
+    utils.js                     cn() helper
+
+server/src/
+  app.js                         Express: helmet, CORS, routes
+  index.js                       entry + graceful shutdown
+  config/                        env validation, Mongo connection
+  models/                        Lead, EmergencyRequest, User, Blog
+  routes/                        leads, emergency, blog, admin, admin-blog,
+                                 admin-users, admin-emergencies
+  middleware/                    error handler
+  utils/                         journey IDs, repository facade (Mongo or JSON fallback)
 ```
 
-## Conventions worth knowing before you edit
+---
 
-- **Content lives in `client/src/lib/site.js`**, not in components. The FAQ,
-  treatments, cities and navigation are consumed by both the rendered page and
-  the JSON-LD, so they cannot drift apart.
-- **shadcn components are ours to edit.** When one does not fit, add a variant
-  in `components/ui/*.jsx` rather than piling overrides on the call site — a
-  `group-data-*` variant in shadcn's base outranks a plain class anyway.
-- **Do not use `light-dark()` for anything a form control renders.** Chrome
-  resolves it against the light scheme inside widgets — the same
-  `var(--surface)` came back white on an `<input>` and dark on the `<div>`
-  beside it. Theme tokens are overridden in a
-  `@media (prefers-color-scheme: dark)` block instead.
-- **`--primary` inverts in dark mode; `--hero-band` does not.** Anything
-  carrying white text needs a token that stays dark in both themes.
-- **`--emergency` is a fill (white text on it); `--emergency-ink` is text.**
-- **Delete `node_modules/.vite` and restart after installing frontend deps,**
-  or a stale dep cache produces phantom duplicate-React hook errors.
-- **Do not set `NODE_ENV` in `.env`.** Vite reads that file too, and pinning it
-  to `development` makes `vite build` emit React's dev build (277 kB → 532 kB).
-- **Use `API_PORT`, not `PORT`,** for the API locally. Node's `--env-file` will
-  not override an already-set variable, so an ambient `PORT` from a dev harness
-  silently wins.
-- **Red means emergency.** Never reuse the red ramp for decoration.
-- **Emergency paths get the benefit of the doubt.** Looser rate limits, almost
-  everything optional, one-step submit, and a phone number on every failure
-  path. A rejected emergency request is a worse outcome than a messy one.
-- **Consent gates health data.** The widget collects the requirement; the
-  enquiry dialog collects identity and a required consent checkbox before
-  anything is sent.
+## Conventions
 
-## Medical and legal
+- **Content lives in `client/src/lib/site.js`** — FAQ, treatments, cities, nav shared between page and JSON-LD.
+- **Currency is always ₹ INR** in the admin panel.
+- **Red = emergency only.** Never reuse the red ramp for decoration.
+- **Emergency paths get the benefit of the doubt** — looser rate limits, almost everything optional, phone on every failure path.
+- **Consent gates health data** — explicit checkbox required before any form data is sent.
+- **Do not set `NODE_ENV` in `.env`** — Vite reads that file and pins the build mode.
+- **Use `API_PORT`, not `PORT`,** locally to avoid conflicts with dev harnesses.
+- **Delete `node_modules/.vite`** after installing frontend deps to avoid stale cache phantom errors.
 
-AKEEZO coordinates healthcare services. It does not practise medicine or give
-medical advice, and every cost shown is an estimate subject to medical
-evaluation and hospital confirmation. The landing page says so in the disclaimer
-under the FAQ and on both emergency forms; keep it there. Health information is
-collected only behind an explicit consent checkbox — read the launch blockers in
-[`docs/PHASES.md`](docs/PHASES.md) before going live.
+---
+
+## Medical and Legal
+
+AKEEZO coordinates healthcare services. It does not practise medicine or give medical advice, and every cost shown is an estimate subject to medical evaluation and hospital confirmation. Health information is collected only behind an explicit consent checkbox.
