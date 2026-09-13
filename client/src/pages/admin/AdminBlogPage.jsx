@@ -390,18 +390,42 @@ export default function AdminBlogPage() {
                       </td>
 
                       <td className="px-6 py-4 align-middle text-right space-x-1">
+                        {/* Toggle Published/Draft */}
                         <Button
                           variant="ghost"
-                          size="sm"
-                          onClick={() => handleOpenEdit(post)}
-                          className="text-xs font-bold"
+                          size="icon"
+                          className={cn(
+                            'size-8',
+                            post.status === 'Published'
+                              ? 'text-emerald-600 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-950'
+                              : 'text-amber-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950'
+                          )}
+                          title={post.status === 'Published' ? 'Unpublish (set to Draft)' : 'Publish article'}
+                          onClick={() => handleToggleStatus(post._id || post.id)}
                         >
-                          <Edit className="size-3.5 mr-1 text-primary" /> Edit
+                          {post.status === 'Published' ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
                         </Button>
 
+                        {/* Edit */}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="size-8 text-muted-foreground hover:text-primary"
+                          title="Edit article"
+                          onClick={() => handleOpenEdit(post)}
+                        >
+                          <Edit className="size-3.5" />
+                        </Button>
+
+                        {/* Delete */}
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="sm" className="text-xs font-bold text-destructive hover:bg-destructive/10">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="size-8 text-muted-foreground hover:text-destructive"
+                              title="Delete article"
+                            >
                               <Trash2 className="size-3.5" />
                             </Button>
                           </AlertDialogTrigger>
@@ -409,7 +433,7 @@ export default function AdminBlogPage() {
                             <AlertDialogHeader>
                               <AlertDialogTitle>Delete Article?</AlertDialogTitle>
                               <AlertDialogDescription>
-                                Are you sure you want to delete "{post.title}"? This action will permanently remove it from the public website.
+                                Are you sure you want to delete "{post.title}"? This will permanently remove it from the public website.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
