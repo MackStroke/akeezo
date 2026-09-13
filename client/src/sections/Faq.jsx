@@ -18,7 +18,7 @@ export function Faq() {
               <div className="aspect-[4/5] w-full overflow-hidden bg-muted">
                 <img
                   src="/images/faq_support.webp"
-                  alt="AKEEZO patient coordinator supporting a healthcare journey"
+                  alt="AKEEZO healthcare call center coordinator assisting a patient on phone call"
                   className="size-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
                 />
@@ -61,17 +61,19 @@ export function Faq() {
               Before you ask
             </h2>
 
-            <Accordion type="single" collapsible className="mt-7 flex flex-col gap-2.5">
+            <Accordion type="single" collapsible defaultValue="faq-0" className="mt-7 flex flex-col gap-3">
               {faqs.map((faq, i) => (
                 <AccordionItem
                   key={faq.q}
                   value={`faq-${i}`}
-                  className="rounded-[var(--radius)] border border-rule bg-card px-4 last:border-b"
+                  className="rounded-xl border border-border bg-card px-5 sm:px-6 transition-all duration-200 data-[state=open]:border-primary/40 data-[state=open]:bg-secondary/30 data-[state=open]:shadow-card"
                 >
-                  <AccordionTrigger className="py-4 text-left text-[0.95rem] font-bold hover:text-primary hover:no-underline">
+                  <AccordionTrigger className="py-4.5 text-left text-sm sm:text-base font-extrabold text-ink-strong hover:text-primary hover:no-underline gap-4">
                     {faq.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground">{faq.a}</AccordionContent>
+                  <AccordionContent className="text-xs sm:text-sm text-muted-foreground leading-relaxed pb-5 pt-2 border-t border-border/40 mt-1">
+                    {faq.a}
+                  </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>

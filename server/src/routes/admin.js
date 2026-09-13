@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken';
 import { find, findById, updateById, addNoteToLead, deleteById, FILES } from '../utils/store.js';
 import { Lead } from '../models/Lead.js';
 import { EmergencyRequest } from '../models/EmergencyRequest.js';
+import adminEmergenciesRoutes from './admin-emergencies.js';
+import adminUsersRoutes from './admin-users.js';
+import adminBlogRoutes from './admin-blog.js';
 
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev';
@@ -45,6 +48,41 @@ router.post('/login', (req, res) => {
 });
 
 router.use(requireAdminAuth);
+
+router.use('/emergencies', adminEmergenciesRoutes);
+router.use('/users', adminUsersRoutes);
+router.use('/blog', adminBlogRoutes);
+
+// Get header stats
+router.get('/stats', async (req, res, next) => {
+  try {
+    const leads = await find(Lead, FILES.leads) || [];
+    const emergencies = await find(EmergencyRequest, FILES.emergency) || [];
+    
+    // Count real notes across all leads
+    let totalNotes = 0;
+    let newLeads = 0;
+    
+    leads.forEach(lead => {
+      if (lead.notes) totalNotes += lead.notes.length;
+      if (lead.status === 'new') newLeads++;
+    });
+
+    const activeEmergencies = emergencies.filter(e => !['closed', 'cancelled'].includes(e.status)).length;
+
+    res.json({ 
+      ok: true, 
+      data: {
+        notes: totalNotes,
+        tasks: newLeads, // We use new leads as "Tasks" since they require action
+        activeEmergencies,
+        latestEmergencyId: activeEmergencies > 0 ? emergencies[0].caseId : null
+      } 
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Get all leads
 router.get('/leads', async (req, res, next) => {
@@ -133,16 +171,19 @@ router.get('/stats', async (req, res, next) => {
 // Admin profile
 router.get('/profile', (req, res) => {
   // Syncing with user injected by requireAdminAuth
+  const username = req.user.id; // 'admin'
+  const isSuper = username === 'admin';
+
   res.json({
     ok: true,
     data: {
-      id: req.user.id,
-      name: 'Mark Bennet',
-      role: req.user.role,
-      email: 'mark.bennet@akeezo.com',
+      id: username,
+      name: isSuper ? 'Akeezo Administrator' : username,
+      role: req.user.role === 'admin' ? 'Super Admin' : 'Agent',
+      email: isSuper ? 'admin@akeezo.com' : `${username}@akeezo.com`,
       department: 'Platform Administration',
       location: 'India HQ',
-      avatar: 'https://i.pravatar.cc/150?u=mark',
+      avatar: `https://ui-avatars.com/api/?name=${isSuper ? 'Akeezo+Admin' : username}&background=0D1B2A&color=fff&size=256`,
       twoFactorEnabled: true,
     }
   });

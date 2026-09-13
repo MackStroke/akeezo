@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Separator } from '@/components/ui/separator';
 import { Logomark } from '@/components/Logomark';
 import { navigation, site, formatPhone, telHref } from '@/lib/site';
@@ -10,10 +11,19 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[76rem] px-4">
         <div className="grid gap-8 lg:grid-cols-[20rem_1fr]">
           <div>
-            <a href="#top" className="flex items-center gap-2" aria-label="AKEEZO home">
-              <img src="/images/logo-dark.svg" alt="AKEEZO" className="h-8 w-auto dark:hidden" />
-              <img src="/images/logo-light.svg" alt="AKEEZO" className="h-8 w-auto hidden dark:block" />
-            </a>
+            <Link
+              to="/"
+              onClick={() => {
+                if (window.location.pathname === '/') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+              className="flex items-center gap-2 cursor-pointer inline-block"
+              aria-label="AKEEZO home"
+            >
+              <img src="/images/logo-dark.svg" alt="AKEEZO" className="h-8 w-auto dark:hidden hover:opacity-90 transition-opacity" />
+              <img src="/images/logo-light.svg" alt="AKEEZO" className="h-8 w-auto hidden dark:block hover:opacity-90 transition-opacity" />
+            </Link>
             <p className="mt-3 text-sm text-muted-foreground">
               A healthcare journey platform that helps patients discover, plan, access and
               coordinate care — from emergency assistance and hospital treatment to medical tourism

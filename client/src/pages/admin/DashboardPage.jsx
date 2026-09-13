@@ -85,7 +85,7 @@ export default function DashboardPage() {
             <CardTitle className="text-sm font-medium text-white/90">Estimated Value</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231</div>
+            <div className="text-2xl font-bold">₹45,231</div>
             <p className="text-xs text-white/80 mt-1">Projected revenue</p>
           </CardContent>
         </Card>

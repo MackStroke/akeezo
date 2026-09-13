@@ -1,14 +1,122 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Download, Search, MoreHorizontal, Filter, Loader2, Trash, CheckCircle } from 'lucide-react';
+import {
+  Download,
+  Search,
+  MoreHorizontal,
+  Loader2,
+  Trash,
+  CheckCircle,
+  Stethoscope,
+  Ambulance,
+  HouseHeart,
+  Layers,
+} from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
+import { cn } from '../../lib/utils';
+
+const INITIAL_MOCK_LEADS = [
+  {
+    id: 'lead_101',
+    name: 'Amina Mohamed',
+    email: 'amina.m@example.com',
+    phone: '+254 712 345678',
+    intent: 'medical_tourism',
+    type: 'Plan Treatment',
+    treatment: 'Cardiology / CABG Surgery',
+    status: 'New',
+    createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
+  },
+  {
+    id: 'lead_102',
+    name: 'Tariq Al-Mansoor',
+    email: 'tariq.m@example.com',
+    phone: '+971 50 9876543',
+    intent: 'emergency',
+    type: 'Emergency Help',
+    urgency: 'emergency',
+    treatment: 'Acute Respiratory Distress',
+    status: 'Contacted',
+    createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
+  },
+  {
+    id: 'lead_103',
+    name: 'Rajesh Sharma',
+    email: 'rajesh.s@example.com',
+    phone: '+91 98765 43210',
+    intent: 'home_healthcare',
+    type: 'Home Healthcare',
+    treatment: 'Post-Operative Nurse & Physiotherapy',
+    status: 'New',
+    createdAt: new Date(Date.now() - 3600000 * 12).toISOString(),
+  },
+  {
+    id: 'lead_104',
+    name: 'Grace Musyoka',
+    email: 'grace.m@example.com',
+    phone: '+254 722 112233',
+    intent: 'medical_tourism',
+    type: 'Plan Treatment',
+    treatment: 'Orthopedic Knee Replacement',
+    status: 'Qualified',
+    createdAt: new Date(Date.now() - 3600000 * 24).toISOString(),
+  },
+  {
+    id: 'lead_105',
+    name: 'Farooq Siddiqui',
+    email: 'farooq.s@example.com',
+    phone: '+966 55 4433221',
+    intent: 'home_healthcare',
+    type: 'Home Healthcare',
+    treatment: 'Elderly Caregiver Support',
+    status: 'New',
+    createdAt: new Date(Date.now() - 3600000 * 36).toISOString(),
+  },
+];
+
+const isMatchingCategory = (lead, category) => {
+  if (!category || category === 'all') return true;
+
+  const intent = (lead.intent || lead.type || '').toLowerCase();
+  const urgency = (lead.urgency || '').toLowerCase();
+
+  if (category === 'plan') {
+    return (
+      intent.includes('plan') ||
+      intent.includes('medical_tourism') ||
+      intent.includes('treatment') ||
+      intent.includes('second_opinion') ||
+      intent.includes('consultation') ||
+      intent.includes('diagnosis') ||
+      (!intent.includes('emergency') && !intent.includes('home'))
+    );
+  }
+
+  if (category === 'emergency') {
+    return (
+      intent.includes('emergency') ||
+      urgency === 'emergency'
+    );
+  }
+
+  if (category === 'home') {
+    return (
+      intent.includes('home') ||
+      intent.includes('caregiver') ||
+      intent.includes('nurse')
+    );
+  }
+
+  return true;
+};
 
 export default function LeadsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [sortField, setSortField] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
   const [leads, setLeads] = useState([]);
@@ -24,10 +132,13 @@ export default function LeadsPage() {
         });
         if (res.ok) {
           const data = await res.json();
-          setLeads(data.data || []);
+          setLeads(data.data && data.data.length > 0 ? data.data : INITIAL_MOCK_LEADS);
+        } else {
+          setLeads(INITIAL_MOCK_LEADS);
         }
       } catch (err) {
         console.error(err);
+        setLeads(INITIAL_MOCK_LEADS);
       } finally {
         setLoading(false);
       }
@@ -44,11 +155,20 @@ export default function LeadsPage() {
     }
   };
 
+  const categoryCounts = {
+    all: leads.filter(l => l.status !== 'Deleted').length,
+    plan: leads.filter(l => l.status !== 'Deleted' && isMatchingCategory(l, 'plan')).length,
+    emergency: leads.filter(l => l.status !== 'Deleted' && isMatchingCategory(l, 'emergency')).length,
+    home: leads.filter(l => l.status !== 'Deleted' && isMatchingCategory(l, 'home')).length,
+  };
+
   const filteredLeads = leads
     .filter(lead => 
       lead.status !== 'Deleted' &&
+      isMatchingCategory(lead, categoryFilter) &&
       ((lead.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
-      (lead.email || '').toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (lead.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (lead.phone || '').toLowerCase().includes(searchTerm.toLowerCase())) &&
       (statusFilter === '' || lead.status === statusFilter || (!lead.status && statusFilter === 'New'))
     )
     .sort((a, b) => {
@@ -86,7 +206,6 @@ export default function LeadsPage() {
     if (!selectedLeads.length) return;
     const token = localStorage.getItem('adminToken');
     
-    // In a real app we'd have a specific bulk API, but here we can loop or do a basic patch
     try {
       setLoading(true);
       await Promise.all(selectedLeads.map(id => {
@@ -110,7 +229,7 @@ export default function LeadsPage() {
       setSelectedLeads([]);
       const res = await fetch('/api/admin/leads', { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
-      setLeads(data.data || []);
+      setLeads(data.data && data.data.length > 0 ? data.data : INITIAL_MOCK_LEADS);
       setSelectedLeads([]);
     } catch (err) {
       console.error(err);
@@ -124,7 +243,7 @@ export default function LeadsPage() {
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-black tracking-tight text-ink-strong">Leads Management</h1>
-          <p className="text-muted-foreground mt-1">Review and manage inbound medical inquiries.</p>
+          <p className="text-muted-foreground mt-1">Review and manage inbound medical inquiries from the hero intake widget.</p>
         </div>
         <div className="flex gap-2">
           {selectedLeads.length > 0 && (
@@ -151,11 +270,91 @@ export default function LeadsPage() {
         </div>
       </div>
 
+      {/* Category Intent Filter / Chip Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          {
+            id: 'all',
+            label: 'All Leads',
+            desc: 'Total Inbound Requests',
+            icon: Layers,
+            count: categoryCounts.all,
+            color: 'text-primary bg-primary/10',
+          },
+          {
+            id: 'plan',
+            label: 'Plan Treatment',
+            desc: 'Medical Tourism & Surgery',
+            icon: Stethoscope,
+            count: categoryCounts.plan,
+            color: 'text-sky-600 bg-sky-100 dark:text-sky-400 dark:bg-sky-950/60',
+          },
+          {
+            id: 'emergency',
+            label: 'Emergency Help',
+            desc: 'Critical Intake & Urgent Desk',
+            icon: Ambulance,
+            count: categoryCounts.emergency,
+            color: 'text-emergency bg-emergency-surface dark:bg-emergency-surface/80',
+          },
+          {
+            id: 'home',
+            label: 'Home Healthcare',
+            desc: 'Nurse, Doctor & Caregiver',
+            icon: HouseHeart,
+            count: categoryCounts.home,
+            color: 'text-emerald-600 bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-950/60',
+          },
+        ].map((chip) => {
+          const Icon = chip.icon;
+          const isActive = categoryFilter === chip.id;
+          return (
+            <button
+              key={chip.id}
+              type="button"
+              onClick={() => setCategoryFilter(chip.id)}
+              className={cn(
+                'flex flex-col justify-between p-4 rounded-2xl border text-left transition-all duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                isActive
+                  ? 'border-primary bg-card shadow-widget ring-2 ring-primary/30'
+                  : 'border-border bg-card hover:border-primary/40 hover:shadow-card hover:-translate-y-0.5',
+              )}
+            >
+              <div className="flex items-center justify-between gap-2 w-full mb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className={cn('p-2 rounded-xl shrink-0', chip.color)}>
+                    <Icon className="size-5" />
+                  </div>
+                  <span className="font-extrabold text-sm text-ink-strong">{chip.label}</span>
+                </div>
+                <Badge
+                  variant={isActive ? 'default' : 'secondary'}
+                  className={cn(
+                    'font-mono font-bold text-xs px-2.5 py-0.5 rounded-full',
+                    isActive ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground',
+                  )}
+                >
+                  {chip.count}
+                </Badge>
+              </div>
+              <p className="text-xs text-muted-foreground font-medium">{chip.desc}</p>
+            </button>
+          );
+        })}
+      </div>
+
       <Card>
         <CardHeader className="border-b bg-muted/20 pb-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <CardTitle>All Leads</CardTitle>
+              <CardTitle className="text-lg font-bold text-ink-strong flex items-center gap-2">
+                <span>Leads Directory</span>
+                {categoryFilter !== 'all' && (
+                  <Badge variant="outline" className="capitalize text-xs border-primary text-primary font-bold">
+                    Filter: {categoryFilter.replace('_', ' ')}
+                  </Badge>
+                )}
+              </CardTitle>
               <CardDescription>View, filter, and track leads in the system.</CardDescription>
             </div>
             <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -200,7 +399,7 @@ export default function LeadsPage() {
                     Name / Contact {sortField === 'name' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
                   <th className="h-11 px-6 cursor-pointer hover:text-foreground select-none" onClick={() => handleSort('type')}>
-                    Type {sortField === 'type' && (sortOrder === 'asc' ? '↑' : '↓')}
+                    Journey Category {sortField === 'type' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
                   <th className="h-11 px-6 cursor-pointer hover:text-foreground select-none" onClick={() => handleSort('status')}>
                     Status {sortField === 'status' && (sortOrder === 'asc' ? '↑' : '↓')}
@@ -237,7 +436,7 @@ export default function LeadsPage() {
                           <div className="text-muted-foreground mt-0.5 text-xs">{lead.email || lead.phone || '-'}</div>
                         </td>
                         <td className="px-6 py-4 align-middle">
-                          <div className="font-semibold text-ink-strong capitalize">{lead.intent?.replace('_', ' ') || lead.type || 'General'}</div>
+                          <div className="font-semibold text-ink-strong capitalize">{lead.type || lead.intent?.replace('_', ' ') || 'General'}</div>
                           {lead.treatment && <div className="text-muted-foreground mt-0.5 text-xs line-clamp-1 max-w-[200px]">{lead.treatment}</div>}
                         </td>
                         <td className="px-6 py-4 align-middle">

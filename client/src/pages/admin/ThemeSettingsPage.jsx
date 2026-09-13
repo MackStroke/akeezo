@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import { Palette, Sun, Moon, CheckCircle2 } from 'lucide-react';
-import { useLocale } from '../../context/LocaleContext';
 
 export default function ThemeSettingsPage() {
-  const { direction, setDirection } = useLocale();
+  const [direction, setDirection] = useState('ltr');
 
   return (
     <div className="space-y-6 pb-12">

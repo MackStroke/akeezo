@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SEO from '@/components/SEO';
 import { LocaleProvider } from '@/context/LocaleContext';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
@@ -16,6 +17,95 @@ import { Continuum } from '@/sections/Continuum';
 import { Partners } from '@/sections/Partners';
 import { Faq } from '@/sections/Faq';
 import { submitEmergency } from '@/lib/api';
+
+const landingPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'MedicalOrganization',
+      '@id': 'https://www.akeezo.com/#organization',
+      name: 'AKEEZO Healthcare Journey Platform',
+      url: 'https://www.akeezo.com',
+      logo: 'https://www.akeezo.com/images/logo-light.svg',
+      description:
+        'End-to-end healthcare journey coordination in India: medical tourism, 24/7 emergency dispatch, doctor consultations, and home healthcare.',
+      telephone: '+91-11-4084-5678',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'New Delhi',
+        addressCountry: 'IN',
+      },
+      medicalSpecialty: [
+        'Cardiovascular',
+        'Oncology',
+        'Orthopedics',
+        'Neurology',
+        'EmergencyMedicalServices',
+        'HomeHealthcare',
+      ],
+      availableService: [
+        {
+          '@type': 'MedicalProcedure',
+          name: 'Medical Tourism & Surgery Planning',
+          description:
+            'Cross-border treatment planning, accredited hospital selection, cost estimation, and travel visa assistance.',
+        },
+        {
+          '@type': 'EmergencyService',
+          name: '24/7 Emergency Ambulance Dispatch',
+          description:
+            'Instant dispatch of BLS/ALS ambulances and ICU bed reservation across top Indian metro hospitals.',
+        },
+        {
+          '@type': 'MedicalTherapy',
+          name: 'Home Healthcare & Post-Op Care',
+          description:
+            'ICU-at-home setup, certified nursing care, doctor home visits, and post-operative recovery.',
+        },
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://www.akeezo.com/#website',
+      url: 'https://www.akeezo.com',
+      name: 'AKEEZO',
+      publisher: {
+        '@id': 'https://www.akeezo.com/#organization',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://www.akeezo.com/#faq',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'How does AKEEZO help international patients with medical treatment in India?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'AKEEZO coordinates your complete medical journey in India — including hospital selection, doctor opinions, transparent cost estimates, medical visa support, airport transfers, language translators, and stay arrangement.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How fast is AKEEZO 24/7 emergency care dispatch?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Our emergency response team acts within minutes, dispatching equipped BLS/ALS ambulances and reserving trauma beds at partner accredited hospitals.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What services are available under AKEEZO Home Healthcare?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'AKEEZO provides certified ICU-at-home setups, skilled nursing care, home physiotherapy, doctor home visits, and medical equipment rental across major Indian cities.',
+          },
+        },
+      ],
+    },
+  ],
+};
+
 
 const URGENCY_LABELS = {
   within_48h: 'Within 24–48 hours',
@@ -125,31 +215,34 @@ export default function LandingPage() {
 
   return (
     <LocaleProvider>
-      {/* Ahead of the header, so keyboard users can bypass the nav. */}
-      <a
-        className="visually-hidden focus-visible:fixed focus-visible:top-2 focus-visible:left-2 focus-visible:z-100 focus-visible:rounded-md focus-visible:bg-card focus-visible:px-4 focus-visible:py-2 focus-visible:font-bold focus-visible:shadow-widget"
-        href="#content"
-      >
-        Skip to content
-      </a>
+      <SEO jsonLd={landingPageJsonLd} />
+      <div className="relative min-h-screen overflow-x-clip">
+        {/* Ahead of the header, so keyboard users can bypass the nav. */}
+        <a
+          className="visually-hidden focus-visible:fixed focus-visible:top-2 focus-visible:left-2 focus-visible:z-100 focus-visible:rounded-md focus-visible:bg-card focus-visible:px-4 focus-visible:py-2 focus-visible:font-bold focus-visible:shadow-widget"
+          href="#content"
+        >
+          Skip to content
+        </a>
 
-      <SiteHeader />
+        <SiteHeader />
 
-      <main id="content" tabIndex={-1}>
-        <Hero onPlan={handlePlan} onEmergency={handleEmergency} onHome={handleHome} />
-        <EntryPoints />
-        <Journey />
-        <Treatments />
-        <CostEstimate />
-        <Emergency />
-        <HomeCare />
-        <Continuum />
-        <Partners />
-        <Faq />
-      </main>
+        <main id="content" tabIndex={-1}>
+          <Hero onPlan={handlePlan} onEmergency={handleEmergency} onHome={handleHome} />
+          <EntryPoints />
+          <Journey />
+          <Treatments />
+          <CostEstimate />
+          <Emergency />
+          <HomeCare />
+          <Continuum />
+          <Partners />
+          <Faq />
+        </main>
 
-      <SiteFooter />
-      <FloatingActions />
+        <SiteFooter />
+        <FloatingActions />
+      </div>
 
       <EnquiryDialog
         open={Boolean(enquiry)}

@@ -10,15 +10,9 @@ function WhatsAppIcon({ className = 'size-5' }) {
   );
 }
 
-/**
- * WhatsApp and phone, always reachable.
- * - WhatsApp pill carrying the real WhatsApp icon & "Need Help?" text tag.
- * - Phone call button styled with AKEEZO theme palette.
- */
 export function FloatingActions() {
   return (
     <div className="fixed right-4 bottom-4 z-40 flex flex-col items-end gap-2.5">
-      {/* WhatsApp Button with "Need Help?" text tag */}
       <a
         href={whatsappHref('Hello AKEEZO, I need help with a healthcare requirement.')}
         target="_blank"
@@ -30,7 +24,6 @@ export function FloatingActions() {
         <span className="text-xs font-bold tracking-wide">Need Help?</span>
       </a>
 
-      {/* Phone Call Button styled with AKEEZO theme design */}
       <a
         href={telHref(site.emergencyPhone)}
         className="group flex size-12 items-center justify-center rounded-full bg-navy text-navy-foreground border border-white/20 shadow-widget transition-all hover:bg-primary hover:text-white hover:scale-105 focus-visible:outline-2 focus-visible:outline-primary"

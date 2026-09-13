@@ -13,6 +13,17 @@ import {
 } from '@/components/ui/select';
 import { submitEmergency } from '@/lib/api';
 import { site, formatPhone, telHref } from '@/lib/site';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const EMERGENCY_DRAFT_KEY = 'akeezo_emergency_draft';
 
@@ -516,20 +527,50 @@ export function EmergencyForm() {
         </div>
       )}
 
-      <Button
-        type="submit"
-        disabled={status === 'sending'}
-        className="mt-6 h-14 w-full cta-gradient-danger text-base font-bold tracking-wide text-white uppercase shadow-md hover:shadow-lg transition-all"
-      >
-        {status === 'sending' ? (
-          <>
-            <Loader2 className="animate-spin" aria-hidden="true" />
-            Sending…
-          </>
-        ) : (
-          'Connect me to AKEEZO'
-        )}
-      </Button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            type="button"
+            disabled={status === 'sending' || !requesterName || !requesterPhone}
+            className="mt-6 h-14 w-full cta-gradient-danger text-base font-bold tracking-wide text-white uppercase shadow-md hover:shadow-lg transition-all"
+          >
+            {status === 'sending' ? (
+              <>
+                <Loader2 className="animate-spin" aria-hidden="true" />
+                Sending…
+              </>
+            ) : (
+              'Connect me to AKEEZO'
+            )}
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-emergency font-black flex items-center gap-2">
+              <TriangleAlert className="size-5" /> Confirm Emergency Dispatch Request
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-xs sm:text-sm space-y-2">
+              <p>
+                You are requesting immediate emergency intake for{' '}
+                <strong className="text-foreground">{patientName || requesterName || 'the patient'}</strong>.
+              </p>
+              <p className="text-muted-foreground">
+                AKEEZO desk staff will immediately call{' '}
+                <strong className="text-foreground">{countryCode} {requesterPhone}</strong> to coordinate local medical response.
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-xs font-bold">Edit Details</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={onSubmit}
+              className="bg-emergency hover:bg-emergency-strong text-white font-bold text-xs"
+            >
+              Confirm Emergency Dispatch
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <p className="mt-3 text-center text-xs text-muted-foreground">
         AKEEZO coordinates emergency response. We are not a substitute for your local emergency

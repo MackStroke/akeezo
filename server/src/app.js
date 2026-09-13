@@ -7,6 +7,7 @@ import healthRoutes from './routes/health.js';
 import leadRoutes from './routes/leads.js';
 import emergencyRoutes from './routes/emergency.js';
 import adminRoutes from './routes/admin.js';
+import blogRoutes from './routes/blog.js';
 
 export function createApp() {
   const app = express();
@@ -24,7 +25,7 @@ export function createApp() {
         if (!origin || env.corsOrigins.includes(origin)) return callback(null, true);
         callback(new Error(`Origin ${origin} is not allowed`));
       },
-      methods: ['GET', 'POST'],
+      methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     }),
   );
 
@@ -35,6 +36,7 @@ export function createApp() {
   app.use('/api/leads', leadRoutes);
   app.use('/api/emergency', emergencyRoutes);
   app.use('/api/admin', adminRoutes);
+  app.use('/api/blog', blogRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

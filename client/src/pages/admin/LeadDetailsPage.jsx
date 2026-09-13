@@ -5,6 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../..
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
 import { Input } from '../../components/ui/input';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../components/ui/alert-dialog";
 
 export default function LeadDetailsPage() {
   const { id } = useParams();
@@ -186,15 +197,35 @@ export default function LeadDetailsPage() {
                   >
                     Qualified
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="text-emergency hover:text-emergency hover:bg-emergency-surface"
-                    disabled={statusUpdating || lead.status === 'Lost'}
-                    onClick={() => updateStatus('Lost')}
-                  >
-                    Lost
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="text-emergency hover:text-emergency hover:bg-emergency-surface"
+                        disabled={statusUpdating || lead.status === 'Lost'}
+                      >
+                        Lost
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Mark lead as Lost?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will mark the lead as lost and remove it from the active pipeline. This action can be reversed later if needed.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction 
+                          onClick={() => updateStatus('Lost')}
+                          className="bg-emergency hover:bg-emergency-strong text-white"
+                        >
+                          Mark as Lost
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </div>
             </CardContent>

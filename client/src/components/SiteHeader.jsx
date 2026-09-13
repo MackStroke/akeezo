@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Ambulance, Building2, Globe, Menu, Phone, UserRound, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Ambulance, Building2, Globe, Menu, Phone, UserRound, X, LogOut, CheckCircle2, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -11,6 +12,8 @@ import { cn } from '@/lib/utils';
 import { navigation, site, formatPhone, telHref } from '@/lib/site';
 import { Logomark } from '@/components/Logomark';
 import { LocaleSelector } from '@/components/LocaleSelector';
+import { useCustomerAuth } from '@/context/CustomerAuthContext';
+import { CustomerLoginDialog } from '@/components/CustomerLoginDialog';
 
 /**
  * MMT's header is two strips: a dark utility bar carrying business links, then
@@ -18,9 +21,11 @@ import { LocaleSelector } from '@/components/LocaleSelector';
  * dark bar, because the brief requires an emergency affordance to be
  * permanently visible and the dark bar never scrolls away with the nav.
  */
-function UtilityBar() {
+function UtilityBar({ onOpenLogin }) {
+  const { customerUser, isAuthenticated } = useCustomerAuth();
+
   return (
-    <div className="bg-navy text-navy-foreground">
+    <div className="bg-black text-white">
       <div className="mx-auto flex max-w-[76rem] flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-1.5 text-[0.78rem]">
         <p className="flex items-center gap-2 font-bold">
           <span className="relative flex size-2 shrink-0">
@@ -51,10 +56,26 @@ function UtilityBar() {
             </a>
           </li>
           <li>
-            <a href="#plan" className="flex items-center gap-1.5 font-bold hover:underline">
-              <UserRound className="size-3.5" aria-hidden="true" />
-              My journey
-            </a>
+            {isAuthenticated ? (
+              <Link
+                to="/my-journey"
+                className="flex items-center gap-1.5 font-bold text-sky-300 hover:text-white transition-colors"
+              >
+                <span className="size-4 rounded-full bg-sky-400 text-navy font-bold flex items-center justify-center text-[0.65rem]">
+                  {customerUser?.name?.charAt(0) || 'P'}
+                </span>
+                <span>My Journey ({customerUser?.name?.split(' ')[0]})</span>
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={onOpenLogin}
+                className="flex items-center gap-1.5 font-bold hover:underline cursor-pointer bg-transparent border-0 text-inherit p-0 font-inherit"
+              >
+                <UserRound className="size-3.5" aria-hidden="true" />
+                My journey / Patient Login
+              </button>
+            )}
           </li>
           <LocaleSelector />
         </ul>
@@ -65,17 +86,29 @@ function UtilityBar() {
 
 /** Desktop dropdown. Radix Popover handles the top layer, Escape and dismiss. */
 function NavDropdown({ group, isScrolled }) {
+  const [open, setOpen] = useState(false);
+  const hasDropdown = Boolean(group.items && group.items.length > 0);
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         className={cn(
-          'inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-bold transition-colors',
+          'inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-bold transition-colors cursor-pointer',
           isScrolled
             ? 'text-foreground hover:bg-accent hover:text-primary data-[state=open]:bg-accent data-[state=open]:text-primary'
             : 'text-white/90 hover:bg-white/15 hover:text-white data-[state=open]:bg-white/20 data-[state=open]:text-white',
         )}
       >
-        {group.label}
+        <span>{group.label}</span>
+        {hasDropdown && (
+          <ChevronDown
+            className={cn(
+              'size-3.5 transition-transform duration-200 opacity-75',
+              open && 'rotate-180'
+            )}
+            aria-hidden="true"
+          />
+        )}
       </PopoverTrigger>
       <PopoverContent align="start" className="w-60 p-1.5">
         <ul>
@@ -83,6 +116,7 @@ function NavDropdown({ group, isScrolled }) {
             <li key={item.label}>
               <a
                 href={item.href}
+                onClick={() => setOpen(false)}
                 className="block rounded-sm px-3 py-2 text-sm font-medium hover:bg-accent hover:text-primary"
               >
                 {item.label}
@@ -96,8 +130,19 @@ function NavDropdown({ group, isScrolled }) {
 }
 
 export function SiteHeader() {
+  const location = useLocation();
   const drawerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [initialMode, setInitialMode] = useState('login');
+
+  useEffect(() => {
+    const path = location.pathname.toLowerCase();
+    if (['/login', '/customer/login', '/signup', '/register', '/customer/signup'].includes(path)) {
+      setInitialMode(path.includes('signup') || path.includes('register') ? 'signup' : 'login');
+      setLoginOpen(true);
+    }
+  }, [location.pathname]);
 
   // Close the drawer once the viewport is wide enough for the real nav,
   // otherwise the page is left behind an invisible modal backdrop.
@@ -124,24 +169,38 @@ export function SiteHeader() {
 
   return (
     <>
-      <UtilityBar />
+      <CustomerLoginDialog open={loginOpen} onOpenChange={setLoginOpen} initialMode={initialMode} />
 
       <header
         className={cn(
-          'sticky top-0 z-50 border-b transition-all duration-300',
+          'sticky top-0 z-50 transition-all duration-300',
           isScrolled
-            ? 'border-rule bg-white text-foreground shadow-tab dark:bg-card dark:text-foreground'
-            : 'border-white/10 bg-navy/85 backdrop-blur-md text-white shadow-none',
+            ? 'bg-white text-foreground shadow-tab dark:bg-card dark:text-foreground border-b border-rule'
+            : 'bg-navy/85 backdrop-blur-md text-white shadow-none border-b border-white/10',
         )}
       >
+        <UtilityBar onOpenLogin={() => {
+          setInitialMode('login');
+          setLoginOpen(true);
+        }} />
+
         <div className="mx-auto flex max-w-[76rem] items-center justify-between gap-4 px-4 py-2.5">
-          <a href="#top" className="flex shrink-0 items-center gap-2.5" aria-label="AKEEZO home">
+          <Link
+            to="/"
+            onClick={() => {
+              if (window.location.pathname === '/') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            className="flex shrink-0 items-center gap-2.5 cursor-pointer"
+            aria-label="AKEEZO home"
+          >
             <img
               src={isScrolled ? '/images/logo-dark.svg' : '/images/logo-light.svg'}
               alt="AKEEZO"
-              className="h-7 sm:h-8 w-auto transition-opacity duration-300"
+              className="h-7 sm:h-8 w-auto transition-opacity duration-300 hover:opacity-90"
             />
-          </a>
+          </Link>
 
           <nav className="hidden lg:block" aria-label="Primary">
             <ul className="flex items-center gap-0.5">
@@ -150,6 +209,19 @@ export function SiteHeader() {
                   <NavDropdown group={group} isScrolled={isScrolled} />
                 </li>
               ))}
+              <li>
+                <Link
+                  to="/blog"
+                  className={cn(
+                    'inline-flex items-center rounded-md px-3 py-2 text-sm font-bold transition-colors',
+                    isScrolled
+                      ? 'hover:bg-accent hover:text-primary'
+                      : 'text-white/90 hover:bg-white/15 hover:text-white',
+                  )}
+                >
+                  Blog
+                </Link>
+              </li>
               <li>
                 <a
                   href="#about"
@@ -205,13 +277,16 @@ export function SiteHeader() {
             </Button>
 
             <Button
-              variant="outline"
+              variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className={cn(
+                'lg:hidden border-0 bg-transparent shadow-none hover:bg-transparent p-1 h-auto w-auto focus-visible:ring-2 focus-visible:ring-primary',
+                isScrolled ? 'text-foreground hover:text-primary' : 'text-white hover:text-white/80',
+              )}
               aria-label="Open menu"
               onClick={() => drawerRef.current?.showModal()}
             >
-              <Menu aria-hidden="true" />
+              <Menu className="size-7 stroke-[2.2]" aria-hidden="true" />
             </Button>
           </div>
         </div>
@@ -228,9 +303,17 @@ export function SiteHeader() {
         )}
       >
         <div className="mb-5 flex items-center justify-between gap-4">
-          <span className="text-lg font-black text-ink-strong">Menu</span>
-          <Button variant="outline" size="icon" aria-label="Close menu" onClick={close}>
-            <X aria-hidden="true" />
+          <Link
+            to="/"
+            onClick={close}
+            className="flex items-center gap-2 cursor-pointer"
+            aria-label="AKEEZO home"
+          >
+            <img src="/images/logo-dark.svg" alt="AKEEZO" className="h-7 w-auto dark:hidden" />
+            <img src="/images/logo-light.svg" alt="AKEEZO" className="h-7 w-auto hidden dark:block" />
+          </Link>
+          <Button variant="ghost" size="icon" className="text-foreground hover:bg-accent rounded-full size-9" aria-label="Close menu" onClick={close}>
+            <X className="size-6 stroke-[2.2]" aria-hidden="true" />
           </Button>
         </div>
 
@@ -259,6 +342,15 @@ export function SiteHeader() {
 
           <Separator className="my-4" />
           <ul>
+            <li>
+              <Link
+                to="/blog"
+                onClick={close}
+                className="block py-1.5 text-sm font-bold text-primary hover:underline"
+              >
+                Blog & Knowledge Hub
+              </Link>
+            </li>
             <li>
               <a
                 href="#about"
