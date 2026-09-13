@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
-    "build": "cd client && npm install && npm run build",
-    "postinstall": "cd server && npm install"
+    "build": "cd client && npm run build",
+    "start": "node server/src/index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -21,6 +21,7 @@
     "concurrently": "^10.0.5"
   },
   "allowScripts": {
-    "esbuild": true
+    "esbuild": true,
+    "@esbuild/win32-x64": true
   }
 }
