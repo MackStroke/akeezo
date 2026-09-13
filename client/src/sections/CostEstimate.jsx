@@ -39,7 +39,7 @@ export function CostEstimate() {
       <div className="mx-auto grid max-w-[76rem] items-start gap-8 sm:gap-10 px-4 lg:grid-cols-12">
         {/* Left Column: Explanatory Copy & Value Proposition */}
         <div className="lg:col-span-5 flex flex-col justify-center">
-          <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-secondary px-3 py-1 text-xs font-bold text-primary">
+          <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-accent px-3 py-1 text-xs font-bold text-primary">
             <Receipt className="size-3.5" aria-hidden="true" />
             100% Upfront Financial Clarity
           </span>
@@ -158,7 +158,7 @@ export function CostEstimate() {
                         <span className="text-[0.65rem] font-mono font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded border border-rule">
                           {item.code}
                         </span>
-                        <span className="inline-block rounded-md bg-secondary px-2 py-0.5 text-[0.65rem] text-primary font-bold">
+                        <span className="inline-block rounded-md bg-accent px-2 py-0.5 text-[0.65rem] text-primary font-bold">
                           {item.category}
                         </span>
                       </div>
@@ -205,7 +205,7 @@ export function CostEstimate() {
                           </div>
                         </td>
                         <td className="py-3.5 px-2 align-top text-xs font-semibold text-muted-foreground whitespace-nowrap">
-                          <span className="inline-block rounded-md bg-secondary px-2 py-0.5 text-[0.7rem] text-primary font-bold">
+                          <span className="inline-block rounded-md bg-accent px-2 py-0.5 text-[0.7rem] text-primary font-bold">
                             {item.category}
                           </span>
                         </td>
@@ -219,7 +219,7 @@ export function CostEstimate() {
               </div>
 
               {/* Bill Totals Summary Box */}
-              <div className="mt-4 sm:mt-6 rounded-xl border border-primary/20 bg-secondary/50 p-3.5 sm:p-5">
+              <div className="mt-4 sm:mt-6 rounded-xl border border-primary/20 bg-accent/50 p-3.5 sm:p-5">
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between text-[0.75rem] sm:text-xs text-muted-foreground">
                     <span>Medical & Surgical Subtotal</span>

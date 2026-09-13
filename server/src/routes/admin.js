@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import { find, findById, updateById, addNoteToLead, deleteById, FILES } from '../utils/store.js';
 import { Lead } from '../models/Lead.js';
 import { EmergencyRequest } from '../models/EmergencyRequest.js';
+import { User } from '../models/User.js';
+import { Blog } from '../models/Blog.js';
 import adminEmergenciesRoutes from './admin-emergencies.js';
 import adminUsersRoutes from './admin-users.js';
 import adminBlogRoutes from './admin-blog.js';
@@ -19,7 +21,6 @@ function requireAdminAuth(req, res, next) {
 
   const token = authHeader.split(' ')[1];
   if (token === 'dummy-jwt-token') {
-    // For development fallback
     req.user = { id: 'admin', role: 'admin' };
     return next();
   }
@@ -39,7 +40,6 @@ function requireAdminAuth(req, res, next) {
 // Admin login route
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-  // Hardcoded for demo/basic admin. Ideally check against DB.
   if (username === 'admin' && password === 'password') {
     const token = jwt.sign({ id: 'admin', role: 'admin' }, JWT_SECRET, { expiresIn: '1d' });
     return res.json({ ok: true, token });
@@ -53,31 +53,156 @@ router.use('/emergencies', adminEmergenciesRoutes);
 router.use('/users', adminUsersRoutes);
 router.use('/blog', adminBlogRoutes);
 
-// Get header stats
+// Unified stats route — used by header polling AND dashboard
 router.get('/stats', async (req, res, next) => {
   try {
-    const leads = await find(Lead, FILES.leads) || [];
-    const emergencies = await find(EmergencyRequest, FILES.emergency) || [];
+    const [leads, emergencies] = await Promise.all([
+      find(Lead, FILES.leads),
+      find(EmergencyRequest, FILES.emergency),
+    ]);
+
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOf7Days = new Date(now - 7 * 24 * 60 * 60 * 1000);
+    const startOf30Days = new Date(now - 30 * 24 * 60 * 60 * 1000);
+    const startOfPrev30Days = new Date(now - 60 * 24 * 60 * 60 * 1000);
+
+    // --- LEADS ---
+    const totalLeads = leads.length;
+    const activeLeads = leads.filter(l => !l.status || l.status === 'New' || l.status === 'Contacted' || l.status === 'Qualified').length;
+    const lostLeads = leads.filter(l => l.status === 'Lost').length;
+    const convertedLeads = leads.filter(l => l.status === 'Converted').length;
+    const newLeadsToday = leads.filter(l => new Date(l.createdAt) >= startOfToday).length;
+    const leadsLast30 = leads.filter(l => new Date(l.createdAt) >= startOf30Days).length;
+    const leadsPrev30 = leads.filter(l => new Date(l.createdAt) >= startOfPrev30Days && new Date(l.createdAt) < startOf30Days).length;
+    const leadsLast7 = leads.filter(l => new Date(l.createdAt) >= startOf7Days).length;
+
+    // Lead growth % vs prior period
+    const leadGrowth = leadsPrev30 > 0 ? Math.round(((leadsLast30 - leadsPrev30) / leadsPrev30) * 100) : null;
     
-    // Count real notes across all leads
-    let totalNotes = 0;
-    let newLeads = 0;
-    
-    leads.forEach(lead => {
-      if (lead.notes) totalNotes += lead.notes.length;
-      if (lead.status === 'new') newLeads++;
+    // Conversion rate
+    const conversionRate = totalLeads > 0 ? Math.round((convertedLeads / totalLeads) * 100 * 10) / 10 : 0;
+
+    // Intent breakdown
+    const intentBreakdown = {};
+    leads.forEach(l => {
+      const k = l.intent || l.type || 'general';
+      intentBreakdown[k] = (intentBreakdown[k] || 0) + 1;
     });
 
-    const activeEmergencies = emergencies.filter(e => !['closed', 'cancelled'].includes(e.status)).length;
+    // Country breakdown (top 5)
+    const countryCount = {};
+    leads.forEach(l => {
+      if (l.country) countryCount[l.country] = (countryCount[l.country] || 0) + 1;
+    });
+    const topCountries = Object.entries(countryCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([country, count]) => ({ country, count }));
 
-    res.json({ 
-      ok: true, 
+    // Leads per day last 7 days
+    const leadsPerDay = [];
+    for (let i = 6; i >= 0; i--) {
+      const day = new Date(now - i * 24 * 60 * 60 * 1000);
+      const label = day.toLocaleDateString('en-IN', { weekday: 'short' });
+      const count = leads.filter(l => {
+        const d = new Date(l.createdAt);
+        return d.getFullYear() === day.getFullYear() &&
+               d.getMonth() === day.getMonth() &&
+               d.getDate() === day.getDate();
+      }).length;
+      leadsPerDay.push({ day: label, count });
+    }
+
+    // Status breakdown
+    const statusBreakdown = {};
+    leads.forEach(l => {
+      const s = l.status || 'New';
+      statusBreakdown[s] = (statusBreakdown[s] || 0) + 1;
+    });
+
+    // --- EMERGENCIES ---
+    const totalEmergencies = emergencies.length;
+    const activeEmergencies = emergencies.filter(e => !['closed', 'cancelled'].includes(e.status)).length;
+    const closedEmergencies = emergencies.filter(e => e.status === 'closed').length;
+    const emergenciesToday = emergencies.filter(e => new Date(e.createdAt) >= startOfToday).length;
+    const latestEmergencyId = activeEmergencies > 0 ? emergencies.find(e => !['closed','cancelled'].includes(e.status))?.caseId : null;
+
+    // --- NOTES ---
+    let totalNotes = 0;
+    leads.forEach(l => { if (l.notes) totalNotes += l.notes.length; });
+
+    // --- USERS & BLOG (MongoDB only) ---
+    let totalUsers = 0;
+    let totalBlogPosts = 0;
+    let publishedBlogPosts = 0;
+    let totalBlogViews = 0;
+    try {
+      totalUsers = await User.countDocuments();
+      const blogs = await Blog.find().lean();
+      totalBlogPosts = blogs.length;
+      publishedBlogPosts = blogs.filter(b => b.status === 'Published').length;
+      totalBlogViews = blogs.reduce((sum, b) => sum + (b.views || 0), 0);
+    } catch (_) { /* fallback: model not connected */ }
+
+    // --- RECENT ACTIVITY (last 5 leads + emergencies merged) ---
+    const recentActivity = [
+      ...leads.slice(0, 5).map(l => ({
+        type: 'lead',
+        id: l._id || l.id,
+        journeyId: l.journeyId,
+        name: l.name,
+        intent: l.intent || l.type || 'General',
+        status: l.status || 'New',
+        createdAt: l.createdAt,
+      })),
+      ...emergencies.slice(0, 5).map(e => ({
+        type: 'emergency',
+        id: e._id || e.id,
+        caseId: e.caseId,
+        name: e.callerName || e.name,
+        problem: e.problem,
+        status: e.status,
+        createdAt: e.createdAt,
+      })),
+    ]
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 8);
+
+    res.json({
+      ok: true,
       data: {
-        notes: totalNotes,
-        tasks: newLeads, // We use new leads as "Tasks" since they require action
+        // Leads
+        totalLeads,
+        activeLeads,
+        lostLeads,
+        convertedLeads,
+        newLeadsToday,
+        leadsLast7,
+        leadsLast30,
+        leadGrowth,
+        conversionRate,
+        intentBreakdown,
+        topCountries,
+        leadsPerDay,
+        statusBreakdown,
+        // Emergencies
+        totalEmergencies,
         activeEmergencies,
-        latestEmergencyId: activeEmergencies > 0 ? emergencies[0].caseId : null
-      } 
+        closedEmergencies,
+        emergenciesToday,
+        latestEmergencyId,
+        // Notes / tasks
+        totalNotes,
+        tasks: activeLeads,
+        // Users & Blog
+        totalUsers,
+        totalBlogPosts,
+        publishedBlogPosts,
+        totalBlogViews,
+        // Activity feed
+        recentActivity,
+      },
     });
   } catch (err) {
     next(err);
@@ -88,7 +213,6 @@ router.get('/stats', async (req, res, next) => {
 router.get('/leads', async (req, res, next) => {
   try {
     const leads = await find(Lead, FILES.leads);
-    // Sort by createdAt descending
     leads.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     res.json({ ok: true, data: leads });
   } catch (err) {
@@ -107,7 +231,7 @@ router.get('/leads/:id', async (req, res, next) => {
   }
 });
 
-// Update lead (status, etc.)
+// Update lead
 router.patch('/leads/:id', async (req, res, next) => {
   try {
     const updatedLead = await updateById(Lead, FILES.leads, req.params.id, req.body);
@@ -128,12 +252,11 @@ router.post('/leads/:id/notes', async (req, res, next) => {
       id: Date.now().toString(),
       text,
       author: req.user.name || 'Admin User',
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
     };
 
     const updatedLead = await addNoteToLead(Lead, FILES.leads, req.params.id, newNote);
     if (!updatedLead) return res.status(404).json({ error: 'Lead not found' });
-    
     res.json({ ok: true, data: updatedLead });
   } catch (err) {
     next(err);
@@ -151,27 +274,9 @@ router.delete('/leads/:id', async (req, res, next) => {
   }
 });
 
-// Dashboard stats
-router.get('/stats', async (req, res, next) => {
-  try {
-    const leads = await find(Lead, FILES.leads);
-    // Mocking stats
-    res.json({
-      ok: true,
-      data: {
-        totalLeads: leads.length,
-        activeLeads: leads.filter(l => !l.status || l.status === 'New').length,
-      }
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
 // Admin profile
 router.get('/profile', (req, res) => {
-  // Syncing with user injected by requireAdminAuth
-  const username = req.user.id; // 'admin'
+  const username = req.user.id;
   const isSuper = username === 'admin';
 
   res.json({
@@ -185,7 +290,7 @@ router.get('/profile', (req, res) => {
       location: 'India HQ',
       avatar: `https://ui-avatars.com/api/?name=${isSuper ? 'Akeezo+Admin' : username}&background=0D1B2A&color=fff&size=256`,
       twoFactorEnabled: true,
-    }
+    },
   });
 });
 

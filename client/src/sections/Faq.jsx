@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { faqs } from '@/lib/site';
+import { faqs, site, telHref, formatPhone } from '@/lib/site';
 import { HelpCircle, UserCheck } from 'lucide-react';
 
 export function Faq() {
@@ -39,15 +39,15 @@ export function Faq() {
 
             {/* Quick reassurance card */}
             <div className="rounded-[var(--radius)] border border-rule bg-card p-4 shadow-sm flex items-start gap-3">
-              <div className="rounded-full bg-secondary p-2 text-primary shrink-0">
+              <div className="rounded-full bg-accent p-2 text-primary shrink-0">
                 <HelpCircle className="size-5" aria-hidden="true" />
               </div>
               <div>
                 <p className="text-sm font-bold text-ink-strong">Need immediate assistance?</p>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Call our 24/7 control desk at{' '}
-                  <a href="tel:+911140845678" className="font-bold text-primary underline">
-                    +91 11 4084 5678
+                  <a href={telHref(site.emergencyPhone)} className="font-bold text-primary underline">
+                    {formatPhone(site.emergencyPhone)}
                   </a>
                 </p>
               </div>
@@ -66,7 +66,7 @@ export function Faq() {
                 <AccordionItem
                   key={faq.q}
                   value={`faq-${i}`}
-                  className="rounded-xl border border-border bg-card px-5 sm:px-6 transition-all duration-200 data-[state=open]:border-primary/40 data-[state=open]:bg-secondary/30 data-[state=open]:shadow-card"
+                  className="rounded-xl border border-border bg-card px-5 sm:px-6 transition-all duration-200 data-[state=open]:border-primary/40 data-[state=open]:bg-accent/40 data-[state=open]:shadow-card"
                 >
                   <AccordionTrigger className="py-4.5 text-left text-sm sm:text-base font-extrabold text-ink-strong hover:text-primary hover:no-underline gap-4">
                     {faq.q}

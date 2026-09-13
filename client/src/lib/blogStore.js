@@ -68,7 +68,7 @@ The first 60 minutes after the onset of severe cardiac symptoms is known as the 
 - **Cold Sweats & Lightheadedness**: Sudden unexplained dizziness, nausea, or clammy skin.
 
 ### Emergency Action Protocol
-1. **Call Emergency Desk Immediately**: Contact AKEEZO Emergency Control Desk (+91 11 4084 5678) or your local emergency dispatch.
+1. **Call Emergency Desk Immediately**: Contact AKEEZO Emergency Control Desk (+91 82876 39443) or your local emergency dispatch.
 2. **Keep Patient Rested**: Have the patient sit down in a comfortable upright position. Avoid physical exertion.
 3. **Do Not Drive Yourself**: Always wait for an Advanced Life Support (ALS) cardiac ambulance equipped with defibrillators and oxygen.
     `,

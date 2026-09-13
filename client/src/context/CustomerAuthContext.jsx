@@ -50,8 +50,8 @@ export function CustomerAuthProvider({ children }) {
         coordinator: {
           name: 'AKEEZO Care Lead',
           role: 'International Patient Coordinator',
-          phone: '+91 11 4084 5678',
-          whatsapp: '911140845678',
+          phone: '+91 82876 39443',
+          whatsapp: '918287639443',
           email: 'care@akeezo.com',
         },
         travel: {
@@ -99,8 +99,8 @@ export function CustomerAuthProvider({ children }) {
         coordinator: {
           name: 'AKEEZO Care Lead',
           role: 'International Patient Coordinator',
-          phone: '+91 11 4084 5678',
-          whatsapp: '911140845678',
+          phone: '+91 82876 39443',
+          whatsapp: '918287639443',
           email: 'care@akeezo.com',
         },
         travel: {
@@ -148,8 +148,8 @@ export function CustomerAuthProvider({ children }) {
         coordinator: {
           name: 'AKEEZO Care Lead',
           role: 'International Patient Coordinator',
-          phone: '+91 11 4084 5678',
-          whatsapp: '911140845678',
+          phone: '+91 82876 39443',
+          whatsapp: '918287639443',
           email: 'care@akeezo.com',
         },
         travel: {

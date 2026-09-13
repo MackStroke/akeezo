@@ -29,7 +29,7 @@ const landingPageJsonLd = {
       logo: 'https://www.akeezo.com/images/logo-light.svg',
       description:
         'End-to-end healthcare journey coordination in India: medical tourism, 24/7 emergency dispatch, doctor consultations, and home healthcare.',
-      telephone: '+91-11-4084-5678',
+      telephone: '+91-82876-39443',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'New Delhi',

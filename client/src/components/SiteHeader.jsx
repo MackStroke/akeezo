@@ -273,7 +273,10 @@ export function SiteHeader() {
               asChild
               className="hidden bg-emergency font-bold text-white hover:bg-emergency-strong sm:inline-flex"
             >
-              <a href="#emergency">Emergency help</a>
+              <a href="#emergency">
+                <Ambulance aria-hidden="true" />
+                Emergency help
+              </a>
             </Button>
 
             <Button

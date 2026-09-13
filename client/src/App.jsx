@@ -16,6 +16,7 @@ import LeadDetailsPage from './pages/admin/LeadDetailsPage';
 import AdminBlogPage from './pages/admin/AdminBlogPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminUserDetailsPage from './pages/admin/AdminUserDetailsPage';
+import SocialSettingsPage from './pages/admin/SocialSettingsPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -108,6 +109,7 @@ export default function App() {
                   <Route path="emergencies" element={<EmergenciesPage />} />
                   <Route path="emergencies/:id" element={<EmergencyDetailsPage />} />
                   <Route path="blog" element={<AdminBlogPage />} />
+                  <Route path="social" element={<SocialSettingsPage />} />
                   <Route path="tasks" element={<TasksPage />} />
                   <Route path="compliance" element={<CompliancePage />} />
                   <Route path="profile" element={<ProfilePage />} />

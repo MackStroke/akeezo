@@ -13,16 +13,19 @@ export const site = {
   description:
     'AKEEZO coordinates healthcare journeys in India — medical tourism, 24/7 emergency assistance and home healthcare — from hospital and doctor options through travel, treatment and recovery at home.',
 
-  emergencyPhone: env.VITE_EMERGENCY_PHONE ?? '+911140845678',
-  whatsappNumber: env.VITE_WHATSAPP_NUMBER ?? '+911140845678',
+  emergencyPhone: env.VITE_EMERGENCY_PHONE ?? '+918287639443',
+  whatsappNumber: env.VITE_WHATSAPP_NUMBER ?? '918287639443',
   email: env.VITE_CONTACT_EMAIL ?? 'care@akeezo.com',
+  careEmail: 'care@akeezo.com',
+  partnersEmail: 'partners@akeezo.com',
+  medicalEmail: 'medical@akeezo.com',
 };
 
 /** Formats an E.164 number for display without changing the tel: target. */
 export const formatPhone = (e164) => {
   const digits = e164.replace(/[^\d]/g, '');
   if (digits.startsWith('91') && digits.length === 12) {
-    return `+91 ${digits.slice(2, 4)} ${digits.slice(4, 8)} ${digits.slice(8)}`;
+    return `+91 ${digits.slice(2, 7)} ${digits.slice(7)}`;
   }
   return e164;
 };

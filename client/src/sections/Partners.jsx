@@ -1,6 +1,7 @@
 import { Building2, Globe2, Hotel, Plane, Shield, Briefcase } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { site } from '@/lib/site';
 
 const PARTNERS = [
   {
@@ -66,8 +67,10 @@ export function Partners() {
         </ul>
 
         <p className="mt-8 text-center">
-          <Button asChild variant="outline" size="lg" className="font-bold">
-            <a href="#top">Talk to the partnerships team</a>
+          <Button asChild variant="outline" size="lg" className="font-bold border-primary text-primary hover:bg-primary hover:text-white">
+            <a href={`mailto:${site.partnersEmail}?subject=AKEEZO%20Partnership%20Inquiry`}>
+              Talk to the partnerships team ({site.partnersEmail})
+            </a>
           </Button>
         </p>
       </div>

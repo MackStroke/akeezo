@@ -175,24 +175,45 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
             <RadioGroup
               value={journeyType}
               onValueChange={setJourneyType}
-              className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-2"
+              className="fswTabs mb-4 flex flex-wrap items-center gap-x-6 gap-y-2.5 text-sm font-sans"
             >
               {[
                 { v: 'treatment', l: 'Treatment or surgery' },
                 { v: 'second_opinion', l: 'Second opinion' },
                 { v: 'consultation', l: 'Specialist consultation' },
                 { v: 'diagnosis', l: 'Diagnosis / health check' },
-              ].map(({ v, l }) => (
-                <div key={v} className="flex items-center gap-2">
-                  <RadioGroupItem value={v} id={`${id}-jt-${v}`} />
-                  <Label
-                    htmlFor={`${id}-jt-${v}`}
-                    className="cursor-pointer text-sm font-bold text-foreground"
+              ].map(({ v, l }) => {
+                const isSelected = journeyType === v;
+                return (
+                  <div
+                    key={v}
+                    onClick={() => setJourneyType(v)}
+                    className={cn(
+                      'group flex items-center gap-2 cursor-pointer py-1 text-sm transition-all duration-150 select-none',
+                      isSelected
+                        ? 'font-black text-ink-strong'
+                        : 'font-semibold text-muted-foreground hover:text-foreground'
+                    )}
                   >
-                    {l}
-                  </Label>
-                </div>
-              ))}
+                    <RadioGroupItem
+                      value={v}
+                      id={`${id}-jt-${v}`}
+                      className={cn(
+                        'size-4 border-2 transition-all',
+                        isSelected
+                          ? 'border-primary bg-primary text-white shadow-xs'
+                          : 'border-muted-foreground/40 bg-transparent group-hover:border-primary/60'
+                      )}
+                    />
+                    <Label
+                      htmlFor={`${id}-jt-${v}`}
+                      className="cursor-pointer text-sm font-inherit text-inherit"
+                    >
+                      {l}
+                    </Label>
+                  </div>
+                );
+              })}
             </RadioGroup>
 
             <form onSubmit={handlePlanSubmit}>

@@ -1,4 +1,4 @@
-import { BadgeCheck, Globe2, Languages, ShieldCheck } from 'lucide-react';
+import { BadgeCheck, ChevronRight, Globe2, Languages, ShieldCheck } from 'lucide-react';
 import { SearchWidget } from '@/components/SearchWidget';
 
 /**
@@ -9,22 +9,48 @@ import { SearchWidget } from '@/components/SearchWidget';
  * same compositional job at zero bytes.
  */
 const PROOF = [
-  { icon: ShieldCheck, label: 'Accredited hospitals', note: 'NABH & JCI partners' },
-  { icon: Globe2, label: 'Patients from 20+ countries', note: 'Africa, Gulf, CIS, South Asia' },
-  { icon: Languages, label: '7 languages', note: 'Including Arabic, French, Swahili' },
-  { icon: BadgeCheck, label: 'One coordinator', note: 'First call to follow-up' },
+  {
+    id: 'accredited',
+    icon: ShieldCheck,
+    title: 'Accredited Hospitals',
+    note: 'NABH & JCI partner network',
+    badge: 'VERIFIED',
+  },
+  {
+    id: 'global',
+    icon: Globe2,
+    title: 'Global Patients',
+    note: 'Africa, Gulf, CIS & South Asia',
+    badge: '20+ COUNTRIES',
+  },
+  {
+    id: 'multilingual',
+    icon: Languages,
+    title: 'Multi Languages Support',
+    note: 'Arabic, French, Swahili & more',
+    badge: '24/7 CARE',
+  },
+  {
+    id: 'coordinator',
+    icon: BadgeCheck,
+    title: 'Single Coordinator',
+    note: 'First call to complete recovery',
+    badge: 'DEDICATED',
+  },
 ];
 
 export function Hero({ onPlan, onEmergency, onHome }) {
   return (
     <section id="top" aria-labelledby="hero-heading" className="relative">
-      {/* Colour band behind the widget. */}
+      {/* Colour band & hero background image behind the widget. */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[22rem] bg-hero-band"
+        className="absolute inset-x-0 top-0 h-[22rem] bg-hero-band overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            'radial-gradient(ellipse 80% 120% at 15% 0%, color-mix(in oklab, var(--mint) 40%, transparent), transparent 60%), radial-gradient(ellipse 70% 100% at 90% 10%, color-mix(in oklab, var(--mint) 22%, transparent), transparent 65%)',
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)), url("/images/hero section.webp")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       />
 
@@ -47,18 +73,49 @@ export function Hero({ onPlan, onEmergency, onHome }) {
 
         <SearchWidget onPlan={onPlan} onEmergency={onEmergency} onHome={onHome} />
 
-        {/* Trust strip, clear of the CTA that overhangs the card. */}
-        <ul className="mt-16 grid grid-cols-2 gap-x-3 gap-y-4 sm:gap-x-6 lg:grid-cols-4">
-          {PROOF.map(({ icon: Icon, label, note }) => (
-            <li key={label} className="flex items-start gap-2.5">
-              <Icon className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
-              <span className="min-w-0">
-                <span className="block text-sm font-bold text-ink-strong">{label}</span>
-                <span className="block text-xs text-muted-foreground">{note}</span>
-              </span>
-            </li>
-          ))}
-        </ul>
+        {/* MMT-style Explore More / Care Features strip */}
+        <div data-cy="tertiaryRowContainer" className="choosFrom mt-12 mb-4">
+          <div data-cy="tertiaryRowHeaderContainer" className="choosFrom__header mb-3.5 flex items-center justify-center gap-3">
+            <span data-cy="tertiaryRowHeaderIconLeft" className="makeFlex column arwWrap text-primary flex items-center -space-x-1">
+              <ChevronRight className="size-3.5 rotate-180" />
+              <ChevronRight className="size-3.5 rotate-180" />
+            </span>
+            <span data-cy="tertiaryRowHeaderText" className="choosFrom__header--text text-[0.78rem] font-black uppercase tracking-widest text-muted-foreground">
+              Explore AKEEZO Care
+            </span>
+            <span data-cy="tertiaryRowHeaderIconRight" className="makeFlex column arwWrap text-primary flex items-center -space-x-1">
+              <ChevronRight className="size-3.5" />
+              <ChevronRight className="size-3.5" />
+            </span>
+          </div>
+
+          <div className="choosFrom__wrap rounded-[var(--radius)] border border-rule bg-card p-3 shadow-card sm:p-4">
+            <ul data-cy="tertiaryRowItemsContainer" className="choosFrom__list grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {PROOF.map(({ id, icon: Icon, title, note, badge }) => (
+                <li
+                  key={id}
+                  data-cy={`tertiaryRowItem_${id}`}
+                  className="choosFrom__list--item group flex items-center gap-3 rounded-lg border border-transparent p-2.5 transition-all duration-200 hover:border-primary/30 hover:bg-accent/50 cursor-pointer"
+                >
+                  <span data-cy={`tertiaryRowIcon_${id}`} className="choosFrom__list--itemIcon flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary transition-all duration-200 group-hover:scale-105 group-hover:bg-primary group-hover:text-primary-foreground">
+                    <Icon className="size-5" aria-hidden="true" />
+                  </span>
+                  <div className="choosFrom__list--itemDesc flex flex-1 flex-col">
+                    <p data-cy={`tertiaryRowTitle_${id}`} className="flex items-center gap-1.5 font-sans text-[0.88rem] font-bold text-ink-strong group-hover:text-primary">
+                      <span>{title}</span>
+                      {badge && (
+                        <span data-cy="newTag" className="trpMnyHdr__new rounded-full bg-primary/15 px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-wider text-primary">
+                          {badge}
+                        </span>
+                      )}
+                    </p>
+                    <span data-cy={`tertiaryRowSubTitle_${note}`} className="mt-0.5 text-xs text-muted-foreground">{note}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );

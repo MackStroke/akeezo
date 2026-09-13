@@ -184,12 +184,12 @@ export function EnquiryDialog({ open, onOpenChange, payload }) {
             </DialogHeader>
 
             <p className="mt-6 text-sm text-muted-foreground bg-muted/50 p-4 rounded-xl w-full text-left">
-              Have reports ready? Email them to{' '}
+              Have medical reports ready? Email them to{' '}
               <a
                 className="font-bold text-primary hover:underline"
-                href={`mailto:${site.email}?subject=${encodeURIComponent(result.journeyId)}`}
+                href={`mailto:${site.medicalEmail}?subject=${encodeURIComponent(result.journeyId)}`}
               >
-                {site.email}
+                {site.medicalEmail}
               </a>{' '}
               with your reference in the subject line.
             </p>

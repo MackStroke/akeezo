@@ -4,17 +4,12 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ---------------------------------------------------------------------------
- * AKEEZO theme
- *
- * The interface language is modelled on MakeMyTrip — icon tab strip, a
- * segmented search card overlapping the hero, a pill gradient CTA, Lato, a
- * 10px card radius — but the palette stays AKEEZO teal rather than MMT blue.
- * Red is reserved for emergency affordances only.
- *
- * Dark mode is driven by prefers-color-scheme (there is no theme toggle yet),
- * so tokens are redefined in a media query. Deliberately NOT light-dark():
- * Chrome resolves that against the light scheme inside form controls, which
- * previously gave near-white text on white inputs.
+ * AKEEZO Brand Design System
+ * 
+ * 60-30-10 Rule Implementation:
+ * - 60% Dominant: Pure White (#ffffff) & Light Sunk (#f4f6f9) for whitespace, cards & clean readability
+ * - 30% Secondary / Structure: Vibrant Teal (#00BFA5) & Deep Teal (#0B4F46) for headers, navigation, hero bands & borders
+ * - 10% Accent / Interactive: Vibrant Orange (#FF6B00 / #52A5E9 remapped) for primary CTA buttons, badges & active states
  * ------------------------------------------------------------------------ */
 
 @theme inline {
@@ -73,9 +68,9 @@
 }
 
 :root {
-  /* MMT uses a 10px card radius throughout. */
   --radius: 0.625rem;
 
+  /* 60% DOMINANT (Clean Whitespace & Cards) */
   --background: #ffffff;
   --foreground: #262626;
   --ink-strong: #171717;
@@ -85,17 +80,19 @@
   --popover: #ffffff;
   --popover-foreground: #262626;
 
-  --primary: #52a5e9;
+  /* 10% ACCENT (Vibrant Orange for CTAs & Buttons) */
+  --primary: #ff6b00;
   --primary-foreground: #ffffff;
 
-  --secondary: #ebf5fd;
-  --secondary-foreground: #1d265d;
+  /* 30% SECONDARY / STRUCTURE (Teal Palette) */
+  --secondary: #e6f8f6;
+  --secondary-foreground: #007a6c;
 
   --muted: #f4f6f9;
   --muted-foreground: #595959;
 
-  --accent: #ebf5fd;
-  --accent-foreground: #1d265d;
+  --accent: #fff4ec;
+  --accent-foreground: #d95b00;
 
   --destructive: #d92d20;
   --destructive-foreground: #ffffff;
@@ -103,34 +100,33 @@
   --border: #e2e8f0;
   --rule: #e2e8f0;
   --input: #cbd5e1;
-  --ring: #52a5e9;
+  --ring: #ff6b00;
 
   --sunk: #f4f6f9;
 
-  /* The hero band carries white copy, anchored by Midnight Navy #1D265D. */
-  --hero-band: #1d265d;
-
-  /* Top utility bar, using Midnight Navy #1D265D. */
-  --navy: #1d265d;
+  /* Deep Teal Navy for Hero & Structural Bands (#0B4F46) */
+  --hero-band: #0b4f46;
+  --navy: #0b4f46;
   --navy-foreground: #ffffff;
 
-  --mint: #52a5e9;
+  /* Vibrant Teal Mint (#00BFA5) */
+  --mint: #00bfa5;
 
-  /* Emergency only. Never decorative. */
+  /* Emergency affordances strictly reserved for critical care */
   --emergency: #d92d20;
   --emergency-strong: #a32118;
   --emergency-surface: #fdf2f1;
   --emergency-ink: #99201a;
 
-  /* The pill CTA gradient — Sky Blue #52A5E9 to Midnight Navy #1D265D. */
-  --cta-from: #52a5e9;
-  --cta-to: #1d265d;
-  --cta-from-hover: #3b8ed4;
-  --cta-to-hover: #131a43;
+  /* Orange Pill CTA Gradients & Hover Tones */
+  --cta-from: #ff6b00;
+  --cta-to: #e05b00;
+  --cta-from-hover: #e55c00;
+  --cta-to-hover: #c64e00;
 
-  --widget-shadow: 0 2px 4px rgb(29 38 93 / 0.08), 0 8px 24px rgb(29 38 93 / 0.14);
-  --card-shadow: 0 1px 2px rgb(29 38 93 / 0.05), 0 4px 14px rgb(29 38 93 / 0.09);
-  --tab-shadow: 0 1px 6px rgb(29 38 93 / 0.12);
+  --widget-shadow: 0 2px 4px rgb(11 79 70 / 0.08), 0 8px 24px rgb(11 79 70 / 0.14);
+  --card-shadow: 0 1px 2px rgb(11 79 70 / 0.05), 0 4px 14px rgb(11 79 70 / 0.09);
+  --tab-shadow: 0 1px 6px rgb(11 79 70 / 0.12);
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
   --sidebar-primary: hsl(240 5.9% 10%);
@@ -143,51 +139,53 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0e1434;
+    --background: #061e1b;
     --foreground: #f1f5f9;
     --ink-strong: #ffffff;
 
-    --card: #131a43;
+    --card: #0b2b27;
     --card-foreground: #f1f5f9;
-    --popover: #131a43;
+    --popover: #0b2b27;
     --popover-foreground: #f1f5f9;
 
-    --primary: #52a5e9;
-    --primary-foreground: #0e1434;
+    --primary: #ff6b00;
+    --primary-foreground: #ffffff;
 
-    --secondary: #1d265d;
-    --secondary-foreground: #92c6f2;
+    --secondary: #0f3d37;
+    --secondary-foreground: #40e0d0;
 
-    --muted: #182252;
+    --muted: #0d342f;
     --muted-foreground: #94a3b8;
 
-    --accent: #1d265d;
-    --accent-foreground: #92c6f2;
+    --accent: #331500;
+    --accent-foreground: #ff9d4d;
 
     --destructive: #e5342a;
     --destructive-foreground: #ffffff;
 
-    --border: #253275;
-    --rule: #253275;
-    --input: #3a4b92;
-    --ring: #52a5e9;
+    --border: #144f48;
+    --rule: #144f48;
+    --input: #1b635b;
+    --ring: #ff6b00;
 
-    --sunk: #090d26;
+    --sunk: #041412;
 
-    --hero-band: #0e1434;
+    --hero-band: #061e1b;
 
-    --navy: #090d26;
+    --navy: #041412;
     --navy-foreground: #ffffff;
+
+    --mint: #00bfa5;
 
     --emergency: #d92d20;
     --emergency-strong: #a32118;
     --emergency-surface: #2a0f0d;
     --emergency-ink: #ff9d95;
 
-    --cta-from: #52a5e9;
-    --cta-to: #2b78bd;
-    --cta-from-hover: #7bc0f3;
-    --cta-to-hover: #1d265d;
+    --cta-from: #ff6b00;
+    --cta-to: #e05b00;
+    --cta-from-hover: #ff7a1a;
+    --cta-to-hover: #c64e00;
 
     --widget-shadow: 0 2px 4px rgb(0 0 0 / 0.45), 0 8px 28px rgb(0 0 0 / 0.55);
     --card-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px rgb(0 0 0 / 0.45);
@@ -201,7 +199,6 @@
   }
 
   html {
-    /* Anchor scrolling must clear the sticky header. */
     scroll-padding-top: 7.5rem;
     -webkit-text-size-adjust: 100%;
   }
@@ -244,11 +241,10 @@
   }
 
   ::selection {
-    background-color: var(--mint);
-    color: #04211f;
+    background-color: var(--primary);
+    color: #ffffff;
   }
 
-  /* Reduced motion: damp transitions rather than zeroing them globally. */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -262,11 +258,7 @@
 }
 
 @layer utilities {
-  /* MMT's search button: a wide gradient pill that straddles the card edge. */
   .cta-gradient {
-    /* Solid colour underneath the gradient: background-image is dropped in
-       forced-colors mode and when printing, and the label is white either
-       way, so the button needs a ground that is always painted. */
     background-color: var(--cta-to);
     background-image: linear-gradient(93deg, var(--cta-from), var(--cta-to));
   }
@@ -284,8 +276,6 @@
     background-image: linear-gradient(93deg, var(--emergency-strong), var(--emergency-strong));
   }
 
-  /* Available to screen readers, invisible on screen — but reappears when it
-     or anything inside it takes focus, which is what makes a skip link work. */
   .visually-hidden:where(:not(:focus-within, :active)) {
     position: absolute !important;
     clip-path: inset(50%) !important;
@@ -298,8 +288,6 @@
     white-space: nowrap !important;
   }
 
-  /* Horizontal rails (the icon tab strip, offer carousels) scroll without a
-     visible scrollbar, the way MMT's do. */
   .no-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -307,6 +295,13 @@
 
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  /* MMT-style fswTabs trip & journey selector */
+  .fswTabs {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
   }
 }
 
