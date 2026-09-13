@@ -5,12 +5,14 @@ import {
   Search,
   MoreHorizontal,
   Loader2,
-  Trash,
+  Trash2,
   CheckCircle,
   Stethoscope,
   Ambulance,
   HouseHeart,
   Layers,
+  Eye,
+  Pencil,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
@@ -202,13 +204,14 @@ export default function LeadsPage() {
     }
   };
 
-  const handleBulkAction = async (action) => {
-    if (!selectedLeads.length) return;
+  const handleBulkAction = async (action, ids) => {
+    const targets = ids || selectedLeads;
+    if (!targets.length) return;
     const token = localStorage.getItem('adminToken');
     
     try {
       setLoading(true);
-      await Promise.all(selectedLeads.map(id => {
+      await Promise.all(targets.map(id => {
         if (action === 'deleted') {
           return fetch(`/api/admin/leads/${id}`, {
             method: 'DELETE',
@@ -253,7 +256,7 @@ export default function LeadsPage() {
                 className="gap-2 shadow-sm font-bold text-emergency hover:text-emergency hover:bg-emergency-surface"
                 onClick={() => handleBulkAction('deleted')}
               >
-                <Trash className="size-4" /> Delete ({selectedLeads.length})
+                <Trash2 className="size-4" /> Delete ({selectedLeads.length})
               </Button>
               <Button 
                 variant="outline" 
@@ -451,11 +454,28 @@ export default function LeadsPage() {
                         <td className="px-6 py-4 align-middle font-medium text-muted-foreground">
                           {new Date(lead.createdAt || lead.date).toLocaleDateString()}
                         </td>
-                        <td className="px-6 py-4 align-middle text-right">
-                          <Button variant="ghost" size="icon" asChild>
-                            <Link to={`/admin/leads/${id}`}>
-                              <MoreHorizontal className="size-4" />
+                        <td className="px-6 py-4 align-middle text-right space-x-1">
+                          {/* View */}
+                          <Button variant="ghost" size="icon" asChild className="size-8 text-muted-foreground hover:text-primary">
+                            <Link to={`/admin/leads/${id}`} title="View lead">
+                              <Eye className="size-4" />
                             </Link>
+                          </Button>
+                          {/* Edit */}
+                          <Button variant="ghost" size="icon" asChild className="size-8 text-muted-foreground hover:text-primary">
+                            <Link to={`/admin/leads/${id}`} title="Edit lead">
+                              <Pencil className="size-3.5" />
+                            </Link>
+                          </Button>
+                          {/* Delete */}
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="size-8 text-muted-foreground hover:text-destructive"
+                            title="Delete lead"
+                            onClick={() => handleBulkAction('deleted', [id])}
+                          >
+                            <Trash2 className="size-3.5" />
                           </Button>
                         </td>
                       </tr>
