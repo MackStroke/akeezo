@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 import { treatments, cities, site, formatPhone, telHref } from '@/lib/site';
 import { CarePreferenceRow } from '@/components/CarePreferenceRow';
 import { Field, FieldSelect } from '@/components/WidgetField';
+import { useLocale } from '@/context/LocaleContext';
 
 /**
  * The MakeMyTrip search widget, adapted to healthcare.
@@ -102,6 +103,20 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
   const [journeyType, setJourneyType] = useState('treatment');
   const [isEmergencySubmitting, setIsEmergencySubmitting] = useState(false);
   const isSubmittingRef = useRef(false);
+  const { currency, formatAmount } = useLocale();
+
+  const dynamicBudgets = currency.code === 'INR'
+    ? BUDGETS
+    : [
+        { value: 'under_1l', label: `Under ${formatAmount(100000)}` },
+        { value: '1_3l', label: `${formatAmount(100000)} – ${formatAmount(300000)}` },
+        { value: '3_5l', label: `${formatAmount(300000)} – ${formatAmount(500000)}` },
+        { value: '5_10l', label: `${formatAmount(500000)} – ${formatAmount(1000000)}` },
+        { value: '10_20l', label: `${formatAmount(1000000)} – ${formatAmount(2000000)}` },
+        { value: '20_50l', label: `${formatAmount(2000000)} – ${formatAmount(5000000)}` },
+        { value: '50l_plus', label: `${formatAmount(5000000)}+` },
+        { value: 'not_sure', label: 'Not sure' },
+      ];
 
   const handlePlanSubmit = (e) => {
     e.preventDefault();
@@ -262,11 +277,11 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   className="md:col-span-3"
                   id={`${id}-budget`}
                   name="budget"
-                  label="Approximate budget"
+                  label={`Approximate budget (${currency.symbol})`}
                   icon={Wallet}
                   defaultValue="not_sure"
-                  hint="Estimates only, never a quotation"
-                  options={BUDGETS}
+                  hint={`In ${currency.code} · Estimates only`}
+                  options={dynamicBudgets}
                 />
               </div>
 
