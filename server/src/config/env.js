@@ -18,9 +18,15 @@ export const env = {
   port: Number(process.env.API_PORT ?? process.env.PORT ?? 5000),
 
   // In production a real database is mandatory; in dev we allow the file fallback.
-  mongoUri: isProd
-    ? required('MONGODB_URI', process.env.MONGODB_URI)
-    : (process.env.MONGODB_URI ?? ''),
+  mongoUri: (() => {
+    let uri = isProd
+      ? required('MONGODB_URI', process.env.MONGODB_URI)
+      : (process.env.MONGODB_URI ?? '');
+    if (uri && !uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
+      uri = `mongodb://${uri}`;
+    }
+    return uri;
+  })(),
 
   corsOrigins: (process.env.CORS_ORIGIN ?? 'http://localhost:5173')
     .split(',')
