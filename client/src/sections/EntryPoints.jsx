@@ -53,11 +53,10 @@ export function EntryPoints() {
     <section aria-labelledby="entry-heading" className="bg-sunk py-12">
       <div className="mx-auto max-w-[76rem] px-4">
         <h2 id="entry-heading" className="text-2xl sm:text-[1.75rem]">
-          What Do You Need Help With?
+          How Can We Be by Your Side?
         </h2>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Three different journeys, because they are genuinely different. One has time to plan; one
-          does not.
+          Every journey is different and we are here to plan which is daunting and precious.
         </p>
 
         <ul className="mt-6 grid gap-5 md:grid-cols-3">
