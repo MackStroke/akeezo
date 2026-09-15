@@ -174,6 +174,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                 key={value}
                 value={value}
                 className={cn(
+                  'group/tab-item',
                   urgent
                     ? 'hover:text-emergency-ink data-[state=active]:text-emergency-ink'
                     : value === 'plan'
@@ -181,8 +182,12 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                       : 'hover:text-primary data-[state=active]:text-primary',
                 )}
               >
-                <Icon aria-hidden="true" strokeWidth={1.6} />
-                {label}
+                <span className="headerIconWrapper flex items-center justify-center transition-transform duration-200 group-hover/tab-item:scale-110">
+                  <Icon aria-hidden="true" strokeWidth={1.8} className="size-5 sm:size-6" />
+                </span>
+                <span className="headerIconTextAlignment text-[0.72rem] sm:text-[0.85rem] font-extrabold tracking-tight">
+                  {label}
+                </span>
               </TabsTrigger>
             ))}
           </TabsList>

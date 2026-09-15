@@ -8,7 +8,7 @@
  * 
  * 60-30-10 Rule Implementation:
  * - 60% Dominant: Pure White (#ffffff) & Light Sunk (#f4f6f9) for whitespace, cards & clean readability
- * - 30% Secondary / Structure: Teal Green (#00C7BE) & Deep Teal (#0B4F46) for headers, navigation, hero bands & borders
+ * - 30% Secondary / Structure: Teal Green (#00C7BE) for headers, navigation, hero bands & borders
  * - 10% Accent / Interactive: Vibrant Orange (#FF6B00 / #52A5E9 remapped) for primary CTA buttons, badges & active states
  * ------------------------------------------------------------------------ */
 
@@ -104,9 +104,9 @@
 
   --sunk: #f4f6f9;
 
-  /* Deep Teal Navy for Hero & Structural Bands (#0B4F46) */
-  --hero-band: #0b4f46;
-  --navy: #0b4f46;
+  /* Theme Teal Green for Hero & Structural Bands (#00C7BE) */
+  --hero-band: #00c7be;
+  --navy: #00c7be;
   --navy-foreground: #ffffff;
 
   /* Vibrant Teal Green (#00C7BE) */
@@ -124,9 +124,9 @@
   --cta-from-hover: #e55c00;
   --cta-to-hover: #c64e00;
 
-  --widget-shadow: 0 2px 4px rgb(11 79 70 / 0.08), 0 8px 24px rgb(11 79 70 / 0.14);
-  --card-shadow: 0 1px 2px rgb(11 79 70 / 0.05), 0 4px 14px rgb(11 79 70 / 0.09);
-  --tab-shadow: 0 1px 6px rgb(11 79 70 / 0.12);
+  --widget-shadow: 0 2px 4px rgb(0 199 190 / 0.08), 0 8px 24px rgb(0 199 190 / 0.14);
+  --card-shadow: 0 1px 2px rgb(0 199 190 / 0.05), 0 4px 14px rgb(0 199 190 / 0.09);
+  --tab-shadow: 0 1px 6px rgb(0 199 190 / 0.12);
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
   --sidebar-primary: hsl(240 5.9% 10%);

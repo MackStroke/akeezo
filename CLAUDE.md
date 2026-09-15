@@ -70,7 +70,7 @@ variant) rather than fighting it with overrides from the call site. See the
 - **`--primary` flips to mint in dark mode** (so accent buttons invert to dark
   ink on a light ground). Never use it for a surface that carries white text —
   the hero band did, and the white `h1` fell to 1.76:1. Use `--hero-band`,
-  which stays a deep teal in both modes.
+  which stays teal in both modes.
 - **`--emergency` is a FILL, `--emergency-ink` is TEXT.** White-on-`--emergency`
   only clears AA on the darker red, so `--emergency` is `#d92d20` in *both*
   modes. Emergency text uses `--emergency-ink`, which flips light in dark mode
