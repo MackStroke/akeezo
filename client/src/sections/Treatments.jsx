@@ -96,7 +96,7 @@ export function Treatments() {
   return (
     <section id="treatments" aria-labelledby="treatments-heading" className="bg-sunk py-14">
       <div className="mx-auto max-w-[76rem] px-4">
-        <p className="text-xs font-bold tracking-[0.1em] text-primary uppercase">
+        <p className="text-xs font-bold tracking-[0.1em] text-mint uppercase">
           What do you need?
         </p>
         <h2 id="treatments-heading" className="mt-2 text-2xl sm:text-[1.85rem]">
@@ -114,10 +114,10 @@ export function Treatments() {
               <li key={t.id}>
                 <a
                   href="#top"
-                  className="flex h-full items-center gap-3 rounded-md border border-rule bg-card px-3.5 py-3 text-sm font-bold transition-colors hover:border-primary/50 hover:bg-accent hover:text-primary"
+                  className="flex h-full items-center gap-3 rounded-md border border-rule bg-card px-3.5 py-3 text-sm font-bold transition-colors hover:border-mint/50 hover:bg-mint/10 hover:text-mint"
                 >
                   <Icon
-                    className="size-5 shrink-0 text-primary"
+                    className="size-5 shrink-0 text-mint"
                     aria-hidden="true"
                     strokeWidth={1.7}
                   />
@@ -138,7 +138,7 @@ export function Treatments() {
               <li key={c.name} className="h-full">
                 <a
                   href="#top"
-                  className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius)] border border-rule bg-card transition-all duration-200 hover:-translate-y-1 hover:border-primary/50 hover:shadow-widget active:scale-[0.99] touch-manipulation h-full focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                  className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius)] border border-rule bg-card transition-all duration-200 hover:-translate-y-1 hover:border-mint/50 hover:shadow-widget active:scale-[0.99] touch-manipulation h-full focus-visible:ring-2 focus-visible:ring-mint focus-visible:outline-none"
                 >
                   {/* Real City Image Banner */}
                   <div className="relative h-28 sm:h-32 w-full overflow-hidden border-b border-rule/60 bg-muted">
@@ -155,7 +155,7 @@ export function Treatments() {
                   </div>
 
                   <div className="p-3 sm:p-4 flex-1 flex flex-col justify-center">
-                    <h4 className="text-sm sm:text-base font-black text-ink-strong group-hover:text-primary transition-colors leading-tight">
+                    <h4 className="text-sm sm:text-base font-black text-ink-strong group-hover:text-mint transition-colors leading-tight">
                       {c.name}
                     </h4>
                   </div>
@@ -167,17 +167,17 @@ export function Treatments() {
             <li className="h-full col-span-2 sm:col-span-1">
               <a
                 href="#top"
-                className="group flex h-full flex-col justify-between overflow-hidden rounded-[var(--radius)] border border-primary/40 bg-accent/40 transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:bg-accent hover:shadow-widget active:scale-[0.99] touch-manipulation focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                className="group flex h-full flex-col justify-between overflow-hidden rounded-[var(--radius)] border border-mint/40 bg-mint/10 transition-all duration-200 hover:-translate-y-1 hover:border-mint hover:bg-mint/20 hover:shadow-widget active:scale-[0.99] touch-manipulation focus-visible:ring-2 focus-visible:ring-mint focus-visible:outline-none"
               >
-                <div className="relative h-28 sm:h-32 w-full flex items-center justify-center p-2.5 sm:p-3 border-b border-primary/20 bg-gradient-to-br from-primary/20 via-accent to-transparent overflow-hidden">
-                  <Sparkles className="size-10 sm:size-12 text-primary animate-pulse" />
-                  <span className="absolute top-2 right-2 rounded-full bg-primary/10 px-2 sm:px-2.5 py-0.5 text-[0.62rem] sm:text-[0.68rem] font-bold text-primary border border-primary/20">
+                <div className="relative h-28 sm:h-32 w-full flex items-center justify-center p-2.5 sm:p-3 border-b border-mint/20 bg-gradient-to-br from-mint/20 via-mint/5 to-transparent overflow-hidden">
+                  <Sparkles className="size-10 sm:size-12 text-mint animate-pulse" />
+                  <span className="absolute top-2 right-2 rounded-full bg-mint/15 px-2 sm:px-2.5 py-0.5 text-[0.62rem] sm:text-[0.68rem] font-bold text-mint border border-mint/30">
                     Smart Matching
                   </span>
                 </div>
 
                 <div className="p-3 sm:p-4 flex-1 flex flex-col justify-center">
-                  <h4 className="text-sm sm:text-base font-black text-primary leading-tight">
+                  <h4 className="text-sm sm:text-base font-black text-mint leading-tight">
                     Recommend a City
                   </h4>
                 </div>

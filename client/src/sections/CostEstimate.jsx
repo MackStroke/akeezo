@@ -41,8 +41,8 @@ export function CostEstimate() {
       <div className="mx-auto grid max-w-[76rem] items-start gap-8 sm:gap-10 px-4 lg:grid-cols-12">
         {/* Left Column: Explanatory Copy & Value Proposition */}
         <div className="lg:col-span-5 flex flex-col justify-center">
-          <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-accent px-3 py-1 text-xs font-bold text-primary">
-            <Receipt className="size-3.5" aria-hidden="true" />
+          <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-mint/15 px-3 py-1 text-xs font-bold text-mint border border-mint/30">
+            <Receipt className="size-3.5 text-mint" aria-hidden="true" />
             100% Upfront Financial Clarity
           </span>
 
@@ -62,7 +62,7 @@ export function CostEstimate() {
           <ul className="mt-5 sm:mt-6 flex flex-col gap-2.5 sm:gap-3">
             {ASSURANCES.map((a) => (
               <li key={a} className="flex items-start gap-2.5 sm:gap-3 text-xs sm:text-sm text-foreground font-medium">
-                <div className="mt-0.5 flex size-4.5 sm:size-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <div className="mt-0.5 flex size-4.5 sm:size-5 shrink-0 items-center justify-center rounded-full bg-mint/15 text-mint">
                   <Check className="size-3 sm:size-3.5 stroke-[3]" aria-hidden="true" />
                 </div>
                 <span>{a}</span>
@@ -71,7 +71,7 @@ export function CostEstimate() {
           </ul>
 
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
-            <Button asChild size="lg" className="cta-gradient font-bold text-white shadow-md rounded-full px-6 sm:px-8 w-full sm:w-auto text-center justify-center">
+            <Button asChild size="lg" className="cta-gradient-mint font-bold text-white shadow-md rounded-full px-6 sm:px-8 w-full sm:w-auto text-center justify-center">
               <a href="#top">Get My Journey Estimate</a>
             </Button>
             <span className="text-xs text-muted-foreground font-medium text-center sm:text-left">
@@ -87,7 +87,7 @@ export function CostEstimate() {
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent flex flex-col justify-end p-4 sm:p-5 text-white">
-              <span className="text-[0.65rem] sm:text-xs font-bold uppercase tracking-wider text-emerald-300">
+              <span className="text-[0.65rem] sm:text-xs font-bold uppercase tracking-wider text-mint">
                 Transparent Care Guarantee
               </span>
               <p className="text-xs sm:text-sm font-bold text-white mt-0.5 sm:mt-1">
@@ -105,12 +105,12 @@ export function CostEstimate() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                 <div className="flex items-start sm:items-center gap-3">
                   <div className="flex size-9 sm:size-10 shrink-0 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md text-primary-foreground border border-white/15">
-                    <FileText className="size-4.5 sm:size-5 text-primary" />
+                    <FileText className="size-4.5 sm:size-5 text-mint" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-sm sm:text-lg font-black tracking-tight text-white">AKEEZO Medical Bill Estimate</h3>
-                      <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-wider font-extrabold px-2 py-0.5">
+                      <Badge className="bg-mint/20 text-mint border-mint/30 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-wider font-extrabold px-2 py-0.5">
                         Verified Quote
                       </Badge>
                     </div>
@@ -122,7 +122,7 @@ export function CostEstimate() {
 
                 <div className="flex items-center justify-between sm:justify-end border-t border-white/10 sm:border-t-0 pt-2.5 sm:pt-0">
                   <span className="block text-[0.65rem] sm:text-[0.68rem] font-bold text-white/60 uppercase tracking-wider">Estimated Total</span>
-                  <span className="text-lg sm:text-xl font-black text-primary tracking-tight ml-2">
+                  <span className="text-lg sm:text-xl font-black text-mint tracking-tight ml-2">
                     {formatAmount(TOTAL)}
                   </span>
                 </div>
@@ -144,7 +144,7 @@ export function CostEstimate() {
                 </div>
                 <div className="rounded-lg bg-white/5 p-2 sm:p-2.5 border border-white/10">
                   <span className="text-white/60 block text-[0.62rem] sm:text-[0.68rem]">Currency</span>
-                  <span className="font-bold text-primary text-[0.72rem] sm:text-xs truncate block mt-0.5">{currency.code} ({currency.symbol})</span>
+                  <span className="font-bold text-mint text-[0.72rem] sm:text-xs truncate block mt-0.5">{currency.code} ({currency.symbol})</span>
                 </div>
               </div>
             </div>
@@ -160,11 +160,11 @@ export function CostEstimate() {
                         <span className="text-[0.65rem] font-mono font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded border border-rule">
                           {item.code}
                         </span>
-                        <span className="inline-block rounded-md bg-accent px-2 py-0.5 text-[0.65rem] text-primary font-bold">
+                        <span className="inline-block rounded-md bg-mint/15 px-2 py-0.5 text-[0.65rem] text-mint font-bold border border-mint/30">
                           {item.category}
                         </span>
                       </div>
-                      <span className="font-bold text-sm tabular-nums text-primary">
+                      <span className="font-bold text-sm tabular-nums text-mint">
                         {formatAmount(item.amount)}
                       </span>
                     </div>
@@ -197,7 +197,7 @@ export function CostEstimate() {
                               {item.code}
                             </span>
                             <div>
-                              <span className="font-bold text-ink-strong group-hover:text-primary transition-colors block">
+                              <span className="font-bold text-ink-strong group-hover:text-mint transition-colors block">
                                 {item.label}
                               </span>
                               <span className="text-xs text-muted-foreground block mt-0.5">
@@ -207,7 +207,7 @@ export function CostEstimate() {
                           </div>
                         </td>
                         <td className="py-3.5 px-2 align-top text-xs font-semibold text-muted-foreground whitespace-nowrap">
-                          <span className="inline-block rounded-md bg-accent px-2 py-0.5 text-[0.7rem] text-primary font-bold">
+                          <span className="inline-block rounded-md bg-mint/15 px-2 py-0.5 text-[0.7rem] text-mint font-bold border border-mint/30">
                             {item.category}
                           </span>
                         </td>
@@ -221,7 +221,7 @@ export function CostEstimate() {
               </div>
 
               {/* Bill Totals Summary Box */}
-              <div className="mt-4 sm:mt-6 rounded-xl border border-primary/20 bg-accent/50 p-3.5 sm:p-5">
+              <div className="mt-4 sm:mt-6 rounded-xl border border-mint/20 bg-mint/5 p-3.5 sm:p-5">
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between text-[0.75rem] sm:text-xs text-muted-foreground">
                     <span>Medical & Surgical Subtotal</span>
@@ -238,7 +238,7 @@ export function CostEstimate() {
                     <span className="font-bold shrink-0">Included (₹0 hidden fees)</span>
                   </div>
 
-                  <div className="my-1.5 sm:my-2 border-t border-primary/20" />
+                  <div className="my-1.5 sm:my-2 border-t border-mint/20" />
 
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
                     <div>
@@ -248,7 +248,7 @@ export function CostEstimate() {
                       </span>
                     </div>
                     <div className="sm:text-right">
-                      <span className="text-xl sm:text-2xl font-black text-primary tabular-nums">
+                      <span className="text-xl sm:text-2xl font-black text-mint tabular-nums">
                         {formatAmount(TOTAL)}
                       </span>
                     </div>

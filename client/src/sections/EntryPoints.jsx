@@ -18,7 +18,7 @@ const ENTRIES = [
     bullets: ['Hospital & doctor options', 'Itemised estimate', 'Visa, travel & stay'],
     cta: 'Start my healthcare journey',
     href: '#plan',
-    urgent: false,
+    type: 'plan',
     image: '/images/medical_tourism_plan.webp',
     imageAlt: 'Medical tourism treatment planning',
   },
@@ -30,7 +30,7 @@ const ENTRIES = [
     bullets: ['Ambulance & emergency response', 'Receiving hospital identified', 'Family kept informed'],
     cta: 'Get emergency help',
     href: '#emergency',
-    urgent: true,
+    type: 'emergency',
     image: '/images/emergency_help_response.webp',
     imageAlt: '24/7 Medical emergency response',
   },
@@ -42,7 +42,7 @@ const ENTRIES = [
     bullets: ['Nurses & caregivers', 'Physiotherapy & doctor visits', 'Post-operative & elder care'],
     cta: 'Find care at home',
     href: '#home-care',
-    urgent: false,
+    type: 'home',
     image: '/images/home_healthcare_care.webp',
     imageAlt: 'Home healthcare and nursing care',
   },
@@ -60,78 +60,97 @@ export function EntryPoints() {
         </p>
 
         <ul className="mt-6 grid gap-5 md:grid-cols-3">
-          {ENTRIES.map(({ icon: Icon, title, blurb, bullets, cta, href, urgent, image, imageAlt }) => (
-            <li key={title}>
-              {/* The heading holds the only link; its ::after stretches the hit
-                  area across the card, so there is one accessible name per
-                  destination instead of three overlapping links. */}
-              <Card
-                className={cn(
-                  'group relative h-full flex-col overflow-hidden p-0 transition-all duration-200',
-                  'has-[a:hover]:shadow-widget has-[a:focus-visible]:shadow-widget',
-                  'has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2',
-                  urgent
-                    ? 'border-emergency/35 bg-emergency-surface has-[a:focus-visible]:outline-emergency'
-                    : 'has-[a:focus-visible]:outline-primary',
-                )}
-              >
-                {/* Image Banner Header - Exact 16:9 view frame fit */}
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
-                  <img
-                    src={image}
-                    alt={imageAlt}
-                    className="size-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-80" />
-                  <span
-                    className={cn(
-                      'absolute bottom-3 left-3 flex size-10 items-center justify-center rounded-md shadow-lg backdrop-blur-xs border border-white/20',
-                      urgent ? 'bg-emergency text-white' : 'bg-navy text-white',
-                    )}
-                  >
-                    <Icon className="size-5" aria-hidden="true" strokeWidth={1.8} />
-                  </span>
-                </div>
+          {ENTRIES.map(({ icon: Icon, title, blurb, bullets, cta, href, type, image, imageAlt }) => {
+            const isPlan = type === 'plan';
+            const isEmergency = type === 'emergency';
 
-                <div className="flex flex-1 flex-col gap-3 p-5">
-                  <h3 className="text-lg font-black">
-                    <a href={href} className="after:absolute after:inset-0 after:rounded-[inherit]">
-                      {title}
-                    </a>
-                  </h3>
+            return (
+              <li key={title}>
+                {/* The heading holds the only link; its ::after stretches the hit
+                    area across the card, so there is one accessible name per
+                    destination instead of three overlapping links. */}
+                <Card
+                  className={cn(
+                    'group relative h-full flex-col overflow-hidden p-0 transition-all duration-200',
+                    'has-[a:hover]:shadow-widget has-[a:focus-visible]:shadow-widget',
+                    'has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2',
+                    isEmergency
+                      ? 'border-emergency/35 bg-emergency-surface has-[a:focus-visible]:outline-emergency'
+                      : isPlan
+                        ? 'hover:border-mint/50 has-[a:focus-visible]:outline-mint'
+                        : 'hover:border-primary/50 has-[a:focus-visible]:outline-primary',
+                  )}
+                >
+                  {/* Image Banner Header - Exact 16:9 view frame fit */}
+                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
+                    <img
+                      src={image}
+                      alt={imageAlt}
+                      className="size-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-80" />
+                    <span
+                      className={cn(
+                        'absolute bottom-3 left-3 flex size-10 items-center justify-center rounded-md shadow-lg backdrop-blur-xs border border-white/20',
+                        isEmergency
+                          ? 'bg-emergency text-white'
+                          : isPlan
+                            ? 'bg-mint text-white'
+                            : 'bg-primary text-white',
+                      )}
+                    >
+                      <Icon className="size-5" aria-hidden="true" strokeWidth={1.8} />
+                    </span>
+                  </div>
 
-                  <p className="text-sm text-muted-foreground leading-relaxed">{blurb}</p>
+                  <div className="flex flex-1 flex-col gap-3 p-5">
+                    <h3 className="text-lg font-black">
+                      <a href={href} className="after:absolute after:inset-0 after:rounded-[inherit]">
+                        {title}
+                      </a>
+                    </h3>
 
-                  <ul className="flex flex-col gap-1.5 mt-1">
-                    {bullets.map((b) => (
-                      <li key={b} className="relative pl-4 text-xs font-medium text-muted-foreground">
-                        <span
-                          aria-hidden="true"
-                          className={cn(
-                            'absolute top-[0.55em] left-0 size-1.5 rounded-full',
-                            urgent ? 'bg-emergency' : 'bg-primary',
-                          )}
-                        />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{blurb}</p>
 
-                  {/* Visual affordance only — the card is already one link. */}
-                  <span
-                    aria-hidden="true"
-                    className={cn(
-                      'mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-bold',
-                      urgent ? 'text-emergency-ink' : 'text-primary',
-                    )}
-                  >
-                    {cta}
-                    <ArrowRight className="size-4 transition-transform group-has-[a:hover]:translate-x-1" />
-                  </span>
-                </div>
-              </Card>
-            </li>
-          ))}
+                    <ul className="flex flex-col gap-1.5 mt-1">
+                      {bullets.map((b) => (
+                        <li key={b} className="relative pl-4 text-xs font-medium text-muted-foreground">
+                          <span
+                            aria-hidden="true"
+                            className={cn(
+                              'absolute top-[0.55em] left-0 size-1.5 rounded-full',
+                              isEmergency
+                                ? 'bg-emergency'
+                                : isPlan
+                                  ? 'bg-mint'
+                                  : 'bg-primary',
+                            )}
+                          />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Visual affordance only — the card is already one link. */}
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        'mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-bold',
+                        isEmergency
+                          ? 'text-emergency-ink'
+                          : isPlan
+                            ? 'text-mint'
+                            : 'text-primary',
+                      )}
+                    >
+                      {cta}
+                      <ArrowRight className="size-4 transition-transform group-has-[a:hover]:translate-x-1" />
+                    </span>
+                  </div>
+                </Card>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>
