@@ -41,7 +41,7 @@ export function Partners() {
     <section id="partners" aria-labelledby="partners-heading" className="py-14">
       <div className="mx-auto max-w-[76rem] px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-bold tracking-[0.1em] text-primary uppercase">For partners-</p>
+          <p className="text-xs font-bold tracking-[0.1em] text-primary uppercase">For partners</p>
           <h2 id="partners-heading" className="mt-2 text-2xl sm:text-[1.85rem]">
             Be a Healthcare Partner with us
           </h2>
