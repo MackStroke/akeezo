@@ -109,8 +109,8 @@
   --navy: #0b4f46;
   --navy-foreground: #ffffff;
 
-  /* Vibrant Teal Mint (#00BFA5) */
-  --mint: #00bfa5;
+  /* Vibrant Teal Green (#00C7BE) */
+  --mint: #00c7be;
 
   /* Emergency affordances strictly reserved for critical care */
   --emergency: #d92d20;
@@ -175,7 +175,7 @@
     --navy: #041412;
     --navy-foreground: #ffffff;
 
-    --mint: #00bfa5;
+    --mint: #00c7be;
 
     --emergency: #d92d20;
     --emergency-strong: #a32118;
