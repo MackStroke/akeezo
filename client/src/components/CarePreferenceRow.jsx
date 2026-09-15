@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { PiggyBank, Stethoscope, Zap, BadgeCheck, Sparkles } from 'lucide-react';
 
 /**
  * MMT's "Select a special fare" strip, reworked as care preference.
@@ -10,11 +11,11 @@ import { cn } from '@/lib/utils';
  * right control for it: a single choice, visible options, no dropdown.
  */
 const PREFERENCES = [
-  { value: 'best_value', label: 'Best value', note: 'Good care, sensible cost' },
-  { value: 'best_medical', label: 'Best medical option', note: 'Clinical outcome first' },
-  { value: 'fastest', label: 'Fastest', note: 'Earliest available slot' },
-  { value: 'accredited', label: 'Accredited only', note: 'NABH / JCI hospitals' },
-  { value: 'premium', label: 'Premium', note: 'Private, higher comfort' },
+  { value: 'best_value', label: 'Best value', note: 'Good care, sensible cost', icon: PiggyBank },
+  { value: 'best_medical', label: 'Best medical option', note: 'Clinical outcome first', icon: Stethoscope },
+  { value: 'fastest', label: 'Fastest', note: 'Earliest available slot', icon: Zap },
+  { value: 'accredited', label: 'Accredited only', note: 'NABH / JCI hospitals', icon: BadgeCheck },
+  { value: 'premium', label: 'Premium', note: 'Private, higher comfort', icon: Sparkles },
 ];
 
 export function CarePreferenceRow({ name = 'preference' }) {
@@ -36,13 +37,14 @@ export function CarePreferenceRow({ name = 'preference' }) {
         {PREFERENCES.map((pref) => {
           const id = `${name}-${pref.value}`;
           const active = selected === pref.value;
+          const Icon = pref.icon;
 
           return (
             <label
               key={pref.value}
               htmlFor={id}
               className={cn(
-                'flex min-w-[9.5rem] shrink-0 cursor-pointer flex-col gap-0.5 rounded-md border px-3 py-2',
+                'flex min-w-[9.5rem] shrink-0 cursor-pointer flex-col gap-1 rounded-md border px-3 py-2',
                 'transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2',
                 'has-[:focus-visible]:outline-ring',
                 active
@@ -59,14 +61,24 @@ export function CarePreferenceRow({ name = 'preference' }) {
                 onChange={() => setSelected(pref.value)}
                 className="sr-only"
               />
-              <span
-                className={cn(
-                  'text-[0.82rem] font-bold',
-                  active ? 'text-primary' : 'text-foreground',
+              <div className="flex items-center gap-1.5">
+                {Icon && (
+                  <Icon
+                    className={cn(
+                      'h-3.5 w-3.5 shrink-0',
+                      active ? 'text-primary' : 'text-muted-foreground',
+                    )}
+                  />
                 )}
-              >
-                {pref.label}
-              </span>
+                <span
+                  className={cn(
+                    'text-[0.82rem] font-bold',
+                    active ? 'text-primary' : 'text-foreground',
+                  )}
+                >
+                  {pref.label}
+                </span>
+              </div>
               <span className="text-[0.7rem] text-muted-foreground">{pref.note}</span>
             </label>
           );
@@ -75,3 +87,4 @@ export function CarePreferenceRow({ name = 'preference' }) {
     </fieldset>
   );
 }
+
