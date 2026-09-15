@@ -191,7 +191,7 @@ export function Journey({ onSelectStep }) {
           <div className="relative mb-8 pt-2">
             <div className="absolute top-[1.35rem] sm:top-[1.6rem] left-0 right-0 h-1.5 bg-muted rounded-full overflow-hidden">
               <div
-                className="h-full bg-primary transition-all duration-500 ease-out"
+                className="h-full bg-mint transition-all duration-500 ease-out"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -214,24 +214,24 @@ export function Journey({ onSelectStep }) {
                       className={cn(
                         'relative flex size-10 sm:size-12 items-center justify-center rounded-full border-2 transition-all duration-300',
                         isActive
-                          ? 'border-emergency bg-emergency text-white shadow-widget scale-110 ring-4 ring-emergency/25'
+                          ? 'border-primary bg-primary text-white shadow-widget scale-110 ring-4 ring-primary/25'
                           : isPassed
-                            ? 'border-primary bg-primary text-primary-foreground shadow-xs'
-                            : 'border-rule bg-card text-muted-foreground hover:border-primary/40 hover:text-primary',
+                            ? 'border-mint bg-mint text-white shadow-xs'
+                            : 'border-rule bg-card text-muted-foreground hover:border-mint/40 hover:text-mint',
                       )}
                     >
                       <Icon className="size-4.5 sm:size-5" />
                       {isActive && (
-                        <span className="absolute -top-1 -right-1 size-3 rounded-full bg-emergency animate-ping" />
+                        <span className="absolute -top-1 -right-1 size-3 rounded-full bg-primary animate-ping" />
                       )}
                     </div>
                     <span
                       className={cn(
                         'text-[0.7rem] sm:text-xs font-bold text-center line-clamp-1 transition-colors',
                         isActive
-                          ? 'text-emergency font-black'
+                          ? 'text-primary font-black'
                           : isPassed
-                            ? 'text-primary font-extrabold'
+                            ? 'text-mint font-extrabold'
                             : 'text-muted-foreground group-hover:text-foreground',
                       )}
                     >
@@ -244,14 +244,14 @@ export function Journey({ onSelectStep }) {
           </div>
 
           {/* Active Step Feature Showcase Card (Animated spotlight) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 rounded-2xl border border-primary/20 bg-accent/30 p-5 sm:p-7 transition-all duration-300 animate-in fade-in slide-in-from-bottom-3">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 rounded-2xl border border-mint/30 bg-mint/5 p-5 sm:p-7 transition-all duration-300 animate-in fade-in slide-in-from-bottom-3">
             <div className="lg:col-span-7 flex flex-col justify-between space-y-4">
               <div>
-                <span className="inline-block text-xs font-bold uppercase tracking-wider text-primary bg-accent px-3 py-1 rounded-full border border-primary/20">
+                <span className="inline-block text-xs font-bold uppercase tracking-wider text-mint bg-mint/15 px-3 py-1 rounded-full border border-mint/30">
                   {current.tag}
                 </span>
                 <h3 className="mt-3 text-xl sm:text-2xl font-black text-ink-strong flex items-center gap-2.5">
-                  <CurrentIcon className="size-7 text-primary shrink-0" />
+                  <CurrentIcon className="size-7 text-mint shrink-0" />
                   {current.title}
                 </h3>
                 <p className="mt-2 text-sm sm:text-base text-foreground/90 leading-relaxed font-medium">
@@ -264,7 +264,7 @@ export function Journey({ onSelectStep }) {
                   href="#top"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-bold text-xs sm:text-sm hover:bg-primary/90 transition-all shadow-md group"
                 >
-                  <span>{current.actionLabel}</span>
+                  <span>{current.actionLabel || 'Plan This Step'}</span>
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </a>
               </div>
@@ -278,7 +278,7 @@ export function Journey({ onSelectStep }) {
               <ul className="space-y-2.5">
                 {current.details.map((detail, idx) => (
                   <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-foreground/90 font-medium leading-snug">
-                    <CheckCircle2 className="size-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="size-4 text-mint shrink-0 mt-0.5" />
                     <span>{detail}</span>
                   </li>
                 ))}
