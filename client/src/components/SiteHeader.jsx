@@ -175,6 +175,17 @@ export function SiteHeader() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const [openGroups, setOpenGroups] = useState({
+    'Medical tourism': true,
+  });
+
+  const toggleGroup = (label) => {
+    setOpenGroups((prev) => ({
+      ...prev,
+      [label]: !prev[label],
+    }));
+  };
+
   const close = () => drawerRef.current?.close();
 
   return (
@@ -264,10 +275,6 @@ export function SiteHeader() {
               </a>
             </Button>
 
-            {/* Brand + worded CTA + hamburger overflow 375px by 15px, so the
-                CTA goes icon-only on the narrowest screens. It stays a red
-                button either way, and the utility bar above still carries a
-                tappable number, so the emergency affordance is never lost. */}
             <Button
               asChild
               size="icon"
@@ -305,13 +312,13 @@ export function SiteHeader() {
         </div>
       </header>
 
-      {/* Structured Mobile Navigation Drawer */}
+      {/* Structured Dropdown Accordion Mobile Navigation Drawer */}
       <dialog
         ref={drawerRef}
         aria-label="Site menu"
         className={cn(
-          'ml-auto h-dvh max-h-dvh w-[min(24rem,100vw)] max-w-full bg-card p-5 text-foreground',
-          'overflow-y-auto backdrop:bg-black/60 shadow-2xl border-l border-rule',
+          'ml-auto h-dvh max-h-dvh w-[min(24rem,100vw)] max-w-full bg-card p-4 sm:p-5 text-foreground',
+          'overflow-y-auto backdrop:bg-black/60 shadow-2xl border-l border-rule select-none',
         )}
       >
         {/* Drawer Header */}
@@ -336,8 +343,8 @@ export function SiteHeader() {
           </Button>
         </div>
 
-        {/* User Account & Currency Bar (Moved from Utility Bar) */}
-        <div className="mb-5 rounded-xl border border-rule/80 bg-accent/40 p-3.5 flex items-center justify-between gap-2 shadow-xs">
+        {/* User Account & Currency Bar */}
+        <div className="mb-4 rounded-xl border border-rule/80 bg-accent/40 p-3 flex items-center justify-between gap-2 shadow-xs">
           {isAuthenticated ? (
             <Link
               to="/my-journey"
@@ -369,97 +376,147 @@ export function SiteHeader() {
           </div>
         </div>
 
-        {/* Structured Nav List */}
-        <nav aria-label="Site" className="space-y-4">
-          {navigation.map((group) => (
-            <div key={group.label} className="space-y-1.5">
-              <p className="text-[0.68rem] font-black tracking-[0.1em] text-muted-foreground uppercase px-1">
-                {group.label}
-              </p>
-              <ul className="space-y-1">
-                {group.items.map((item) => (
-                  <li key={item.label}>
-                    <a
-                      href={item.href}
-                      onClick={close}
-                      className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
-                    >
-                      <span>{item.label}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        {/* Dropdown Accordion Navigation List */}
+        <nav aria-label="Site" className="space-y-2">
+          {navigation.map((group) => {
+            const isOpen = Boolean(openGroups[group.label]);
 
-          <Separator className="my-3" />
+            return (
+              <div
+                key={group.label}
+                className={cn(
+                  'rounded-xl border transition-all duration-200 overflow-hidden',
+                  isOpen ? 'border-primary/40 bg-accent/20 shadow-xs' : 'border-rule/70 bg-card hover:border-primary/30',
+                )}
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleGroup(group.label)}
+                  className="w-full flex items-center justify-between p-3 text-left text-xs sm:text-sm font-extrabold text-ink-strong hover:text-primary cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="uppercase tracking-wider text-[0.72rem] text-primary font-black">
+                      {group.label}
+                    </span>
+                  </span>
+                  <ChevronDown
+                    className={cn(
+                      'size-4 text-muted-foreground transition-transform duration-200',
+                      isOpen && 'rotate-180 text-primary',
+                    )}
+                  />
+                </button>
 
-          {/* Business & Partner Portals (Moved from Utility Bar) */}
-          <div className="space-y-1.5">
-            <p className="text-[0.68rem] font-black tracking-[0.1em] text-muted-foreground uppercase px-1">
-              Partners & Portals
-            </p>
-            <ul className="space-y-1">
-              <li>
-                <a
-                  href="#partners"
-                  onClick={close}
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
+                {isOpen && (
+                  <ul className="px-2 pb-2.5 space-y-0.5 border-t border-rule/40 pt-1.5 bg-card/60">
+                    {group.items.map((item) => (
+                      <li key={item.label}>
+                        <a
+                          href={item.href}
+                          onClick={close}
+                          className="flex items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground/90 hover:bg-primary/10 hover:text-primary transition-colors"
+                        >
+                          <span>{item.label}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
+
+          {/* Collapsible Partners & Portals Group */}
+          {(() => {
+            const isPartnersOpen = Boolean(openGroups['Partners & Portals']);
+            return (
+              <div
+                className={cn(
+                  'rounded-xl border transition-all duration-200 overflow-hidden',
+                  isPartnersOpen ? 'border-primary/40 bg-accent/20 shadow-xs' : 'border-rule/70 bg-card hover:border-primary/30',
+                )}
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleGroup('Partners & Portals')}
+                  className="w-full flex items-center justify-between p-3 text-left text-xs sm:text-sm font-extrabold text-ink-strong hover:text-primary cursor-pointer"
                 >
-                  <Building2 className="size-4 text-primary shrink-0" aria-hidden="true" />
-                  <span>List your hospital</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#partners"
-                  onClick={close}
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
-                >
-                  <Globe className="size-4 text-primary shrink-0" aria-hidden="true" />
-                  <span>Agent portal</span>
-                </a>
-              </li>
-              <li>
-                <Link
-                  to="/blog"
-                  onClick={close}
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
-                >
-                  <span>Blog & Knowledge Hub</span>
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="#about"
-                  onClick={close}
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
-                >
-                  <span>About AKEEZO</span>
-                </a>
-              </li>
-            </ul>
-          </div>
+                  <span className="uppercase tracking-wider text-[0.72rem] text-primary font-black">
+                    Partners & Portals
+                  </span>
+                  <ChevronDown
+                    className={cn(
+                      'size-4 text-muted-foreground transition-transform duration-200',
+                      isPartnersOpen && 'rotate-180 text-primary',
+                    )}
+                  />
+                </button>
+
+                {isPartnersOpen && (
+                  <ul className="px-2 pb-2.5 space-y-0.5 border-t border-rule/40 pt-1.5 bg-card/60">
+                    <li>
+                      <a
+                        href="#partners"
+                        onClick={close}
+                        className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground/90 hover:bg-primary/10 hover:text-primary transition-colors"
+                      >
+                        <Building2 className="size-3.5 text-primary shrink-0" aria-hidden="true" />
+                        <span>List your hospital</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#partners"
+                        onClick={close}
+                        className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground/90 hover:bg-primary/10 hover:text-primary transition-colors"
+                      >
+                        <Globe className="size-3.5 text-primary shrink-0" aria-hidden="true" />
+                        <span>Agent portal</span>
+                      </a>
+                    </li>
+                    <li>
+                      <Link
+                        to="/blog"
+                        onClick={close}
+                        className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground/90 hover:bg-primary/10 hover:text-primary transition-colors"
+                      >
+                        <span>Blog & Knowledge Hub</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <a
+                        href="#about"
+                        onClick={close}
+                        className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground/90 hover:bg-primary/10 hover:text-primary transition-colors"
+                      >
+                        <span>About AKEEZO</span>
+                      </a>
+                    </li>
+                  </ul>
+                )}
+              </div>
+            );
+          })()}
         </nav>
 
         {/* Bottom Emergency Contacts */}
-        <div className="mt-6 space-y-2 border-t border-rule/60 pt-4">
-          <p className="text-[0.68rem] font-black tracking-[0.1em] text-emergency uppercase px-1">
-            24/7 Immediate Emergency Help
+        <div className="mt-5 space-y-2 border-t border-rule/60 pt-3">
+          <p className="text-[0.65rem] font-black tracking-[0.1em] text-emergency uppercase px-1">
+            24/7 Emergency Assistance
           </p>
           <Button
             asChild
-            className="w-full bg-emergency font-bold text-white hover:bg-emergency-strong shadow-md justify-center"
+            className="w-full bg-emergency font-bold text-white hover:bg-emergency-strong shadow-md justify-center text-xs h-9"
           >
             <a href="#emergency" onClick={close}>
-              <Ambulance className="size-4 mr-1.5" />
+              <Ambulance className="size-3.5 mr-1.5" />
               Get Emergency Help
             </a>
           </Button>
 
-          <Button asChild variant="outline" className="w-full font-bold justify-center border-emergency/30 text-emergency hover:bg-emergency/10">
+          <Button asChild variant="outline" className="w-full font-bold justify-center border-emergency/30 text-emergency hover:bg-emergency/10 text-xs h-9">
             <a href={telHref(site.emergencyPhone)}>
-              <Phone className="size-4 mr-1.5" aria-hidden="true" />
+              <Phone className="size-3.5 mr-1.5" aria-hidden="true" />
               Call: {formatPhone(site.emergencyPhone)}
             </a>
           </Button>
@@ -469,9 +526,9 @@ export function SiteHeader() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={close}
-            className="flex items-center justify-center gap-2 rounded-lg bg-[#25D366]/10 border border-[#25D366]/30 px-3 py-2.5 text-xs font-extrabold text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
+            className="flex items-center justify-center gap-2 rounded-lg bg-[#25D366]/10 border border-[#25D366]/30 px-3 py-2 text-xs font-extrabold text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
           >
-            <span>WhatsApp Emergency Assistance</span>
+            <span>WhatsApp Assistance</span>
           </a>
         </div>
       </dialog>
