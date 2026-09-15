@@ -25,7 +25,7 @@ function UtilityBar({ onOpenLogin }) {
   const { customerUser, isAuthenticated } = useCustomerAuth();
 
   return (
-    <div className="bg-black text-white">
+    <div className="hidden lg:block bg-black text-white">
       <div className="mx-auto flex max-w-[76rem] flex-wrap items-center justify-between gap-x-6 gap-y-1.5 px-4 py-1.5 text-[0.78rem]">
         <p className="flex items-center gap-2 font-bold flex-wrap">
           <span className="relative flex size-2 shrink-0">
@@ -144,6 +144,7 @@ export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [initialMode, setInitialMode] = useState('login');
+  const { customerUser, isAuthenticated } = useCustomerAuth();
 
   useEffect(() => {
     const path = location.pathname.toLowerCase();
@@ -304,17 +305,17 @@ export function SiteHeader() {
         </div>
       </header>
 
-      {/* Native <dialog>: modal semantics, focus containment and Escape come
-          free, so there is no focus-trap code of our own. */}
+      {/* Structured Mobile Navigation Drawer */}
       <dialog
         ref={drawerRef}
         aria-label="Site menu"
         className={cn(
-          'ml-auto h-dvh max-h-dvh w-[min(22rem,100vw)] max-w-full bg-card p-5 text-foreground',
-          'overflow-y-auto backdrop:bg-black/55',
+          'ml-auto h-dvh max-h-dvh w-[min(24rem,100vw)] max-w-full bg-card p-5 text-foreground',
+          'overflow-y-auto backdrop:bg-black/60 shadow-2xl border-l border-rule',
         )}
       >
-        <div className="mb-5 flex items-center justify-between gap-4">
+        {/* Drawer Header */}
+        <div className="mb-4 flex items-center justify-between gap-4 border-b border-rule/60 pb-3">
           <Link
             to="/"
             onClick={close}
@@ -324,27 +325,66 @@ export function SiteHeader() {
             <img src="/images/logo-dark.svg" alt="AKEEZO" className="h-7 w-auto dark:hidden" />
             <img src="/images/logo-light.svg" alt="AKEEZO" className="h-7 w-auto hidden dark:block" />
           </Link>
-          <Button variant="ghost" size="icon" className="text-foreground hover:bg-accent rounded-full size-9" aria-label="Close menu" onClick={close}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-foreground hover:bg-accent rounded-full size-9 shrink-0"
+            aria-label="Close menu"
+            onClick={close}
+          >
             <X className="size-6 stroke-[2.2]" aria-hidden="true" />
           </Button>
         </div>
 
-        <nav aria-label="Site">
-          {navigation.map((group, i) => (
-            <div key={group.label}>
-              {i > 0 ? <Separator className="my-4" /> : null}
-              <p className="mb-1 text-[0.7rem] font-bold tracking-[0.08em] text-muted-foreground uppercase">
+        {/* User Account & Currency Bar (Moved from Utility Bar) */}
+        <div className="mb-5 rounded-xl border border-rule/80 bg-accent/40 p-3.5 flex items-center justify-between gap-2 shadow-xs">
+          {isAuthenticated ? (
+            <Link
+              to="/my-journey"
+              onClick={close}
+              className="flex items-center gap-2 font-bold text-sm text-primary hover:underline truncate"
+            >
+              <span className="size-7 rounded-full bg-primary text-white font-black flex items-center justify-center text-xs shrink-0">
+                {customerUser?.name?.charAt(0) || 'P'}
+              </span>
+              <span className="truncate">My Journey ({customerUser?.name?.split(' ')[0]})</span>
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                close();
+                setInitialMode('login');
+                setLoginOpen(true);
+              }}
+              className="flex items-center gap-2 text-xs font-extrabold text-ink-strong hover:text-primary cursor-pointer bg-transparent border-0 p-0 text-left"
+            >
+              <UserRound className="size-4 text-primary shrink-0" aria-hidden="true" />
+              <span>Patient Portal / Login</span>
+            </button>
+          )}
+
+          <div className="shrink-0">
+            <LocaleSelector />
+          </div>
+        </div>
+
+        {/* Structured Nav List */}
+        <nav aria-label="Site" className="space-y-4">
+          {navigation.map((group) => (
+            <div key={group.label} className="space-y-1.5">
+              <p className="text-[0.68rem] font-black tracking-[0.1em] text-muted-foreground uppercase px-1">
                 {group.label}
               </p>
-              <ul>
+              <ul className="space-y-1">
                 {group.items.map((item) => (
                   <li key={item.label}>
                     <a
                       href={item.href}
                       onClick={close}
-                      className="block py-1.5 text-sm font-medium hover:text-primary hover:underline"
+                      className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
                     >
-                      {item.label}
+                      <span>{item.label}</span>
                     </a>
                   </li>
                 ))}
@@ -352,53 +392,87 @@ export function SiteHeader() {
             </div>
           ))}
 
-          <Separator className="my-4" />
-          <ul>
-            <li>
-              <Link
-                to="/blog"
-                onClick={close}
-                className="block py-1.5 text-sm font-bold text-primary hover:underline"
-              >
-                Blog & Knowledge Hub
-              </Link>
-            </li>
-            <li>
-              <a
-                href="#about"
-                onClick={close}
-                className="block py-1.5 text-sm font-medium hover:text-primary hover:underline"
-              >
-                About AKEEZO
-              </a>
-            </li>
-            <li>
-              <a
-                href="#partners"
-                onClick={close}
-                className="block py-1.5 text-sm font-medium hover:text-primary hover:underline"
-              >
-                For partners
-              </a>
-            </li>
-          </ul>
+          <Separator className="my-3" />
+
+          {/* Business & Partner Portals (Moved from Utility Bar) */}
+          <div className="space-y-1.5">
+            <p className="text-[0.68rem] font-black tracking-[0.1em] text-muted-foreground uppercase px-1">
+              Partners & Portals
+            </p>
+            <ul className="space-y-1">
+              <li>
+                <a
+                  href="#partners"
+                  onClick={close}
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
+                >
+                  <Building2 className="size-4 text-primary shrink-0" aria-hidden="true" />
+                  <span>List your hospital</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#partners"
+                  onClick={close}
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
+                >
+                  <Globe className="size-4 text-primary shrink-0" aria-hidden="true" />
+                  <span>Agent portal</span>
+                </a>
+              </li>
+              <li>
+                <Link
+                  to="/blog"
+                  onClick={close}
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
+                >
+                  <span>Blog & Knowledge Hub</span>
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  onClick={close}
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent hover:text-primary transition-colors"
+                >
+                  <span>About AKEEZO</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </nav>
 
-        <div className="mt-6 flex flex-col gap-2">
+        {/* Bottom Emergency Contacts */}
+        <div className="mt-6 space-y-2 border-t border-rule/60 pt-4">
+          <p className="text-[0.68rem] font-black tracking-[0.1em] text-emergency uppercase px-1">
+            24/7 Immediate Emergency Help
+          </p>
           <Button
             asChild
-            className="w-full bg-emergency font-bold text-white hover:bg-emergency-strong"
+            className="w-full bg-emergency font-bold text-white hover:bg-emergency-strong shadow-md justify-center"
           >
             <a href="#emergency" onClick={close}>
-              Get emergency help
+              <Ambulance className="size-4 mr-1.5" />
+              Get Emergency Help
             </a>
           </Button>
-          <Button asChild variant="outline" className="w-full font-bold">
+
+          <Button asChild variant="outline" className="w-full font-bold justify-center border-emergency/30 text-emergency hover:bg-emergency/10">
             <a href={telHref(site.emergencyPhone)}>
-              <Phone aria-hidden="true" />
-              {formatPhone(site.emergencyPhone)}
+              <Phone className="size-4 mr-1.5" aria-hidden="true" />
+              Call: {formatPhone(site.emergencyPhone)}
             </a>
           </Button>
+
+          <a
+            href={whatsappHref('Hello AKEEZO, I need help with a healthcare requirement.')}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={close}
+            className="flex items-center justify-center gap-2 rounded-lg bg-[#25D366]/10 border border-[#25D366]/30 px-3 py-2.5 text-xs font-extrabold text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
+          >
+            <span>WhatsApp Emergency Assistance</span>
+          </a>
         </div>
       </dialog>
     </>
