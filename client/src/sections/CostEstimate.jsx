@@ -111,54 +111,54 @@ export function CostEstimate() {
               </div>
             </div>
 
-            {/* Letterhead Header Section */}
-            <div className="p-4 sm:p-7 border-b border-dashed border-[#e0dad0] dark:border-white/10 bg-[#f4f1e8] dark:bg-white/5">
+            {/* Letterhead Header Section - Matte Black & Theme Teal Green */}
+            <div className="p-4 sm:p-7 border-b border-rule bg-[#121212] text-white">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 {/* Hospital / Desk Logo & Letterhead */}
                 <div className="flex items-start gap-3">
-                  <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#0b4f46] text-white shadow-sm border border-[#0b4f46]/30">
-                    <FileText className="size-6 text-white" />
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#00c7be] text-black shadow-md border border-[#00c7be]">
+                    <FileText className="size-6 text-black" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-[0.65rem] font-bold text-white uppercase tracking-widest bg-[#0b4f46] px-2.5 py-0.5 rounded shadow-xs">
+                      <span className="font-mono text-[0.65rem] font-black text-black uppercase tracking-widest bg-[#00c7be] px-2.5 py-0.5 rounded shadow-xs">
                         OFFICIAL MEDICAL ESTIMATE
                       </span>
                     </div>
-                    <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight mt-1 font-serif">
+                    <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mt-1 font-serif">
                       AKEEZO Healthcare Network
                     </h3>
-                    <p className="text-[0.75rem] text-slate-600 dark:text-slate-300 font-sans font-medium">
+                    <p className="text-[0.75rem] text-white/70 font-sans font-medium">
                       NABH & JCI Accredited Hospital Partner Desk · New Delhi, India
                     </p>
                   </div>
                 </div>
 
                 {/* Invoice Reference Metadata Box */}
-                <div className="sm:text-right font-mono text-xs bg-white dark:bg-card p-2.5 rounded-md border border-[#d8d3c7] dark:border-white/15 shadow-xs shrink-0">
-                  <div className="text-[0.65rem] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Estimate Ref</div>
-                  <div className="font-extrabold text-[#007a6c] dark:text-[#00c7be] text-sm">EST-2026-8849</div>
-                  <div className="text-[0.65rem] text-slate-600 dark:text-slate-300 mt-0.5">Date: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                <div className="sm:text-right font-mono text-xs bg-[#1e1e22] text-white p-2.5 rounded-md border border-white/15 shadow-sm shrink-0">
+                  <div className="text-[0.65rem] font-bold text-white/60 uppercase tracking-wider">Estimate Ref</div>
+                  <div className="font-extrabold text-[#00c7be] text-sm">EST-2026-8849</div>
+                  <div className="text-[0.65rem] text-white/70 mt-0.5">Date: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
                 </div>
               </div>
 
               {/* Patient & Case Information Grid */}
-              <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4 border-t border-dashed border-[#d8d3c7] dark:border-white/10 text-xs font-sans">
-                <div className="rounded bg-white/80 dark:bg-white/5 p-2 border border-[#dfd9ce] dark:border-white/10 shadow-xs">
-                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Patient Case</span>
-                  <span className="font-extrabold text-slate-900 dark:text-slate-100 block mt-0.5 text-xs truncate">International Patient</span>
+              <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4 border-t border-white/10 text-xs font-sans">
+                <div className="rounded bg-white/5 p-2 border border-white/10">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-white/60 block">Patient Case</span>
+                  <span className="font-extrabold text-white block mt-0.5 text-xs truncate">International Patient</span>
                 </div>
-                <div className="rounded bg-white/80 dark:bg-white/5 p-2 border border-[#dfd9ce] dark:border-white/10 shadow-xs">
-                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Procedure</span>
-                  <span className="font-extrabold text-slate-900 dark:text-slate-100 block mt-0.5 text-xs truncate">Coronary Angioplasty</span>
+                <div className="rounded bg-white/5 p-2 border border-white/10">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-white/60 block">Procedure</span>
+                  <span className="font-extrabold text-white block mt-0.5 text-xs truncate">Coronary Angioplasty</span>
                 </div>
-                <div className="rounded bg-white/80 dark:bg-white/5 p-2 border border-[#dfd9ce] dark:border-white/10 shadow-xs">
-                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Est. Duration</span>
-                  <span className="font-extrabold text-slate-900 dark:text-slate-100 block mt-0.5 text-xs truncate">18–21 Days (2 Pax)</span>
+                <div className="rounded bg-white/5 p-2 border border-white/10">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-white/60 block">Est. Duration</span>
+                  <span className="font-extrabold text-white block mt-0.5 text-xs truncate">18–21 Days (2 Pax)</span>
                 </div>
-                <div className="rounded bg-white/80 dark:bg-white/5 p-2 border border-[#dfd9ce] dark:border-white/10 shadow-xs">
-                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Currency</span>
-                  <span className="font-extrabold text-[#007a6c] dark:text-[#00c7be] block mt-0.5 text-xs truncate">{currency.code} ({currency.symbol})</span>
+                <div className="rounded bg-white/5 p-2 border border-white/10">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-white/60 block">Currency</span>
+                  <span className="font-extrabold text-[#00c7be] block mt-0.5 text-xs truncate">{currency.code} ({currency.symbol})</span>
                 </div>
               </div>
             </div>
