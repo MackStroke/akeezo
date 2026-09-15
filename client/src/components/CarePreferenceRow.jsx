@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { PiggyBank, Stethoscope, Zap, BadgeCheck, Sparkles } from 'lucide-react';
+import {
+  PiggyBank,
+  Stethoscope,
+  Zap,
+  Plane,
+  Languages,
+  PackageCheck,
+  UserCheck,
+  Sparkles,
+} from 'lucide-react';
 
 /**
  * MMT's "Select a special fare" strip, reworked as care preference.
@@ -12,10 +21,13 @@ import { PiggyBank, Stethoscope, Zap, BadgeCheck, Sparkles } from 'lucide-react'
  */
 const PREFERENCES = [
   { value: 'best_value', label: 'Best value', note: 'Good care, sensible cost', icon: PiggyBank },
-  { value: 'best_medical', label: 'Best medical option', note: 'Clinical outcome first', icon: Stethoscope },
-  { value: 'fastest', label: 'Fastest', note: 'Earliest available slot', icon: Zap },
-  { value: 'accredited', label: 'Accredited only', note: 'NABH / JCI hospitals', icon: BadgeCheck },
-  { value: 'premium', label: 'Premium', note: 'Private, higher comfort', icon: Sparkles },
+  { value: 'best_medical', label: 'Best medical option', note: 'Top doctor & outcome first', icon: Stethoscope },
+  { value: 'fastest', label: 'Fastest slot', note: 'Earliest available admission', icon: Zap },
+  { value: 'travel_assist', label: 'Visa & travel assist', note: 'Airport pickup & visa help', icon: Plane },
+  { value: 'lang_support', label: 'Language assistance', note: 'Dedicated interpreter & guide', icon: Languages },
+  { value: 'all_inclusive', label: 'All-inclusive package', note: 'Treatment, hotel & stay bundled', icon: PackageCheck },
+  { value: 'second_opinion', label: 'Free second opinion', note: 'Remote pre-travel review', icon: UserCheck },
+  { value: 'premium', label: 'VIP / Premium care', note: 'Private suite & personal care', icon: Sparkles },
 ];
 
 export function CarePreferenceRow({ name = 'preference' }) {
