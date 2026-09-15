@@ -191,7 +191,7 @@ export function Journey({ onSelectStep }) {
           <div className="relative mb-8 pt-2">
             <div className="absolute top-[1.35rem] sm:top-[1.6rem] left-0 right-0 h-1.5 bg-muted rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-primary via-mint to-primary transition-all duration-500 ease-out"
+                className="h-full bg-primary transition-all duration-500 ease-out"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -214,21 +214,25 @@ export function Journey({ onSelectStep }) {
                       className={cn(
                         'relative flex size-10 sm:size-12 items-center justify-center rounded-full border-2 transition-all duration-300',
                         isActive
-                          ? 'border-primary bg-primary text-primary-foreground shadow-widget scale-110 ring-4 ring-primary/20'
+                          ? 'border-emergency bg-emergency text-white shadow-widget scale-110 ring-4 ring-emergency/25'
                           : isPassed
-                            ? 'border-primary/60 bg-accent text-primary'
+                            ? 'border-primary bg-primary text-primary-foreground shadow-xs'
                             : 'border-rule bg-card text-muted-foreground hover:border-primary/40 hover:text-primary',
                       )}
                     >
                       <Icon className="size-4.5 sm:size-5" />
                       {isActive && (
-                        <span className="absolute -top-1 -right-1 size-3 rounded-full bg-mint animate-ping" />
+                        <span className="absolute -top-1 -right-1 size-3 rounded-full bg-emergency animate-ping" />
                       )}
                     </div>
                     <span
                       className={cn(
                         'text-[0.7rem] sm:text-xs font-bold text-center line-clamp-1 transition-colors',
-                        isActive ? 'text-primary font-black' : 'text-muted-foreground group-hover:text-foreground',
+                        isActive
+                          ? 'text-emergency font-black'
+                          : isPassed
+                            ? 'text-primary font-extrabold'
+                            : 'text-muted-foreground group-hover:text-foreground',
                       )}
                     >
                       Step {step.id}
