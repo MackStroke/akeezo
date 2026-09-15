@@ -13,7 +13,7 @@ export function Faq() {
       <div className="mx-auto max-w-[76rem] px-4">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 items-start">
           {/* Left column: Image card & quick info badge */}
-          <div className="lg:col-span-5 flex flex-col gap-4">
+          <div className="lg:col-span-5 flex flex-col gap-4 lg:sticky lg:top-24 self-start">
             <div className="relative overflow-hidden rounded-[var(--radius)] border border-rule bg-card shadow-card group">
               <div className="aspect-[4/5] w-full overflow-hidden bg-muted">
                 <img
