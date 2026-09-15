@@ -104,8 +104,8 @@ export function CostEstimate() {
             <div className="h-1.5 w-full bg-gradient-to-r from-navy via-mint to-navy" />
 
             {/* Verified Watermark Stamp Effect */}
-            <div aria-hidden="true" className="absolute top-20 right-6 sm:right-10 pointer-events-none select-none z-10 rotate-[-12deg] opacity-20 sm:opacity-25">
-              <div className="border-4 border-mint px-3.5 py-1.5 rounded-lg text-center font-black tracking-widest text-mint uppercase text-xs sm:text-sm shadow-xs">
+            <div aria-hidden="true" className="absolute top-20 right-6 sm:right-10 pointer-events-none select-none z-10 rotate-[-12deg] opacity-30 sm:opacity-35">
+              <div className="border-4 border-blue-700 dark:border-blue-400 px-3.5 py-1.5 rounded-lg text-center font-black tracking-widest text-blue-700 dark:text-blue-400 uppercase text-xs sm:text-sm shadow-xs">
                 AKEEZO VERIFIED
                 <span className="block text-[0.6rem] tracking-normal font-bold">100% UPFRONT ESTIMATE</span>
               </div>
