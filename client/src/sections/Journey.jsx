@@ -106,24 +106,19 @@ const STEPS = [
 
 export function Journey({ onSelectStep }) {
   const [activeStep, setActiveStep] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const timerRef = useRef(null);
   const current = STEPS[activeStep];
   const CurrentIcon = current.icon;
 
+  // Continuous auto-progression loop
   useEffect(() => {
-    let timer;
-    if (isPlaying) {
-      timer = setInterval(() => {
-        setActiveStep((prev) => (prev + 1) % STEPS.length);
-      }, 4500);
-    }
+    const timer = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % STEPS.length);
+    }, 4500);
     return () => clearInterval(timer);
-  }, [isPlaying]);
+  }, [activeStep]);
 
   const handleStepClick = (idx) => {
     setActiveStep(idx);
-    setIsPlaying(false);
     if (onSelectStep) onSelectStep(STEPS[idx]);
   };
 
@@ -154,75 +149,54 @@ export function Journey({ onSelectStep }) {
           </p>
         </div>
 
-        {/* Interactive Playback & Progress Bar */}
+        {/* Interactive Progress Bar & Feature Showcase */}
         <div className="mt-10 rounded-[1.5rem] border border-rule/80 bg-card p-4 sm:p-7 shadow-widget">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-rule/60 pb-4 mb-6">
+          <div className="flex flex-row items-center justify-between gap-3 border-b border-rule/60 pb-4 mb-6">
             <div className="flex items-center gap-3">
-              <span className="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              <span className="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-black text-primary-foreground shadow-xs">
                 {activeStep + 1}
               </span>
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  Current Stage
+                <span className="text-[0.68rem] font-bold uppercase tracking-wider text-muted-foreground">
+                  Stage {activeStep + 1} of {STEPS.length}
                 </span>
-                <p className="text-sm font-extrabold text-ink-strong">{current.title}</p>
+                <p className="text-xs sm:text-base font-extrabold text-ink-strong line-clamp-1">{current.title}</p>
               </div>
             </div>
 
-            {/* Playback Controls */}
-            <div className="flex items-center gap-2 self-end sm:self-auto">
+            {/* Prev / Next Step Navigation Controls */}
+            <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
-                onClick={() => setIsPlaying(!isPlaying)}
-                className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs',
-                  isPlaying
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90 ring-2 ring-primary/30'
-                    : 'bg-accent text-primary hover:bg-primary/15',
-                )}
+                onClick={prevStep}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-extrabold text-muted-foreground hover:bg-accent hover:text-primary transition-colors cursor-pointer border border-rule/60"
+                aria-label="Previous step"
               >
-                {isPlaying ? (
-                  <>
-                    <Pause className="size-3.5" /> Auto-playing
-                  </>
-                ) : (
-                  <>
-                    <Play className="size-3.5" /> Auto-play Flow
-                  </>
-                )}
+                <ChevronLeft className="size-4" />
+                <span className="hidden sm:inline">Prev</span>
               </button>
-
-              <div className="flex items-center gap-1 border-l border-rule pl-2 ml-1">
-                <button
-                  type="button"
-                  onClick={prevStep}
-                  className="p-1.5 rounded-lg text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
-                  aria-label="Previous step"
-                >
-                  <ChevronLeft className="size-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  className="p-1.5 rounded-lg text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
-                  aria-label="Next step"
-                >
-                  <ChevronRight className="size-5" />
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={nextStep}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-extrabold text-muted-foreground hover:bg-accent hover:text-primary transition-colors cursor-pointer border border-rule/60"
+                aria-label="Next step"
+              >
+                <span className="hidden sm:inline">Next</span>
+                <ChevronRight className="size-4" />
+              </button>
             </div>
           </div>
 
-          {/* Animated Connecting Line & Step Indicators */}
+          {/* Continuous Animated Progress Line & Clickable Jump Step Nodes */}
           <div className="relative mb-8 pt-2">
-            <div className="absolute top-[1.4rem] left-0 right-0 h-1 bg-muted rounded-full overflow-hidden">
+            <div className="absolute top-[1.35rem] sm:top-[1.6rem] left-0 right-0 h-1.5 bg-muted rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-primary via-mint to-primary transition-all duration-500 ease-out"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
 
-            <div className="relative flex justify-between gap-1 overflow-x-auto pb-2 no-scrollbar">
+            <div className="relative flex justify-between gap-1 overflow-x-auto pb-3 pt-1 no-scrollbar touch-pan-x select-none cursor-grab active:cursor-grabbing">
               {STEPS.map((step, idx) => {
                 const isActive = idx === activeStep;
                 const isPassed = idx < activeStep;
@@ -232,15 +206,13 @@ export function Journey({ onSelectStep }) {
                   <button
                     key={step.id}
                     type="button"
-                    onClick={() => {
-                      setActiveStep(idx);
-                      setIsPlaying(false);
-                    }}
-                    className="flex flex-col items-center gap-2 min-w-[4.2rem] group cursor-pointer"
+                    onClick={() => handleStepClick(idx)}
+                    className="flex flex-col items-center gap-1.5 min-w-[4.4rem] sm:min-w-[5.4rem] group cursor-pointer transition-transform active:scale-95"
+                    aria-label={`Jump to Step ${step.id}: ${step.title}`}
                   >
                     <div
                       className={cn(
-                        'relative flex size-11 items-center justify-center rounded-full border-2 transition-all duration-300',
+                        'relative flex size-10 sm:size-12 items-center justify-center rounded-full border-2 transition-all duration-300',
                         isActive
                           ? 'border-primary bg-primary text-primary-foreground shadow-widget scale-110 ring-4 ring-primary/20'
                           : isPassed
@@ -248,14 +220,14 @@ export function Journey({ onSelectStep }) {
                             : 'border-rule bg-card text-muted-foreground hover:border-primary/40 hover:text-primary',
                       )}
                     >
-                      <Icon className="size-5" />
+                      <Icon className="size-4.5 sm:size-5" />
                       {isActive && (
                         <span className="absolute -top-1 -right-1 size-3 rounded-full bg-mint animate-ping" />
                       )}
                     </div>
                     <span
                       className={cn(
-                        'text-[0.72rem] font-bold text-center line-clamp-1 transition-colors',
+                        'text-[0.7rem] sm:text-xs font-bold text-center line-clamp-1 transition-colors',
                         isActive ? 'text-primary font-black' : 'text-muted-foreground group-hover:text-foreground',
                       )}
                     >
