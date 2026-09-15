@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import {
   PiggyBank,
@@ -32,20 +32,76 @@ const PREFERENCES = [
 
 export function CarePreferenceRow({ name = 'preference' }) {
   const [selected, setSelected] = useState('best_value');
+  const scrollRef = useRef(null);
+
+  // Mouse drag-to-slide state
+  const isMouseDownRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const isDraggingRef = useRef(false);
+
+  const handleMouseDown = (e) => {
+    if (!scrollRef.current) return;
+    isMouseDownRef.current = true;
+    isDraggingRef.current = false;
+    startXRef.current = e.pageX - scrollRef.current.offsetLeft;
+    scrollLeftRef.current = scrollRef.current.scrollLeft;
+  };
+
+  const handleMouseLeave = () => {
+    isMouseDownRef.current = false;
+  };
+
+  const handleMouseUp = () => {
+    isMouseDownRef.current = false;
+    // Brief timeout so click handler can check if a drag just ended
+    setTimeout(() => {
+      isDraggingRef.current = false;
+    }, 50);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isMouseDownRef.current || !scrollRef.current) return;
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5; // Drag speed multiplier
+    if (Math.abs(walk) > 4) {
+      isDraggingRef.current = true;
+      e.preventDefault();
+      scrollRef.current.scrollLeft = scrollLeftRef.current - walk;
+    }
+  };
+
+  const handleCardClick = (e, val) => {
+    if (isDraggingRef.current) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    setSelected(val);
+  };
 
   // min-w-0 on the fieldset is load-bearing: a <fieldset> defaults to
-  // min-width:min-content in the UA stylesheet, so it grows to fit all five
-  // chips and defeats the overflow-x-auto rail inside it — the page then
-  // scrolls sideways on a phone. Same failure mode as an unconstrained
-  // <select>.
+  // min-width:min-content in the UA stylesheet, so it grows to fit all chips
+  // and defeats the overflow-x-auto rail inside it — the page then
+  // scrolls sideways on a phone. Same failure mode as an unconstrained <select>.
   return (
     <fieldset className="mt-4 min-w-0">
       <legend className="mb-2 text-[0.78rem] font-bold text-muted-foreground">
         What matters most to you?
       </legend>
 
-      {/* A radio group, not buttons: one choice, and it submits with the form. */}
-      <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+      {/* Drag-to-slide interactive horizontal rail */}
+      <div
+        ref={scrollRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        className={cn(
+          'flex gap-2 overflow-x-auto pb-1 no-scrollbar select-none cursor-grab active:cursor-grabbing',
+          'touch-pan-x scroll-smooth',
+        )}
+      >
         {PREFERENCES.map((pref) => {
           const id = `${name}-${pref.value}`;
           const active = selected === pref.value;
@@ -55,6 +111,7 @@ export function CarePreferenceRow({ name = 'preference' }) {
             <label
               key={pref.value}
               htmlFor={id}
+              onClick={(e) => handleCardClick(e, pref.value)}
               className={cn(
                 'group flex min-w-[11rem] shrink-0 cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5',
                 'transition-all duration-200 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2',
@@ -70,7 +127,11 @@ export function CarePreferenceRow({ name = 'preference' }) {
                 name={name}
                 value={pref.value}
                 checked={active}
-                onChange={() => setSelected(pref.value)}
+                onChange={() => {
+                  if (!isDraggingRef.current) {
+                    setSelected(pref.value);
+                  }
+                }}
                 className="sr-only"
               />
               {Icon && (
@@ -105,4 +166,5 @@ export function CarePreferenceRow({ name = 'preference' }) {
     </fieldset>
   );
 }
+
 
