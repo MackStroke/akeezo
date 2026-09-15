@@ -97,121 +97,107 @@ export function CostEstimate() {
           </div>
         </div>
 
-        {/* Right Column: Redesigned Medical Bill Breakdown Card */}
+        {/* Right Column: Authentic Paper-Style Hospital Bill Invoice */}
         <div className="lg:col-span-7">
-          <div className="relative overflow-hidden rounded-xl sm:rounded-[1.25rem] border border-rule bg-card shadow-[0_8px_30px_rgb(29_38_93/0.12)]">
-            {/* Bill Header Strip */}
-            <div className="border-b border-rule bg-navy p-4 sm:p-6 text-white relative">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
-                <div className="flex items-start sm:items-center gap-3">
-                  <div className="flex size-9 sm:size-10 shrink-0 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md text-primary-foreground border border-white/15">
-                    <FileText className="size-4.5 sm:size-5 text-mint" />
+          <div className="relative rounded-xl border border-[#e2ddd3] dark:border-rule bg-[#fcfbf9] dark:bg-[#0c1a17] text-foreground shadow-[0_16px_45px_-10px_rgba(0,0,0,0.15),0_4px_16px_rgba(0,0,0,0.08)] overflow-hidden">
+            {/* Top Perforation & Brand Color Accent Bar */}
+            <div className="h-1.5 w-full bg-gradient-to-r from-navy via-mint to-navy" />
+
+            {/* Verified Watermark Stamp Effect */}
+            <div aria-hidden="true" className="absolute top-20 right-6 sm:right-10 pointer-events-none select-none z-10 rotate-[-12deg] opacity-20 sm:opacity-25">
+              <div className="border-4 border-mint px-3.5 py-1.5 rounded-lg text-center font-black tracking-widest text-mint uppercase text-xs sm:text-sm shadow-xs">
+                AKEEZO VERIFIED
+                <span className="block text-[0.6rem] tracking-normal font-bold">100% UPFRONT ESTIMATE</span>
+              </div>
+            </div>
+
+            {/* Letterhead Header Section */}
+            <div className="p-4 sm:p-7 border-b border-dashed border-[#e0dad0] dark:border-white/10 bg-[#f7f5ef] dark:bg-white/5">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                {/* Hospital / Desk Logo & Letterhead */}
+                <div className="flex items-start gap-3">
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-navy text-white shadow-sm border border-navy/20">
+                    <FileText className="size-6 text-mint" />
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-sm sm:text-lg font-black tracking-tight text-white">AKEEZO Medical Bill Estimate</h3>
-                      <Badge className="bg-mint/20 text-mint border-mint/30 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-wider font-extrabold px-2 py-0.5">
-                        Verified Quote
-                      </Badge>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[0.65rem] font-bold text-mint uppercase tracking-widest bg-navy px-2 py-0.5 rounded">
+                        OFFICIAL MEDICAL ESTIMATE
+                      </span>
                     </div>
-                    <p className="text-[0.68rem] sm:text-xs text-white/70 mt-0.5 leading-tight">
-                      Ref: <span className="font-mono text-white/90 font-bold">EST-2026-8849</span> · Medical Journey Planning
+                    <h3 className="text-lg sm:text-xl font-black text-ink-strong tracking-tight mt-1 font-serif">
+                      AKEEZO Healthcare Network
+                    </h3>
+                    <p className="text-[0.72rem] text-muted-foreground font-sans">
+                      NABH & JCI Accredited Hospital Partner Desk · New Delhi, India
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between sm:justify-end border-t border-white/10 sm:border-t-0 pt-2.5 sm:pt-0">
-                  <span className="block text-[0.65rem] sm:text-[0.68rem] font-bold text-white/60 uppercase tracking-wider">Estimated Total</span>
-                  <span className="text-lg sm:text-xl font-black text-mint tracking-tight ml-2">
-                    {formatAmount(TOTAL)}
-                  </span>
+                {/* Invoice Reference Metadata Box */}
+                <div className="sm:text-right font-mono text-xs bg-card dark:bg-card/60 p-2.5 rounded-md border border-[#e2ddd3] dark:border-white/10 shadow-xs shrink-0">
+                  <div className="text-[0.65rem] font-bold text-muted-foreground uppercase tracking-wider">Estimate Ref</div>
+                  <div className="font-extrabold text-ink-strong text-sm text-mint">EST-2026-8849</div>
+                  <div className="text-[0.65rem] text-muted-foreground mt-0.5">Date: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
                 </div>
               </div>
 
-              {/* Patient & Journey Metadata Grid */}
-              <div className="mt-3.5 sm:mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 text-xs border-t border-white/10 pt-3 sm:pt-4">
-                <div className="rounded-lg bg-white/5 p-2 sm:p-2.5 border border-white/10">
-                  <span className="text-white/60 block text-[0.62rem] sm:text-[0.68rem]">Procedure</span>
-                  <span className="font-bold text-white text-[0.72rem] sm:text-xs truncate block mt-0.5">Coronary Angioplasty</span>
+              {/* Patient & Case Information Grid */}
+              <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4 border-t border-dashed border-[#e0dad0] dark:border-white/10 text-xs font-sans">
+                <div className="rounded bg-white/60 dark:bg-white/5 p-2 border border-[#e6e1d5] dark:border-white/10">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground block">Patient Case</span>
+                  <span className="font-bold text-foreground block mt-0.5 text-xs truncate">International Patient</span>
                 </div>
-                <div className="rounded-lg bg-white/5 p-2 sm:p-2.5 border border-white/10">
-                  <span className="text-white/60 block text-[0.62rem] sm:text-[0.68rem]">Destination</span>
-                  <span className="font-bold text-white text-[0.72rem] sm:text-xs truncate block mt-0.5">Delhi NCR, India</span>
+                <div className="rounded bg-white/60 dark:bg-white/5 p-2 border border-[#e6e1d5] dark:border-white/10">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground block">Procedure</span>
+                  <span className="font-bold text-foreground block mt-0.5 text-xs truncate">Coronary Angioplasty</span>
                 </div>
-                <div className="rounded-lg bg-white/5 p-2 sm:p-2.5 border border-white/10">
-                  <span className="text-white/60 block text-[0.62rem] sm:text-[0.68rem]">Duration & Pax</span>
-                  <span className="font-bold text-white text-[0.72rem] sm:text-xs truncate block mt-0.5">18–21 Days (2 Pax)</span>
+                <div className="rounded bg-white/60 dark:bg-white/5 p-2 border border-[#e6e1d5] dark:border-white/10">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground block">Est. Duration</span>
+                  <span className="font-bold text-foreground block mt-0.5 text-xs truncate">18–21 Days (2 Pax)</span>
                 </div>
-                <div className="rounded-lg bg-white/5 p-2 sm:p-2.5 border border-white/10">
-                  <span className="text-white/60 block text-[0.62rem] sm:text-[0.68rem]">Currency</span>
-                  <span className="font-bold text-mint text-[0.72rem] sm:text-xs truncate block mt-0.5">{currency.code} ({currency.symbol})</span>
+                <div className="rounded bg-white/60 dark:bg-white/5 p-2 border border-[#e6e1d5] dark:border-white/10">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground block">Currency</span>
+                  <span className="font-bold text-mint block mt-0.5 text-xs truncate">{currency.code} ({currency.symbol})</span>
                 </div>
               </div>
             </div>
 
-            {/* Bill Body - Mobile Native Cards (< sm) & Full Table (>= sm) */}
-            <div className="p-3.5 sm:p-6">
-              {/* Mobile Line Items View (< sm) */}
-              <div className="block sm:hidden space-y-2.5">
-                {LINE_ITEMS.map((item) => (
-                  <div key={item.code} className="rounded-lg border border-rule/80 bg-card p-3 shadow-xs">
-                    <div className="flex items-center justify-between gap-2 mb-1.5">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[0.65rem] font-mono font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded border border-rule">
-                          {item.code}
-                        </span>
-                        <span className="inline-block rounded-md bg-mint/15 px-2 py-0.5 text-[0.65rem] text-mint font-bold border border-mint/30">
-                          {item.category}
-                        </span>
-                      </div>
-                      <span className="font-bold text-sm tabular-nums text-mint">
-                        {formatAmount(item.amount)}
-                      </span>
-                    </div>
-                    <h4 className="font-bold text-xs text-ink-strong leading-snug">
-                      {item.label}
-                    </h4>
-                    <p className="text-[0.68rem] text-muted-foreground mt-0.5 leading-normal">
-                      {item.detail}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Desktop & Tablet Table View (>= sm) */}
-              <div className="hidden sm:block overflow-x-auto">
-                <table className="w-full min-w-[440px] text-left border-collapse">
+            {/* Paper Bill Itemised Table */}
+            <div className="p-4 sm:p-7">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-rule text-[0.7rem] font-bold text-muted-foreground uppercase tracking-wider">
-                      <th className="pb-3 pl-2">Item Code & Description</th>
-                      <th className="pb-3 px-2">Category</th>
-                      <th className="pb-3 pr-2 text-right">Estimated ({currency.code})</th>
+                    <tr className="border-b-2 border-ink-strong/20 dark:border-white/20 text-[0.7rem] font-mono font-bold text-muted-foreground uppercase tracking-wider">
+                      <th className="pb-2.5 pl-1">Item Code & Medical Description</th>
+                      <th className="pb-2.5 px-2 text-center">Category</th>
+                      <th className="pb-2.5 pr-1 text-right">Amount ({currency.symbol})</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-rule/60 text-sm">
+                  <tbody className="divide-y divide-dashed divide-[#e0dad0] dark:divide-white/10 font-sans text-xs sm:text-sm">
                     {LINE_ITEMS.map((item) => (
-                      <tr key={item.code} className="group hover:bg-muted/40 transition-colors">
-                        <td className="py-3.5 pl-2 pr-4 align-top">
-                          <div className="flex items-start gap-2.5">
-                            <span className="text-[0.7rem] font-mono font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded border border-rule mt-0.5">
+                      <tr key={item.code} className="hover:bg-[#f4f1e8] dark:hover:bg-white/5 transition-colors">
+                        <td className="py-3 pl-1 pr-3 align-top">
+                          <div className="flex items-start gap-2">
+                            <span className="font-mono text-[0.68rem] font-bold text-muted-foreground bg-[#eae6dc] dark:bg-muted px-1.5 py-0.5 rounded border border-[#dfd9ce] dark:border-rule shrink-0 mt-0.5">
                               {item.code}
                             </span>
                             <div>
-                              <span className="font-bold text-ink-strong group-hover:text-mint transition-colors block">
+                              <span className="font-bold text-ink-strong block leading-snug">
                                 {item.label}
                               </span>
-                              <span className="text-xs text-muted-foreground block mt-0.5">
+                              <span className="text-[0.72rem] text-muted-foreground block mt-0.5 leading-normal">
                                 {item.detail}
                               </span>
                             </div>
                           </div>
                         </td>
-                        <td className="py-3.5 px-2 align-top text-xs font-semibold text-muted-foreground whitespace-nowrap">
-                          <span className="inline-block rounded-md bg-mint/15 px-2 py-0.5 text-[0.7rem] text-mint font-bold border border-mint/30">
+                        <td className="py-3 px-2 align-top text-center text-[0.7rem] font-semibold text-muted-foreground whitespace-nowrap">
+                          <span className="inline-block rounded bg-mint/15 text-mint font-bold px-2 py-0.5 border border-mint/30 text-[0.65rem]">
                             {item.category}
                           </span>
                         </td>
-                        <td className="py-3.5 pr-2 align-top text-right font-bold tabular-nums text-ink-strong whitespace-nowrap">
+                        <td className="py-3 pr-1 align-top text-right font-mono font-extrabold tabular-nums text-ink-strong whitespace-nowrap text-sm sm:text-base">
                           {formatAmount(item.amount)}
                         </td>
                       </tr>
@@ -220,35 +206,39 @@ export function CostEstimate() {
                 </table>
               </div>
 
-              {/* Bill Totals Summary Box */}
-              <div className="mt-4 sm:mt-6 rounded-xl border border-mint/20 bg-mint/5 p-3.5 sm:p-5">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center justify-between text-[0.75rem] sm:text-xs text-muted-foreground">
-                    <span>Medical & Surgical Subtotal</span>
-                    <span className="font-bold text-foreground tabular-nums">{formatAmount(525000)}</span>
+              {/* Bill Totals Summary & Stamp Box */}
+              <div className="mt-6 rounded-lg border border-dashed border-[#dcd6c8] dark:border-white/15 bg-[#f5f2e9] dark:bg-white/5 p-4 sm:p-5">
+                <div className="flex flex-col gap-2 font-sans text-xs">
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span>Medical & Surgical Package Subtotal</span>
+                    <span className="font-mono font-bold text-foreground tabular-nums">{formatAmount(525000)}</span>
                   </div>
-                  <div className="flex items-center justify-between text-[0.75rem] sm:text-xs text-muted-foreground">
-                    <span>Accommodation & Care Logistics Subtotal</span>
-                    <span className="font-bold text-foreground tabular-nums">{formatAmount(80000)}</span>
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span>Accommodation, Stay & Local Transfer Subtotal</span>
+                    <span className="font-mono font-bold text-foreground tabular-nums">{formatAmount(80000)}</span>
                   </div>
-                  <div className="flex items-center justify-between text-[0.72rem] sm:text-xs text-emerald-600 font-semibold gap-1">
-                    <span className="flex items-center gap-1 font-bold">
-                      <ShieldCheck className="size-3.5 shrink-0" /> AKEEZO Coordination Fee
+                  <div className="flex items-center justify-between text-mint font-bold pt-1">
+                    <span className="flex items-center gap-1">
+                      <ShieldCheck className="size-4 shrink-0" /> AKEEZO 24/7 Journey Coordination Fee
                     </span>
-                    <span className="font-bold shrink-0">Included (₹0 hidden fees)</span>
+                    <span className="font-mono text-[0.65rem] uppercase bg-mint/15 px-2 py-0.5 rounded border border-mint/30 font-bold">
+                      INCLUDED (₹0 HIDDEN FEES)
+                    </span>
                   </div>
 
-                  <div className="my-1.5 sm:my-2 border-t border-mint/20" />
+                  <div className="my-2 border-t-2 border-dashed border-ink-strong/20 dark:border-white/20" />
 
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
-                      <span className="text-sm sm:text-base font-black text-ink-strong block leading-tight">ESTIMATED JOURNEY TOTAL</span>
-                      <span className="text-[0.65rem] sm:text-[0.7rem] text-muted-foreground block mt-0.5">
-                        Includes procedure, surgeon, stay & transfers in {country.name}
+                      <span className="text-sm sm:text-base font-black text-ink-strong block font-serif tracking-tight">
+                        TOTAL ESTIMATED HOSPITAL BILL
+                      </span>
+                      <span className="text-[0.68rem] text-muted-foreground block mt-0.5">
+                        All-inclusive procedure, surgeon, hospital stay & local transport estimate in {country.name}
                       </span>
                     </div>
                     <div className="sm:text-right">
-                      <span className="text-xl sm:text-2xl font-black text-mint tabular-nums">
+                      <span className="text-2xl sm:text-3xl font-black font-mono text-mint tabular-nums">
                         {formatAmount(TOTAL)}
                       </span>
                     </div>
@@ -256,13 +246,21 @@ export function CostEstimate() {
                 </div>
               </div>
 
-              {/* Bill Disclaimer & Verification Footer */}
-              <div className="mt-3.5 sm:mt-4 flex flex-wrap items-center justify-between gap-2.5 text-[0.68rem] sm:text-[0.72rem] text-muted-foreground border-t border-rule pt-3 sm:pt-4">
-                <div className="flex items-start sm:items-center gap-2">
-                  <ShieldCheck className="size-4 text-primary shrink-0 mt-0.5 sm:mt-0" />
-                  <span>
-                    Illustrative sample bill ({currency.code}). Final binding quotes issued by partner hospitals after medical records review.
-                  </span>
+              {/* Official Signature / Verification Paper Footer */}
+              <div className="mt-5 pt-4 border-t border-dashed border-[#e0dad0] dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans">
+                <div className="flex items-center gap-2 text-muted-foreground text-[0.72rem]">
+                  <ShieldCheck className="size-4 text-mint shrink-0" />
+                  <span>Official binding quote issued upon hospital medical board evaluation.</span>
+                </div>
+
+                <div className="flex items-center gap-3 shrink-0 font-mono text-[0.68rem] text-muted-foreground">
+                  <div className="text-right">
+                    <span className="block font-bold text-ink-strong">Desk Officer Approval</span>
+                    <span className="text-mint font-sans text-[0.65rem] italic font-bold">✓ Medical Triage Cleared</span>
+                  </div>
+                  <div className="size-9 rounded-full bg-navy text-white border border-navy/30 flex items-center justify-center font-black text-xs shadow-xs">
+                    AK
+                  </div>
                 </div>
               </div>
             </div>
