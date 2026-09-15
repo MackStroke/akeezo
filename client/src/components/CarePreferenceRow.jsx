@@ -30,9 +30,11 @@ const PREFERENCES = [
   { value: 'premium', label: 'VIP / Premium care', note: 'Private suite & personal care', icon: Sparkles },
 ];
 
-export function CarePreferenceRow({ name = 'preference' }) {
+export function CarePreferenceRow({ name = 'preference', variant = 'mint' }) {
   const [selected, setSelected] = useState('best_value');
   const scrollRef = useRef(null);
+
+  const isMint = variant === 'mint';
 
   // Mouse drag-to-slide state
   const isMouseDownRef = useRef(false);
@@ -115,10 +117,14 @@ export function CarePreferenceRow({ name = 'preference' }) {
               className={cn(
                 'group flex min-w-[11rem] shrink-0 cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5',
                 'transition-all duration-200 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2',
-                'has-[:focus-visible]:outline-ring',
+                isMint ? 'has-[:focus-visible]:outline-mint' : 'has-[:focus-visible]:outline-ring',
                 active
-                  ? 'border-primary bg-accent/60 shadow-sm'
-                  : 'border-rule bg-card hover:border-primary/40 hover:bg-accent/40',
+                  ? isMint
+                    ? 'border-mint bg-mint/10 shadow-sm'
+                    : 'border-primary bg-accent/60 shadow-sm'
+                  : isMint
+                    ? 'border-rule bg-card hover:border-mint/50 hover:bg-mint/5'
+                    : 'border-rule bg-card hover:border-primary/40 hover:bg-accent/40',
               )}
             >
               <input
@@ -139,8 +145,12 @@ export function CarePreferenceRow({ name = 'preference' }) {
                   className={cn(
                     'flex size-9 shrink-0 items-center justify-center rounded-lg transition-all duration-200',
                     active
-                      ? 'bg-primary text-primary-foreground shadow-xs'
-                      : 'bg-accent text-primary group-hover:scale-105 group-hover:bg-primary group-hover:text-primary-foreground',
+                      ? isMint
+                        ? 'bg-mint text-white shadow-xs'
+                        : 'bg-primary text-primary-foreground shadow-xs'
+                      : isMint
+                        ? 'bg-muted text-mint group-hover:scale-105 group-hover:bg-mint group-hover:text-white'
+                        : 'bg-accent text-primary group-hover:scale-105 group-hover:bg-primary group-hover:text-primary-foreground',
                   )}
                 >
                   <Icon className="size-5" aria-hidden="true" />
@@ -150,7 +160,13 @@ export function CarePreferenceRow({ name = 'preference' }) {
                 <span
                   className={cn(
                     'text-[0.82rem] font-bold leading-tight',
-                    active ? 'text-primary' : 'text-foreground group-hover:text-primary',
+                    active
+                      ? isMint
+                        ? 'text-mint font-black'
+                        : 'text-primary'
+                      : isMint
+                        ? 'text-foreground group-hover:text-mint'
+                        : 'text-foreground group-hover:text-primary',
                   )}
                 >
                   {pref.label}

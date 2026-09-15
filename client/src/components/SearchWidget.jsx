@@ -176,7 +176,9 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                 className={cn(
                   urgent
                     ? 'hover:text-emergency-ink data-[state=active]:text-emergency-ink'
-                    : 'hover:text-primary data-[state=active]:text-primary',
+                    : value === 'plan'
+                      ? 'hover:text-mint data-[state=active]:text-mint'
+                      : 'hover:text-primary data-[state=active]:text-primary',
                 )}
               >
                 <Icon aria-hidden="true" strokeWidth={1.6} />
@@ -216,8 +218,8 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                       className={cn(
                         'size-4 border-2 transition-all',
                         isSelected
-                          ? 'border-primary bg-primary text-white shadow-xs'
-                          : 'border-muted-foreground/40 bg-transparent group-hover:border-primary/60'
+                          ? 'border-mint bg-mint text-white shadow-xs'
+                          : 'border-muted-foreground/40 bg-transparent group-hover:border-mint/60'
                       )}
                     />
                     <Label
@@ -243,6 +245,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   icon={HeartPulse}
                   placeholder="Choose a treatment"
                   hint="Not sure? Pick the last option."
+                  variant="mint"
                   options={[
                     ...treatments.map((t) => ({ value: t.label, label: t.label })),
                     { value: 'Not sure — help me decide', label: "I'm not sure — help me decide" },
@@ -257,6 +260,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   icon={MapPin}
                   defaultValue="recommend"
                   hint="We can recommend one"
+                  variant="mint"
                   options={[
                     { value: 'recommend', label: 'Recommend a city for me' },
                     ...cities.map((c) => ({ value: c, label: c })),
@@ -270,6 +274,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   label="How soon?"
                   icon={CalendarDays}
                   defaultValue="not_sure"
+                  variant="mint"
                   options={URGENCY}
                 />
 
@@ -281,13 +286,14 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   icon={Wallet}
                   defaultValue="not_sure"
                   hint={`In ${currency.code} · Estimates only`}
+                  variant="mint"
                   options={dynamicBudgets}
                 />
               </div>
 
-              <CarePreferenceRow name="preference" />
+              <CarePreferenceRow name="preference" variant="mint" />
 
-              <WidgetSubmit label="Get My AKEEZO Plan" />
+              <WidgetSubmit label="Get My AKEEZO Plan" variant="mint" />
             </form>
           </TabsContent>
 
@@ -472,7 +478,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
 }
 
 /** The gradient pill that straddles the card's bottom edge, MMT-style. */
-function WidgetSubmit({ label, danger = false, loading = false, disabled = false }) {
+function WidgetSubmit({ label, danger = false, variant = 'primary', loading = false, disabled = false }) {
   return (
     <div className="-mb-9 flex justify-center pt-5">
       <button
@@ -483,7 +489,11 @@ function WidgetSubmit({ label, danger = false, loading = false, disabled = false
           'text-base sm:text-lg font-bold tracking-wide text-white uppercase',
           'shadow-[0_4px_14px_rgb(0_0_0/0.18)] transition-[filter,translate,opacity] duration-150',
           'hover:-translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2',
-          danger ? 'cta-gradient-danger focus-visible:outline-emergency' : 'cta-gradient focus-visible:outline-primary',
+          danger
+            ? 'cta-gradient-danger focus-visible:outline-emergency'
+            : variant === 'mint'
+              ? 'cta-gradient-mint focus-visible:outline-mint'
+              : 'cta-gradient focus-visible:outline-primary',
           (disabled || loading) && 'opacity-80 cursor-not-allowed hover:translate-y-0',
         )}
       >

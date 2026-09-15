@@ -267,6 +267,15 @@
     background-image: linear-gradient(93deg, var(--cta-from-hover), var(--cta-to-hover));
   }
 
+  .cta-gradient-mint {
+    background-color: #00c7be;
+    background-image: linear-gradient(93deg, #00c7be, #009b94);
+  }
+
+  .cta-gradient-mint:hover {
+    background-image: linear-gradient(93deg, #00b5ad, #008a84);
+  }
+
   .cta-gradient-danger {
     background-color: var(--emergency-strong);
     background-image: linear-gradient(93deg, var(--emergency), var(--emergency-strong));

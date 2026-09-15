@@ -10,22 +10,27 @@ import { cn } from '@/lib/utils';
  * whole cell is generously padded so it reads as one large target rather than
  * a cramped input.
  */
-export function Field({ id, label, hint, icon: Icon, className, children }) {
+export function Field({ id, label, hint, icon: Icon, className, variant, children }) {
   const hintId = hint ? `${id}-hint` : undefined;
 
   return (
     <div
       className={cn(
         'group flex min-w-0 flex-col gap-1 px-4 py-3.5 transition-colors',
-        'hover:bg-accent/40 focus-within:bg-accent/40',
+        variant === 'mint'
+          ? 'hover:bg-mint/10 focus-within:bg-mint/10'
+          : 'hover:bg-accent/40 focus-within:bg-accent/40',
         className,
       )}
     >
       <label
         htmlFor={id}
-        className="flex items-center gap-1.5 text-[0.78rem] font-bold text-muted-foreground"
+        className={cn(
+          'flex items-center gap-1.5 text-[0.78rem] font-bold',
+          variant === 'mint' ? 'text-muted-foreground group-hover:text-mint' : 'text-muted-foreground',
+        )}
       >
-        {Icon ? <Icon className="size-3.5 shrink-0" aria-hidden="true" /> : null}
+        {Icon ? <Icon className={cn('size-3.5 shrink-0', variant === 'mint' && 'text-mint')} aria-hidden="true" /> : null}
         {label}
       </label>
 
@@ -57,6 +62,7 @@ export function FieldSelect({
   defaultValue,
   placeholder,
   className,
+  variant,
 }) {
   const [internalVal, setInternalVal] = useState(defaultValue ?? options[0]?.value ?? '');
   const currentValue = value !== undefined ? value : internalVal;
@@ -67,7 +73,7 @@ export function FieldSelect({
   };
 
   return (
-    <Field id={id} label={label} hint={hint} icon={icon} className={className}>
+    <Field id={id} label={label} hint={hint} icon={icon} className={className} variant={variant}>
       <Select name={name} value={currentValue} onValueChange={handleChange}>
         <SelectTrigger
           id={id}
