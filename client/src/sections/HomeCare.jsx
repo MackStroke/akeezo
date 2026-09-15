@@ -43,7 +43,7 @@ export function HomeCare() {
         <ul className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map(({ icon: Icon, t, d }) => (
             <li key={t}>
-              <Card className="group h-full gap-2.5 p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-widget cursor-pointer">
+              <Card className="group h-full gap-2.5 p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-widget-orange cursor-pointer">
                 <span className="flex size-11 items-center justify-center rounded-md bg-accent text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
                   <Icon className="size-6" aria-hidden="true" strokeWidth={1.7} />
                 </span>

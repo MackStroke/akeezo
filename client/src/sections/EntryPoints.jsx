@@ -72,13 +72,12 @@ export function EntryPoints() {
                 <Card
                   className={cn(
                     'group relative h-full flex-col overflow-hidden p-0 transition-all duration-200',
-                    'has-[a:hover]:shadow-widget has-[a:focus-visible]:shadow-widget',
                     'has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2',
                     isEmergency
-                      ? 'border-emergency/35 bg-emergency-surface has-[a:focus-visible]:outline-emergency'
+                      ? 'border-emergency/35 bg-emergency-surface has-[a:hover]:shadow-widget-emergency has-[a:focus-visible]:shadow-widget-emergency has-[a:focus-visible]:outline-emergency'
                       : isPlan
-                        ? 'hover:border-mint/50 has-[a:focus-visible]:outline-mint'
-                        : 'hover:border-primary/50 has-[a:focus-visible]:outline-primary',
+                        ? 'hover:border-mint/50 has-[a:hover]:shadow-widget has-[a:focus-visible]:shadow-widget has-[a:focus-visible]:outline-mint'
+                        : 'hover:border-primary/50 has-[a:hover]:shadow-widget-orange has-[a:focus-visible]:shadow-widget-orange has-[a:focus-visible]:outline-primary',
                   )}
                 >
                   {/* Image Banner Header - Exact 16:9 view frame fit */}

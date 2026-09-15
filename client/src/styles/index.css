@@ -55,6 +55,8 @@
   --radius-xl: calc(var(--radius) + 6px);
 
   --shadow-widget: var(--widget-shadow);
+  --shadow-widget-orange: var(--widget-shadow-orange);
+  --shadow-widget-emergency: var(--widget-shadow-emergency);
   --shadow-card: var(--card-shadow);
   --shadow-tab: var(--tab-shadow);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -125,6 +127,8 @@
   --cta-to-hover: #c64e00;
 
   --widget-shadow: 0 2px 4px rgb(0 199 190 / 0.08), 0 8px 24px rgb(0 199 190 / 0.14);
+  --widget-shadow-orange: 0 2px 4px rgb(255 107 0 / 0.08), 0 8px 24px rgb(255 107 0 / 0.16);
+  --widget-shadow-emergency: 0 2px 4px rgb(217 45 32 / 0.10), 0 8px 24px rgb(217 45 32 / 0.18);
   --card-shadow: 0 1px 2px rgb(0 199 190 / 0.05), 0 4px 14px rgb(0 199 190 / 0.09);
   --tab-shadow: 0 1px 6px rgb(0 199 190 / 0.12);
   --sidebar: hsl(0 0% 98%);
@@ -188,6 +192,8 @@
     --cta-to-hover: #c64e00;
 
     --widget-shadow: 0 2px 4px rgb(0 0 0 / 0.45), 0 8px 28px rgb(0 0 0 / 0.55);
+    --widget-shadow-orange: 0 2px 4px rgb(255 107 0 / 0.15), 0 8px 28px rgb(255 107 0 / 0.25);
+    --widget-shadow-emergency: 0 2px 4px rgb(217 45 32 / 0.18), 0 8px 28px rgb(217 45 32 / 0.28);
     --card-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px rgb(0 0 0 / 0.45);
     --tab-shadow: 0 1px 6px rgb(0 0 0 / 0.5);
   }
