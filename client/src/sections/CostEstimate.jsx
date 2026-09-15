@@ -29,6 +29,8 @@ const ASSURANCES = [
   'Converted instantly into your local currency on request',
   'Cross-compared across top NABH/JCI accredited hospitals',
   'Final written quote issued directly by hospital upon evaluation',
+  'NO SINGLE MONEY to be paid after what has been promised* (excludes any other illness, medicines, longer stay)',
+  'Free consultation - as Akeezo wants you not be health deprived due to budget constraints.',
 ];
 
 export function CostEstimate() {
@@ -48,7 +50,7 @@ export function CostEstimate() {
             id="cost-heading"
             className="mt-3 text-xl sm:text-2xl lg:text-[2rem] font-black tracking-tight text-ink-strong leading-tight"
           >
-            You See the Whole Medical Bill, Not Just the Surgery
+            Be Ready to Experience the Goodness, and Not Just the Surgery
           </h2>
 
           <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">

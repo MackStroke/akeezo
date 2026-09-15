@@ -12,7 +12,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 const SERVICES = [
-  { icon: UserRound, t: 'Nurses', d: 'Shift or live-in nursing, wound care, injections and monitoring.' },
+  { icon: UserRound, t: 'Nurses', d: 'Shift, full time nursing, wound care, injections and monitoring.' },
   { icon: HeartHandshake, t: 'Caregivers & Attendants', d: 'Day-to-day support for mobility, hygiene, feeding and company.' },
   { icon: Activity, t: 'Physiotherapy', d: 'Post-surgical, neurological and orthopaedic rehab at home.' },
   { icon: Stethoscope, t: 'Doctor Home Visits', d: 'A physician at the bedside when a clinic trip is not realistic.' },
@@ -35,8 +35,8 @@ export function HomeCare() {
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
             Recovery happens at home, not in a discharge summary. The same coordinator who planned
-            the treatment arranges what happens next — whether the patient flew in for surgery or
-            has lived down the road their whole life.
+            the treatment remains with you until recovery— whether the patient flew in for surgery or
+            still under our supervision.
           </p>
         </div>
 

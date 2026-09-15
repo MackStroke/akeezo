@@ -26,7 +26,7 @@ const ENTRIES = [
     icon: Ambulance,
     title: 'I Need Emergency Help',
     blurb:
-      'Someone needs urgent medical help — at home, in a hotel, at an airport or while travelling. Four questions, then we call you.',
+      'Someone needs urgent medical help — at home, in a hotel, at an airport or while travelling. Share the concern and coordinates, Akeezo reaches in no time.',
     bullets: ['Ambulance & emergency response', 'Receiving hospital identified', 'Family kept informed'],
     cta: 'Get emergency help',
     href: '#emergency',

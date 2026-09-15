@@ -21,7 +21,7 @@ const STEPS = [
   {
     id: 1,
     title: 'Tell Us the Requirement',
-    desc: 'The diagnosis if you have one, symptoms if you do not, and urgency level.',
+    desc: 'Diagnosis, sign/symptoms, any aesthetic requirement? Or what? Say out your heart and we are all EARS!',
     icon: ClipboardList,
     tag: 'Step 1 • Initial Inquiry',
     details: [
@@ -150,7 +150,7 @@ export function Journey({ onSelectStep }) {
             One Dedicated Coordinator for the Whole Journey
           </h2>
           <p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
-            A booking site stops at hospital admission. AKEEZO coordinates the entire journey as one seamless path — from your first inquiry to post-care recovery at home.
+            Medical journey often gets overlooked after the hospital admission. AKEEZO coordinates the entire journey as one seamless path- from your first inquiry to post-care recovery at home, sharing real time updates with your family in your respective country.
           </p>
         </div>
 

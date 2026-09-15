@@ -26,10 +26,10 @@ import {
 
 const COLUMNS = [
   {
-    title: 'Before care',
+    title: 'Before arrival',
     icon: Compass,
     items: [
-      { text: 'Medical requirement assessment', icon: Stethoscope },
+      { text: 'Medical assessment', icon: Stethoscope },
       { text: 'Second opinions', icon: UserCheck },
       { text: 'Doctor & hospital discovery', icon: Building2 },
       { text: 'Cost estimates', icon: Receipt },
@@ -37,25 +37,25 @@ const COLUMNS = [
     ],
   },
   {
-    title: 'During care',
+    title: 'During Treatment',
     icon: Hospital,
     items: [
+      { text: 'Ambulance & emergency assistance', icon: Ambulance },
       { text: 'Appointments & diagnostics', icon: Calendar },
       { text: 'Hospitalisation support', icon: BedDouble },
-      { text: 'Ambulance & emergency assistance', icon: Ambulance },
       { text: 'On-ground patient coordination', icon: UserCheck },
       { text: 'Translation & insurance liaison', icon: Languages },
+      { text: 'Preventive health care', icon: Activity },
     ],
   },
   {
-    title: 'After care',
+    title: 'After Treatment',
     icon: HeartHandshake,
     items: [
       { text: 'Home nursing & attendants', icon: HeartPulse },
       { text: 'Physiotherapy & rehabilitation', icon: Activity },
       { text: 'Medicines & diagnostics', icon: Pill },
       { text: 'Follow-up appointments', icon: CalendarCheck },
-      { text: 'Elder care', icon: Users },
     ],
   },
   {
@@ -64,9 +64,10 @@ const COLUMNS = [
     items: [
       { text: 'Patient health profile', icon: FileSpreadsheet },
       { text: 'Medical records in one place', icon: FolderHeart },
-      { text: 'Scheduled follow-ups', icon: Clock },
+      { text: 'Scheduled follow-ups reminder', icon: Clock },
       { text: 'Family dashboard', icon: LayoutDashboard },
       { text: 'Standing emergency cover', icon: ShieldAlert },
+      { text: 'Preventive health care', icon: HeartPulse },
     ],
   },
 ];
@@ -82,8 +83,8 @@ export function Continuum() {
           Coordinated Across the Whole Arc of Care
         </h2>
         <p className="mt-3 max-w-3xl text-sm text-muted-foreground">
-          A healthcare journey platform that helps patients discover, plan, access and coordinate
-          healthcare — from emergency assistance and hospital care through medical tourism to
+          A dedicated healthcare journey platform that helps patients discover, plan, access and coordinate
+          healthcare- from emergency assistance and hospital care through a qualified team of experts for faster
           recovery at home.
         </p>
 

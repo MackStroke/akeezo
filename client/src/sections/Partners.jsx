@@ -7,12 +7,12 @@ const PARTNERS = [
   {
     icon: Globe2,
     t: 'International agents',
-    d: 'Indian healthcare infrastructure as a service. Create a patient, request hospital options, share the proposal under your own name.',
+    d: "Create your unique AKEEZO ID, share the patient's details, request hospital options, get the estimate within 2 hours.",
   },
   {
     icon: Building2,
     t: 'Hospitals',
-    d: 'Qualified international and domestic patients arriving with records, expectations and travel already handled.',
+    d: 'Hospitals having infrastructure to serve international and domestic patients.',
   },
   {
     icon: Hotel,
@@ -32,7 +32,7 @@ const PARTNERS = [
   {
     icon: Shield,
     t: 'Insurance & TPAs',
-    d: 'Case coordination, documentation and hospital liaison — with an auditable trail.',
+    d: 'Case coordination, documentation and hospital liaison- with an auditable trail.',
   },
 ];
 
@@ -41,14 +41,12 @@ export function Partners() {
     <section id="partners" aria-labelledby="partners-heading" className="py-14">
       <div className="mx-auto max-w-[76rem] px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-bold tracking-[0.1em] text-primary uppercase">For partners</p>
+          <p className="text-xs font-bold tracking-[0.1em] text-primary uppercase">For partners-</p>
           <h2 id="partners-heading" className="mt-2 text-2xl sm:text-[1.85rem]">
-            Your Healthcare Partner in India
+            Be a Healthcare Partner with us
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            Organisations raise cases, track them and get documentation through a single desk.
-            Partner portals with login, case tracking and billing arrive in a later phase — talk to
-            us now and we onboard you manually in the meantime.
+            share your interest and portfolio to get onboarded in no time.
           </p>
         </div>
 

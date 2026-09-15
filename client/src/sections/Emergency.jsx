@@ -6,6 +6,8 @@ import {
   Phone,
   PhoneCall,
   ShieldAlert,
+  ShieldCheck,
+  Sparkles,
   Siren,
   UserCheck,
 } from 'lucide-react';
@@ -28,25 +30,25 @@ const EMERGENCY_FEATURES = [
     desc: 'Priority network with live GPS coordination and paramedic support.',
   },
   {
-    icon: Ambulance,
-    title: 'ER Bed Pre-Booking',
-    desc: 'Direct triage notification to hospital emergency rooms before arrival.',
+    icon: Clock,
+    title: '60-Second Callback',
+    desc: 'Dedicated emergency team calls back within one minute.',
   },
   {
     icon: HeartPulse,
-    title: 'Physician Triage',
-    desc: 'On-call medical coordinator guiding you step by step.',
+    title: 'Hospital ER Bed Booking',
+    desc: 'Direct hospital desk alert to prepare trauma care on arrival.',
   },
   {
-    icon: UserCheck,
-    title: 'Multilingual Desk',
-    desc: 'Assistance in English, Hindi, Arabic, Swahili, French, and Russian.',
+    icon: Activity,
+    title: 'Real-Time Family Tracking',
+    desc: 'Transparent progress updates sent to family members.',
   },
 ];
 
 const REQUESTERS = [
-  { t: 'Families and patients', d: 'At home, in a hotel, on the road or mid-journey.' },
-  { t: 'Hotels and airports', d: 'A guest or passenger needs medical help on your premises.' },
+  { t: 'Families in urgent crisis', d: 'Looking for fast hospital admission and ambulance dispatch.' },
+  { t: 'International tourists & patients', d: 'In a foreign city needing trusted emergency coordination.' },
   { t: 'Travellers, students and expats', d: 'In India and unsure which hospital to go to, or who to call.' },
   { t: 'Corporates and embassies', d: 'An employee or national needs coordinated assistance.' },
 ];
@@ -56,19 +58,76 @@ export function Emergency() {
     <section
       id="emergency"
       aria-labelledby="emergency-heading"
-      className="relative overflow-hidden bg-navy text-navy-foreground py-16"
+      className="relative overflow-hidden bg-[#121212] text-white py-16 sm:py-20 select-none"
     >
-      {/* Background radial glow matching theme navy + emergency red accent */}
+      <style>{`
+        @keyframes floatSlow {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        @keyframes floatReverse {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(10px) rotate(-1deg); }
+        }
+        @keyframes pulseGlow {
+          0%, 100% { opacity: 0.4; transform: scale(1); }
+          50% { opacity: 0.75; transform: scale(1.05); }
+        }
+      `}</style>
+
+      {/* Background Graphic 1: Geometric Technical Grid Matrix */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-80"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]"
+      />
+
+      {/* Background Graphic 2: Dual Ambient Radial Glow Halos */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'radial-gradient(ellipse 65% 55% at 85% 15%, color-mix(in oklab, var(--emergency) 35%, transparent), transparent 70%)',
+            'radial-gradient(circle at 82% 20%, color-mix(in oklab, var(--emergency) 28%, transparent), transparent 50%), radial-gradient(circle at 15% 82%, rgba(0, 191, 165, 0.16), transparent 48%)',
         }}
       />
 
+      {/* Background Graphic 3: Soft Floating Ambient Orbs */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-12 right-1/4 size-72 rounded-full bg-emergency/15 blur-[110px]"
+        style={{ animation: 'pulseGlow 6s ease-in-out infinite' }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-12 left-12 size-80 rounded-full bg-primary/15 blur-[130px]"
+        style={{ animation: 'pulseGlow 7s ease-in-out infinite 2s' }}
+      />
+
       <div className="relative mx-auto grid max-w-[76rem] items-start gap-10 px-4 lg:grid-cols-2">
+        {/* Floating Decorative Badge 1 - Top Right Floating Element */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-8 right-16 hidden lg:flex items-center gap-2.5 rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-md shadow-2xl z-20 text-xs font-bold text-white/90"
+          style={{ animation: 'floatSlow 5s ease-in-out infinite' }}
+        >
+          <span className="relative flex size-2 shrink-0">
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
+          </span>
+          <Ambulance className="size-4 text-emergency" />
+          <span>Priority Emergency Network</span>
+        </div>
+
+        {/* Floating Decorative Badge 2 - Bottom Left Floating Element */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-6 -left-4 hidden lg:flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/10 px-3.5 py-2 backdrop-blur-md shadow-2xl z-20 text-xs font-bold text-white/90"
+          style={{ animation: 'floatReverse 6s ease-in-out infinite 1s' }}
+        >
+          <ShieldCheck className="size-4 text-primary" />
+          <span>100% Encrypted & Confidential Triage</span>
+        </div>
+
         {/* Left Column: scoped headings so child cards stay readable */}
         <div className="[&_h2]:text-white [&_h3]:text-white flex flex-col gap-6">
           <div>
@@ -80,11 +139,11 @@ export function Emergency() {
               </span>
               <span className="tracking-wide uppercase">24/7 Control Desk Active</span>
               <span className="text-white/60">·</span>
-              <span className="font-normal text-white/90">Instant Callback</span>
+              <span className="font-normal text-white/90">Instant Support Under a Minute</span>
             </div>
 
             <h2 id="emergency-heading" className="text-2xl sm:text-[2rem] font-black tracking-tight leading-tight">
-              Act Now. Four Questions, Then We Call You.
+              Act Now, Health Matters More Than Anything
             </h2>
             <p className="mt-3 text-sm text-white/80 leading-relaxed">
               An emergency is not the time for a long form. We ask where the patient is, what

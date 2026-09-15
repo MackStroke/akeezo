@@ -117,7 +117,7 @@ export const navigation = [
 export const faqs = [
   {
     q: 'What does AKEEZO actually do?',
-    a: 'AKEEZO coordinates the whole healthcare journey rather than selling one service. You tell us the medical requirement; we come back with suitable hospitals and doctors, an itemised cost estimate, an expected timeline, and — if you need it — travel, visa documentation, accommodation, transport, an attendant and post-treatment care at home.',
+    a: 'AKEEZO coordinates the whole healthcare journey rather than selling one service. You tell us the medical requirements, with your budget, and share the suitable hospitals and doctors, an itemised cost estimate, an expected timeline, and- if you need- travel, visa documentation, accommodation, transport, an attendant and post-treatment care at home.',
   },
   {
     q: 'How much does it cost to use AKEEZO?',
@@ -141,7 +141,7 @@ export const faqs = [
   },
   {
     q: 'Do you support patients who are not in India yet?',
-    a: 'Yes — that is the main medical tourism journey. We work with patients and families across Africa, the Middle East, Central Asia, South Asia and the CIS, with support in English, Hindi, Arabic, French, Swahili, Russian and several Indian languages.',
+    a: 'Yes- we do support. We work with patients and families across the globe e.g Africa, the Middle East, Central Asia, South Asia and the CIS, with support in major languages English, Hindi, Arabic, French, Swahili, Russian and several other languages.',
   },
   {
     q: 'What happens to my medical reports?',
