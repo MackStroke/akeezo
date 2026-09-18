@@ -8,6 +8,8 @@ import leadRoutes from './routes/leads.js';
 import emergencyRoutes from './routes/emergency.js';
 import adminRoutes from './routes/admin.js';
 import blogRoutes from './routes/blog.js';
+import hospitalRoutes from './routes/hospitals.js';
+import recommendationRoutes from './routes/recommendations.js';
 
 export function createApp() {
   const app = express();
@@ -37,6 +39,8 @@ export function createApp() {
   app.use('/api/emergency', emergencyRoutes);
   app.use('/api/admin', adminRoutes);
   app.use('/api/blog', blogRoutes);
+  app.use('/api/hospitals', hospitalRoutes);
+  app.use('/api/recommendations', recommendationRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

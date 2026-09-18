@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import {
   Activity,
   Baby,
   Bone,
   Brain,
   ClipboardList,
+  Globe2,
   HeartPulse,
   Ribbon,
   Smile,
@@ -11,6 +13,7 @@ import {
   Stethoscope,
 } from 'lucide-react';
 import { treatments } from '@/lib/site';
+import { RecommendationModal } from '@/components/RecommendationModal';
 
 /**
  * MMT's category tiles: a dense grid of icon + label, each one a filter into
@@ -93,8 +96,16 @@ const CITY_DATA = [
 ];
 
 export function Treatments() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [recommendType, setRecommendType] = useState('city');
+
+  const handleOpenRecommendation = (type) => {
+    setRecommendType(type);
+    setModalOpen(true);
+  };
+
   return (
-    <section id="treatments" aria-labelledby="treatments-heading" className="bg-sunk py-14">
+    <section id="treatments" aria-labelledby="treatments-heading" className="bg-sunk py-14 font-sans">
       <div className="mx-auto max-w-[76rem] px-4">
         <p className="text-xs font-bold tracking-[0.1em] text-mint uppercase">
           What do you need?
@@ -163,11 +174,12 @@ export function Treatments() {
               </li>
             ))}
 
-            {/* Special Recommendation Card */}
+            {/* Special Recommendation Card - Recommend a City */}
             <li className="h-full col-span-2 sm:col-span-1">
-              <a
-                href="#top"
-                className="group flex h-full flex-col justify-between overflow-hidden rounded-[var(--radius)] border border-mint/40 bg-mint/10 transition-all duration-200 hover:-translate-y-1 hover:border-mint hover:bg-mint/20 hover:shadow-widget active:scale-[0.99] touch-manipulation focus-visible:ring-2 focus-visible:ring-mint focus-visible:outline-none"
+              <button
+                type="button"
+                onClick={() => handleOpenRecommendation('city')}
+                className="group flex h-full w-full flex-col justify-between overflow-hidden rounded-[var(--radius)] border border-mint/40 bg-mint/10 text-left transition-all duration-200 hover:-translate-y-1 hover:border-mint hover:bg-mint/20 hover:shadow-widget active:scale-[0.99] touch-manipulation focus-visible:ring-2 focus-visible:ring-mint focus-visible:outline-none cursor-pointer"
               >
                 <div className="relative h-28 sm:h-32 w-full flex items-center justify-center p-2.5 sm:p-3 border-b border-mint/20 bg-gradient-to-br from-mint/20 via-mint/5 to-transparent overflow-hidden">
                   <Sparkles className="size-10 sm:size-12 text-mint animate-pulse" />
@@ -181,11 +193,39 @@ export function Treatments() {
                     Recommend a City
                   </h4>
                 </div>
-              </a>
+              </button>
+            </li>
+
+            {/* Special Recommendation Card - Recommend a Country */}
+            <li className="h-full col-span-2 sm:col-span-1">
+              <button
+                type="button"
+                onClick={() => handleOpenRecommendation('country')}
+                className="group flex h-full w-full flex-col justify-between overflow-hidden rounded-[var(--radius)] border border-primary/40 bg-primary/10 text-left transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:bg-primary/20 hover:shadow-widget-orange active:scale-[0.99] touch-manipulation focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none cursor-pointer"
+              >
+                <div className="relative h-28 sm:h-32 w-full flex items-center justify-center p-2.5 sm:p-3 border-b border-primary/20 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent overflow-hidden">
+                  <Globe2 className="size-10 sm:size-12 text-primary animate-pulse" />
+                  <span className="absolute top-2 right-2 rounded-full bg-primary/15 px-2 sm:px-2.5 py-0.5 text-[0.62rem] sm:text-[0.68rem] font-bold text-primary border border-primary/30">
+                    Global Expansion
+                  </span>
+                </div>
+
+                <div className="p-3 sm:p-4 flex-1 flex flex-col justify-center">
+                  <h4 className="text-sm sm:text-base font-black text-primary leading-tight">
+                    Recommend a Country
+                  </h4>
+                </div>
+              </button>
             </li>
           </ul>
         </div>
       </div>
+
+      <RecommendationModal
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+        initialType={recommendType}
+      />
     </section>
   );
 }

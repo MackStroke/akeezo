@@ -7,6 +7,7 @@ import { FloatingActions } from '@/components/FloatingActions';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { EmergencyResultDialog } from '@/components/EmergencyResultDialog';
 import { Hero } from '@/sections/Hero';
+import { JourneySlider } from '@/sections/JourneySlider';
 import { EntryPoints } from '@/sections/EntryPoints';
 import { Journey } from '@/sections/Journey';
 import { Treatments } from '@/sections/Treatments';
@@ -229,6 +230,7 @@ export default function LandingPage() {
 
         <main id="content" tabIndex={-1}>
           <Hero onPlan={handlePlan} onEmergency={handleEmergency} onHome={handleHome} />
+          <JourneySlider />
           <EntryPoints />
           <Journey />
           <Treatments />

@@ -1,37 +1,46 @@
-import { BadgeCheck, ChevronRight, Globe2, Languages, ShieldCheck } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import {
+  BadgeCheck,
+  Building2,
+  ChevronRight,
+  FileSpreadsheet,
+  Heart,
+  HeartHandshake,
+  ShieldCheck,
+  UserCheck,
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SearchWidget } from '@/components/SearchWidget';
 
-/**
- * MMT's hero is a shallow image band that the search card sits on top of and
- * overhangs. We keep the proportions but skip the photograph: there is no
- * honest stock image for "your father needs a bypass", and a hero image would
- * be the page's LCP for no informational gain. A teal gradient wash does the
- * same compositional job at zero bytes.
- */
+const MISSION_SLIDES = [
+  '“No one should be deprived of healthcare because of budget constraints, financial limitations, or lack of access.”',
+  '“Tell us your requirements, & of course the budget. We’ll help you figure out the next steps.”',
+];
+
 const PROOF = [
   {
-    id: 'accredited',
-    icon: ShieldCheck,
-    title: 'Accredited Hospitals',
-    note: 'NABH & JCI partner network',
+    id: 'treatment-plan',
+    icon: Building2,
+    title: 'Top Partner Hospitals',
+    note: 'JCI & NABH Accredited Desks',
     badge: 'VERIFIED',
   },
   {
-    id: 'global',
-    icon: Globe2,
-    title: 'Global Patients',
-    note: 'Africa, Gulf, CIS & South Asia',
-    badge: '20+ COUNTRIES',
+    id: 'cost-estimate',
+    icon: FileSpreadsheet,
+    title: 'Itemised Bill Estimates',
+    note: 'Upfront prices with ₹0 hidden fees',
+    badge: 'TRANSPARENT',
   },
   {
-    id: 'multilingual',
-    icon: Languages,
-    title: 'Multi Languages Support',
-    note: 'Arabic, French, Swahili & more',
-    badge: '24/7 CARE',
+    id: 'travel-support',
+    icon: UserCheck,
+    title: 'Visa & Stay Assistance',
+    note: 'Airport pickup & local logistics',
+    badge: 'FULL SUPPORT',
   },
   {
-    id: 'coordinator',
+    id: 'continuum-care',
     icon: BadgeCheck,
     title: 'Single Coordinator',
     note: 'First call to complete recovery',
@@ -40,12 +49,21 @@ const PROOF = [
 ];
 
 export function Hero({ onPlan, onEmergency, onHome }) {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % MISSION_SLIDES.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section id="top" aria-labelledby="hero-heading" className="relative">
       {/* Colour band & hero background image behind the widget. */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[22rem] bg-hero-band overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="absolute inset-x-0 top-0 h-[26rem] sm:h-[24rem] bg-hero-band overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
             'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)), url("/images/hero section.webp")',
@@ -55,19 +73,93 @@ export function Hero({ onPlan, onEmergency, onHome }) {
       />
 
       <div className="relative mx-auto max-w-[76rem] px-4 pt-10 pb-16 sm:pt-12">
-        <div className="mb-7 max-w-3xl">
-          <h1
-            id="hero-heading"
-            className="text-3xl text-white sm:text-4xl lg:text-[2.9rem] font-black leading-tight tracking-tight"
-            style={{ color: '#fff' }}
-          >
-            Too many hospitals, Too many quotations,
-            <br />
-            Low on budget or not sure from where to get treated?
-          </h1>
-          <p className="mt-3 max-w-2xl text-[0.98rem] sm:text-base text-white/90 font-medium leading-relaxed">
-            Whether you’re looking for treatment in India or any other country, Akeezo helps you find suitable healthcare options based on your medical needs and budget.
-          </p>
+        <div className="mb-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="lg:col-span-7">
+            <h1
+              id="hero-heading"
+              className="text-3xl text-white sm:text-4xl lg:text-[2.75rem] font-black leading-tight tracking-tight"
+              style={{ color: '#fff' }}
+            >
+              Too many hospitals, Too many quotations,
+              <br />
+              Low on budget or not sure from where to get treated?
+            </h1>
+            <p className="mt-3 max-w-2xl text-[0.98rem] sm:text-base text-white/90 font-medium leading-relaxed">
+              Whether you’re looking for treatment in India or any other country, Akeezo helps you find suitable healthcare options based on your medical needs and budget.
+            </p>
+          </div>
+
+          {/* Floating White Box with Auto-Rotating 4s Text Slider */}
+          <div className="lg:col-span-5 relative mt-3 lg:mt-0">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="relative rounded-2xl border-2 border-primary/40 bg-white/95 dark:bg-card/95 p-4.5 sm:p-5 text-foreground shadow-[0_12px_36px_rgba(255,107,0,0.18)] backdrop-blur-md overflow-hidden"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary border border-primary/30 mt-0.5">
+                  <Heart className="size-5 fill-primary/20 text-primary" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-[0.62rem] font-black uppercase tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">
+                      OUR MISSION
+                    </span>
+                    {/* Slide Pagination Dots */}
+                    <div className="flex items-center gap-1">
+                      {MISSION_SLIDES.map((_, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setActiveSlide(idx)}
+                          className={`h-1.5 rounded-full transition-all duration-300 ${
+                            activeSlide === idx ? 'w-4 bg-primary' : 'w-1.5 bg-primary/25 hover:bg-primary/50'
+                          }`}
+                          aria-label={`Go to slide ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="relative min-h-[4rem] sm:min-h-[3.6rem] mt-1.5 flex items-center">
+                    <AnimatePresence mode="wait">
+                      <motion.p
+                        key={activeSlide}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.35, ease: 'easeInOut' }}
+                        className="font-serif text-sm sm:text-[0.95rem] font-extrabold leading-snug text-slate-900 dark:text-white"
+                      >
+                        {MISSION_SLIDES[activeSlide]}
+                      </motion.p>
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Small Floating Teal Icon Badge (Top Right) */}
+            <motion.div
+              animate={{ y: [0, -6, 0], rotate: [0, 2.5, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute -top-3.5 -right-2 sm:-right-3 flex items-center gap-1.5 rounded-xl border border-white/40 bg-mint px-2.5 sm:px-3 py-1 text-white shadow-lg backdrop-blur-xs text-[0.72rem] sm:text-xs font-extrabold z-10"
+            >
+              <ShieldCheck className="size-3.5 text-white shrink-0" />
+              <span>Verified Care</span>
+            </motion.div>
+
+            {/* Small Floating Orange Icon Badge (Bottom Left) */}
+            <motion.div
+              animate={{ y: [0, 6, 0], rotate: [0, -2.5, 0] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+              className="absolute -bottom-3.5 -left-2 sm:-left-3 flex items-center gap-1.5 rounded-xl border border-white/40 bg-primary px-2.5 sm:px-3 py-1 text-white shadow-lg backdrop-blur-xs text-[0.72rem] sm:text-xs font-extrabold z-10"
+            >
+              <HeartHandshake className="size-3.5 text-white shrink-0" />
+              <span>Budget Inclusive</span>
+            </motion.div>
+          </div>
         </div>
 
         <SearchWidget onPlan={onPlan} onEmergency={onEmergency} onHome={onHome} />

@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { find, findById, updateById, addNoteToLead, deleteById, FILES } from '../utils/store.js';
 import { Lead } from '../models/Lead.js';
 import { EmergencyRequest } from '../models/EmergencyRequest.js';
+import { Recommendation } from '../models/Recommendation.js';
 import { User } from '../models/User.js';
 import { Blog } from '../models/Blog.js';
 import adminEmergenciesRoutes from './admin-emergencies.js';
@@ -56,9 +57,10 @@ router.use('/blog', adminBlogRoutes);
 // Unified stats route — used by header polling AND dashboard
 router.get('/stats', async (req, res, next) => {
   try {
-    const [leads, emergencies] = await Promise.all([
+    const [leads, emergencies, recommendations] = await Promise.all([
       find(Lead, FILES.leads),
       find(EmergencyRequest, FILES.emergency),
+      find(Recommendation, FILES.recommendations),
     ]);
 
     const now = new Date();
@@ -145,7 +147,7 @@ router.get('/stats', async (req, res, next) => {
       totalBlogViews = blogs.reduce((sum, b) => sum + (b.views || 0), 0);
     } catch (_) { /* fallback: model not connected */ }
 
-    // --- RECENT ACTIVITY (last 5 leads + emergencies merged) ---
+    // --- RECENT ACTIVITY (last 5 leads + emergencies + recommendations merged) ---
     const recentActivity = [
       ...leads.slice(0, 5).map(l => ({
         type: 'lead',
@@ -165,9 +167,22 @@ router.get('/stats', async (req, res, next) => {
         status: e.status,
         createdAt: e.createdAt,
       })),
+      ...recommendations.slice(0, 5).map(r => ({
+        type: 'recommendation',
+        id: r._id || r.id,
+        journeyId: r.recommendationId,
+        name: r.name,
+        targetName: r.targetName,
+        recType: r.type,
+        status: r.status || 'new',
+        createdAt: r.createdAt,
+      })),
     ]
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       .slice(0, 8);
+
+    const totalRecommendations = recommendations.length;
+    const newRecommendations = recommendations.filter(r => !r.status || r.status === 'new').length;
 
     res.json({
       ok: true,
@@ -192,6 +207,9 @@ router.get('/stats', async (req, res, next) => {
         closedEmergencies,
         emergenciesToday,
         latestEmergencyId,
+        // Recommendations
+        totalRecommendations,
+        newRecommendations,
         // Notes / tasks
         totalNotes,
         tasks: activeLeads,
@@ -268,6 +286,37 @@ router.delete('/leads/:id', async (req, res, next) => {
   try {
     const deletedLead = await deleteById(Lead, FILES.leads, req.params.id);
     if (!deletedLead) return res.status(404).json({ error: 'Lead not found' });
+    res.json({ ok: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Recommendation Endpoints
+router.get('/recommendations', async (req, res, next) => {
+  try {
+    const recommendations = await find(Recommendation, FILES.recommendations);
+    recommendations.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    res.json({ ok: true, data: recommendations });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.patch('/recommendations/:id', async (req, res, next) => {
+  try {
+    const updated = await updateById(Recommendation, FILES.recommendations, req.params.id, req.body);
+    if (!updated) return res.status(404).json({ error: 'Recommendation not found' });
+    res.json({ ok: true, data: updated });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/recommendations/:id', async (req, res, next) => {
+  try {
+    const deleted = await deleteById(Recommendation, FILES.recommendations, req.params.id);
+    if (!deleted) return res.status(404).json({ error: 'Recommendation not found' });
     res.json({ ok: true });
   } catch (err) {
     next(err);

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Users, Activity, Siren, BookOpen, TrendingUp, TrendingDown,
   UserCheck, FileText, Eye, Globe, RefreshCw, AlertTriangle,
-  CheckCircle2, Clock, BarChart3, PieChart, ArrowUpRight, ArrowDownRight,
+  CheckCircle2, Clock, BarChart3, PieChart, ArrowUpRight, ArrowDownRight, MapPin,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
@@ -435,6 +435,7 @@ export default function DashboardPage() {
             <CardContent className="space-y-3">
               {[
                 { label: 'Total Emergencies', value: s.totalEmergencies ?? 0, icon: Siren, link: '/admin/emergencies' },
+                { label: 'Hub Recommendations', value: s.totalRecommendations ?? 0, icon: MapPin, link: '/admin/recommendations' },
                 { label: 'Closed Emergencies', value: s.closedEmergencies ?? 0, icon: CheckCircle2 },
                 { label: 'Total Blog Posts', value: s.totalBlogPosts ?? 0, icon: BookOpen, link: '/admin/blog' },
                 { label: 'Published Posts', value: s.publishedBlogPosts ?? 0, icon: FileText },
@@ -484,14 +485,17 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-base font-bold">Recent Activity</CardTitle>
-                <CardDescription className="text-xs">Latest leads and emergency cases across the platform</CardDescription>
+                <CardDescription className="text-xs">Latest leads, emergency cases, and hub recommendations</CardDescription>
               </div>
               <div className="flex gap-2">
                 <Link to="/admin/leads">
-                  <Button variant="outline" size="sm" className="text-xs font-semibold h-7">All Leads</Button>
+                  <Button variant="outline" size="sm" className="text-xs font-semibold h-7">Leads</Button>
+                </Link>
+                <Link to="/admin/recommendations">
+                  <Button variant="outline" size="sm" className="text-xs font-semibold h-7">Recommendations</Button>
                 </Link>
                 <Link to="/admin/emergencies">
-                  <Button variant="outline" size="sm" className="text-xs font-semibold h-7">All Cases</Button>
+                  <Button variant="outline" size="sm" className="text-xs font-semibold h-7">Cases</Button>
                 </Link>
               </div>
             </div>
@@ -503,11 +507,13 @@ export default function DashboardPage() {
                   {/* Icon */}
                   <div className={cn(
                     'size-8 rounded-full flex items-center justify-center shrink-0',
-                    item.type === 'emergency' ? 'bg-emergency/10' : 'bg-primary/10',
+                    item.type === 'emergency' ? 'bg-emergency/10' : item.type === 'recommendation' ? 'bg-mint/15' : 'bg-primary/10',
                   )}>
                     {item.type === 'emergency'
                       ? <Siren className="size-3.5 text-emergency" />
-                      : <Users className="size-3.5 text-primary" />
+                      : item.type === 'recommendation'
+                        ? <MapPin className="size-3.5 text-mint" />
+                        : <Users className="size-3.5 text-primary" />
                     }
                   </div>
 
@@ -517,13 +523,15 @@ export default function DashboardPage() {
                     <p className="text-xs text-muted-foreground truncate">
                       {item.type === 'emergency'
                         ? `Emergency · ${item.problem || 'SOS'}`
-                        : `${INTENT_LABELS[item.intent] || item.intent} · ${item.journeyId || ''}`
+                        : item.type === 'recommendation'
+                          ? `Recommend ${item.recType || 'Hub'} · ${item.targetName || ''}`
+                          : `${INTENT_LABELS[item.intent] || item.intent} · ${item.journeyId || ''}`
                       }
                     </p>
                   </div>
 
                   {/* Status */}
-                  <Badge className={cn('text-[10px] font-bold shrink-0', STATUS_COLORS[item.status] || 'bg-muted text-muted-foreground')}>
+                  <Badge className={cn('text-[10px] font-bold shrink-0 capitalize', STATUS_COLORS[item.status] || 'bg-muted text-muted-foreground')}>
                     {item.status}
                   </Badge>
 
@@ -534,6 +542,14 @@ export default function DashboardPage() {
                       <Link
                         to={`/admin/emergencies/${item.caseId}`}
                         className="text-[10px] text-primary font-semibold hover:underline"
+                      >
+                        View →
+                      </Link>
+                    )}
+                    {item.type === 'recommendation' && (
+                      <Link
+                        to="/admin/recommendations"
+                        className="text-[10px] text-mint font-semibold hover:underline"
                       >
                         View →
                       </Link>

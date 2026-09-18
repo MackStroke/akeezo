@@ -71,7 +71,7 @@ export const navigation = [
     href: '#plan',
     items: [
       { label: 'Find treatment', href: '#treatments' },
-      { label: 'Find a hospital', href: '#plan' },
+      { label: 'Find a hospital', href: '/hospitals' },
       { label: 'Find a doctor', href: '#plan' },
       { label: 'Treatment cost estimate', href: '#cost' },
       { label: 'International patients', href: '#plan' },

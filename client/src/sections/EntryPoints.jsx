@@ -14,20 +14,24 @@ const ENTRIES = [
     icon: Plane,
     title: 'Plan My Treatment',
     blurb:
-      'Treatment, surgery, a consultation or a second opinion in India — planned properly, with the cost visible before you travel.',
+      'Treatment, surgery, a consultation or a second opinion in India - planned properly, with the cost visible before you travel.',
     bullets: ['Hospital & doctor options', 'Itemised estimate', 'Visa, travel & stay'],
     cta: 'Start my healthcare journey',
-    href: '#plan',
+    href: '/hospitals',
     type: 'plan',
     image: '/images/medical_tourism_plan.webp',
     imageAlt: 'Medical tourism treatment planning',
   },
   {
     icon: Ambulance,
-    title: 'I Need Emergency Help',
+    title: 'Need Emergency Help',
     blurb:
-      'Someone needs urgent medical help — at home, in a hotel, at an airport or while travelling. Share the concern and coordinates, Akeezo reaches in no time.',
-    bullets: ['Ambulance & emergency response', 'Receiving hospital identified', 'Family kept informed'],
+      'Someone needs urgent medical help at home, in a hotel, at an airport, while travelling etc. Share the concern and coordinates, Akeezo reaches in no time.',
+    bullets: [
+      'Emergency response require first aid from medical experts',
+      'General attendant/nurses on hourly/weekly/monthly basis from renowned hospital',
+      'Family kept informed on each and every parameter',
+    ],
     cta: 'Get emergency help',
     href: '#emergency',
     type: 'emergency',
@@ -36,14 +40,14 @@ const ENTRIES = [
   },
   {
     icon: HouseHeart,
-    title: "I'm Looking for Home Healthcare",
+    title: 'Looking for Home Healthcare',
     blurb:
-      'A nurse, attendant, physiotherapist or doctor visit at home — including post-operative and elder care.',
-    bullets: ['Nurses & caregivers', 'Physiotherapy & doctor visits', 'Post-operative & elder care'],
-    cta: 'Find care at home',
+      'A Doctor, nurse, attendant, physiotherapist, dentist visit at home - including post-operative, maternity, jhapa maids, or elder care.',
+    bullets: ['Nurses & caregivers', 'Doctor visits & Physiotherapy', 'Post-operative & elder care'],
+    cta: 'Find any kind of care at home',
     href: '#home-care',
     type: 'home',
-    image: '/images/home_healthcare_care.webp',
+    image: '/images/neonatal-care.jpeg',
     imageAlt: 'Home healthcare and nursing care',
   },
 ];
@@ -53,10 +57,10 @@ export function EntryPoints() {
     <section aria-labelledby="entry-heading" className="bg-sunk py-12">
       <div className="mx-auto max-w-[76rem] px-4">
         <h2 id="entry-heading" className="text-2xl sm:text-[1.75rem]">
-          How Can We Be by Your Side?
+          How Akeezo can help?
         </h2>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Every journey is different and we are here to plan which is daunting and precious.
+          Every requirement is different and we are here to support which requires utmost attention.
         </p>
 
         <ul className="mt-6 grid gap-5 md:grid-cols-3">

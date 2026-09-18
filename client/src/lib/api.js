@@ -71,6 +71,10 @@ export const submitLead = (lead) =>
 /** Submits an emergency request. Resolves with { caseId, message }. */
 export const submitEmergency = (request) => post('/api/emergency', request, { timeoutMs: 10000 });
 
+/** Submits a city or country recommendation. Resolves with { recommendationId, message }. */
+export const submitRecommendation = (recommendation) =>
+  post('/api/recommendations', recommendation);
+
 function readUtm() {
   const params = new URLSearchParams(window.location.search);
   const utm = {};
@@ -79,3 +83,42 @@ function readUtm() {
   }
   return Object.keys(utm).length ? utm : undefined;
 }
+
+async function get(path, { timeoutMs = 15000 } = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  let response;
+  try {
+    response = await fetch(`${BASE}${path}`, { signal: controller.signal });
+  } catch (err) {
+    clearTimeout(timer);
+    if (err.name === 'AbortError') {
+      throw new ApiError('Request timed out. Please try again.');
+    }
+    throw new ApiError('Could not reach AKEEZO. Check your connection.');
+  }
+  clearTimeout(timer);
+
+  let payload = null;
+  try {
+    payload = await response.json();
+  } catch {}
+
+  if (!response.ok || !payload?.ok) {
+    throw new ApiError(payload?.error?.message ?? 'Something went wrong.', {
+      status: response.status,
+    });
+  }
+
+  return payload.data;
+}
+
+/** Fetches paginated hospital listing with filter params. */
+export const fetchHospitals = (params) =>
+  get(`/api/hospitals?${new URLSearchParams(params)}`);
+
+/** Fetches a single hospital by slug. */
+export const fetchHospital = (slug) =>
+  get(`/api/hospitals/${encodeURIComponent(slug)}`);
+

@@ -111,7 +111,56 @@ export async function deleteById(Model, file, id) {
   return deletedDoc;
 }
 
+export async function findPaginated(Model, file, { filter = {}, sort = { createdAt: -1 }, page = 1, limit = 20 } = {}) {
+  const skip = (page - 1) * limit;
+
+  if (isDatabaseConnected()) {
+    const [docs, total] = await Promise.all([
+      Model.find(filter).sort(sort).skip(skip).limit(limit).lean(),
+      Model.countDocuments(filter),
+    ]);
+    return { data: docs, total, page, limit, totalPages: Math.ceil(total / limit) };
+  }
+
+  let rows = await readCollection(file);
+  for (const key in filter) {
+    const val = filter[key];
+    if (val && typeof val === 'object' && val.$in) {
+      rows = rows.filter(r => {
+        const field = r[key];
+        return Array.isArray(field)
+          ? field.some(v => val.$in.includes(v))
+          : val.$in.includes(field);
+      });
+    } else if (val && typeof val === 'object' && val.$regex) {
+      const re = new RegExp(val.$regex, val.$options || '');
+      rows = rows.filter(r => re.test(r[key] ?? ''));
+    } else {
+      rows = rows.filter(r => r[key] === val);
+    }
+  }
+
+  const total = rows.length;
+  const sortKey = Object.keys(sort)[0] || 'createdAt';
+  const sortDir = sort[sortKey] === 1 ? 1 : -1;
+  rows.sort((a, b) => {
+    if (a[sortKey] < b[sortKey]) return -1 * sortDir;
+    if (a[sortKey] > b[sortKey]) return 1 * sortDir;
+    return 0;
+  });
+
+  return {
+    data: rows.slice(skip, skip + limit),
+    total,
+    page,
+    limit,
+    totalPages: Math.ceil(total / limit),
+  };
+}
+
 export const FILES = {
   leads: 'leads.json',
   emergency: 'emergency-requests.json',
+  hospitals: 'hospitals.json',
+  recommendations: 'recommendations.json',
 };

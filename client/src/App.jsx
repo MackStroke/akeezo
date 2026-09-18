@@ -17,8 +17,10 @@ import AdminBlogPage from './pages/admin/AdminBlogPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminUserDetailsPage from './pages/admin/AdminUserDetailsPage';
 import SocialSettingsPage from './pages/admin/SocialSettingsPage';
+import RecommendationsPage from './pages/admin/RecommendationsPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
+import HospitalsPage from './pages/HospitalsPage';
 import PrivacyPolicyPage from './pages/legal/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/legal/TermsOfServicePage';
 import MedicalDisclaimerPage from './pages/legal/MedicalDisclaimerPage';
@@ -95,6 +97,9 @@ export default function App() {
                 <Route path="/disclaimer" element={<MedicalDisclaimerPage />} />
                 <Route path="/consent" element={<PatientConsentPage />} />
 
+                {/* Hospital Discovery */}
+                <Route path="/hospitals" element={<HospitalsPage />} />
+
                 {/* Public Blog Routes */}
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:slug" element={<BlogPostPage />} />
@@ -114,6 +119,7 @@ export default function App() {
                   <Route path="dashboard" element={<DashboardPage />} />
                   <Route path="leads" element={<LeadsPage />} />
                   <Route path="leads/:id" element={<LeadDetailsPage />} />
+                  <Route path="recommendations" element={<RecommendationsPage />} />
                   <Route path="users" element={<AdminUsersPage />} />
                   <Route path="users/:id" element={<AdminUserDetailsPage />} />
                   <Route path="emergencies" element={<EmergenciesPage />} />
