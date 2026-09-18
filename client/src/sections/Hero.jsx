@@ -61,9 +61,9 @@ export function Hero({ onPlan, onEmergency, onHome }) {
             className="text-3xl text-white sm:text-4xl lg:text-[2.9rem] font-black leading-tight tracking-tight"
             style={{ color: '#fff' }}
           >
-            Too many hospitals. Too many quotations.
+            Too many hospitals, Too many quotations,
             <br />
-            High on budget, not sure from where to get treated?
+            Low on budget or not sure from where to get treated?
           </h1>
           <p className="mt-3 max-w-2xl text-[0.98rem] sm:text-base text-white/90 font-medium leading-relaxed">
             Whether you’re looking for treatment in India or any other country, Akeezo helps you find suitable healthcare options based on your medical needs and budget.
