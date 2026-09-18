@@ -58,11 +58,12 @@ export function Hero({ onPlan, onEmergency, onHome }) {
         <div className="mb-7 max-w-3xl">
           <h1
             id="hero-heading"
-            className="text-3xl text-white sm:text-4xl lg:text-[2.9rem]"
+            className="text-3xl text-white sm:text-4xl lg:text-[2.9rem] font-black leading-tight tracking-tight"
             style={{ color: '#fff' }}
           >
-            Tell AKEEZO What You Need.
-            <br className="hidden sm:block" /> We Figure Out the Healthcare Journey.
+            Too many hospitals. Too many quotations.
+            <br />
+            High on budget, not sure from where to get treated?
           </h1>
           <p className="mt-3 max-w-2xl text-[0.98rem] text-white/85">
             Not a hospital. Not a booking site. AKEEZO coordinates the whole journey in India —
