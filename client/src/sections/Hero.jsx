@@ -65,10 +65,8 @@ export function Hero({ onPlan, onEmergency, onHome }) {
             <br />
             High on budget, not sure from where to get treated?
           </h1>
-          <p className="mt-3 max-w-2xl text-[0.98rem] text-white/85">
-            Not a hospital. Not a booking site. AKEEZO coordinates the whole journey in India —
-            hospital and doctor options, an itemised estimate, travel and visa support, then care at
-            home afterwards.
+          <p className="mt-3 max-w-2xl text-[0.98rem] sm:text-base text-white/90 font-medium leading-relaxed">
+            Whether you’re looking for treatment in India or any other country, Akeezo helps you find suitable healthcare options based on your medical needs and budget.
           </p>
         </div>
 
