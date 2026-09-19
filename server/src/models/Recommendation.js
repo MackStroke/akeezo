@@ -31,7 +31,7 @@ const recommendationSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ['new', 'reviewed', 'planned', 'archived'],
+      enum: ['new', 'reviewed', 'planned', 'archived', 'New', 'Reviewed', 'Planned', 'Archived'],
       default: 'new',
       index: true,
     },

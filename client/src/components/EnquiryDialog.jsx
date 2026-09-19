@@ -281,7 +281,7 @@ export function EnquiryDialog({ open, onOpenChange, payload }) {
 
               <div className="grid gap-1.5">
                 <Label htmlFor="eq-email" className="font-bold">
-                  Email
+                  Email *
                 </Label>
                 <Input
                   id="eq-email"
@@ -290,6 +290,7 @@ export function EnquiryDialog({ open, onOpenChange, payload }) {
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   autoComplete="email"
+                  required
                   maxLength={160}
                   placeholder="you@example.com"
                 />

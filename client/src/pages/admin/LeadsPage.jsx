@@ -134,13 +134,13 @@ export default function LeadsPage() {
         });
         if (res.ok) {
           const data = await res.json();
-          setLeads(data.data && data.data.length > 0 ? data.data : INITIAL_MOCK_LEADS);
+          setLeads(data.data || []);
         } else {
-          setLeads(INITIAL_MOCK_LEADS);
+          setLeads([]);
         }
       } catch (err) {
         console.error(err);
-        setLeads(INITIAL_MOCK_LEADS);
+        setLeads([]);
       } finally {
         setLoading(false);
       }
@@ -232,7 +232,7 @@ export default function LeadsPage() {
       setSelectedLeads([]);
       const res = await fetch('/api/admin/leads', { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
-      setLeads(data.data && data.data.length > 0 ? data.data : INITIAL_MOCK_LEADS);
+      setLeads(data.data || []);
       setSelectedLeads([]);
     } catch (err) {
       console.error(err);

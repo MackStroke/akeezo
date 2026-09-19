@@ -1,3 +1,21 @@
+import path from 'node:path';
+
+// Automatically attempt to load environment variables from .env files if MONGODB_URI is not present
+if (!process.env.MONGODB_URI && typeof process.loadEnvFile === 'function') {
+  const envPaths = [
+    path.resolve(process.cwd(), '.env'),
+    path.resolve(process.cwd(), 'server/.env'),
+    path.resolve(import.meta.dirname, '../../.env'),
+    path.resolve(import.meta.dirname, '../../../.env'),
+  ];
+  for (const envPath of envPaths) {
+    try {
+      process.loadEnvFile(envPath);
+      if (process.env.MONGODB_URI) break;
+    } catch (_) {}
+  }
+}
+
 const required = (name, value) => {
   if (!value) throw new Error(`Missing required environment variable: ${name}`);
   return value;
