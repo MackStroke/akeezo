@@ -17,19 +17,27 @@ export const env = {
   // most hosting platforms only offer that one.
   port: Number(process.env.API_PORT ?? process.env.PORT ?? 5000),
 
-  // In production a real database is mandatory; in dev we allow the file fallback.
+  // In production, use MONGODB_URI if provided; fallback transparently to JSON store if not yet set
   mongoUri: (() => {
-    let uri = isProd
-      ? required('MONGODB_URI', process.env.MONGODB_URI)
-      : (process.env.MONGODB_URI ?? '');
+    let uri = process.env.MONGODB_URI ?? '';
     if (uri && !uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
       uri = `mongodb://${uri}`;
     }
     return uri;
   })(),
 
-  corsOrigins: (process.env.CORS_ORIGIN ?? 'http://localhost:5173')
-    .split(',')
-    .map((o) => o.trim())
-    .filter(Boolean),
+  corsOrigins: (() => {
+    const defaultOrigins = ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'];
+    if (process.env.VERCEL_URL) {
+      defaultOrigins.push(`https://${process.env.VERCEL_URL}`);
+    }
+    if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+      defaultOrigins.push(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`);
+    }
+    const envOrigins = (process.env.CORS_ORIGIN ?? '')
+      .split(',')
+      .map((o) => o.trim())
+      .filter(Boolean);
+    return [...defaultOrigins, ...envOrigins];
+  })(),
 };

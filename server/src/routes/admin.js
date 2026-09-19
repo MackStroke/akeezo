@@ -39,13 +39,48 @@ function requireAdminAuth(req, res, next) {
 }
 
 // Admin login route
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  if (username === 'admin' && password === 'password') {
-    const token = jwt.sign({ id: 'admin', role: 'admin' }, JWT_SECRET, { expiresIn: '1d' });
-    return res.json({ ok: true, token });
+router.post('/login', async (req, res, next) => {
+  try {
+    const username = (req.body?.username ?? '').trim();
+    const password = (req.body?.password ?? '');
+
+    if (!username || !password) {
+      return res.status(400).json({ ok: false, error: 'Username and password are required' });
+    }
+
+    const expectedUser = (process.env.ADMIN_USERNAME || 'admin').trim();
+    const expectedPass = process.env.ADMIN_PASSWORD || 'password';
+
+    // 1. Check default / environment variables (case-insensitive for username)
+    if (
+      username.toLowerCase() === expectedUser.toLowerCase() &&
+      password === expectedPass
+    ) {
+      const token = jwt.sign({ id: 'admin', role: 'admin' }, JWT_SECRET, { expiresIn: '1d' });
+      return res.json({ ok: true, token });
+    }
+
+    // 2. Fallback check for MongoDB User account if present
+    try {
+      const dbUser = await User.findOne({
+        $or: [
+          { username: { $regex: new RegExp(`^${username}$`, 'i') } },
+          { email: username.toLowerCase() }
+        ]
+      });
+      if (dbUser && (dbUser.role === 'admin' || dbUser.role === 'superadmin')) {
+        const isValid = dbUser.comparePassword ? await dbUser.comparePassword(password) : false;
+        if (isValid) {
+          const token = jwt.sign({ id: dbUser._id, role: 'admin', name: dbUser.name }, JWT_SECRET, { expiresIn: '1d' });
+          return res.json({ ok: true, token });
+        }
+      }
+    } catch (_) { /* ignore if User model lookup fails */ }
+
+    return res.status(401).json({ ok: false, error: 'Invalid username or password' });
+  } catch (err) {
+    next(err);
   }
-  return res.status(401).json({ error: 'Invalid credentials' });
 });
 
 router.use(requireAdminAuth);

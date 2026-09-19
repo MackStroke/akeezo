@@ -19,17 +19,35 @@ export function createApp() {
   app.set('trust proxy', env.isProd ? 1 : false);
   app.disable('x-powered-by');
 
-  app.use(helmet());
+  app.use(helmet({ contentSecurityPolicy: false }));
   app.use(
     cors({
       origin(origin, callback) {
-        // Same-origin / server-to-server requests send no Origin header.
-        if (!origin || env.corsOrigins.includes(origin)) return callback(null, true);
+        // Same-origin, serverless internal, configured origins, Vercel deployments, or non-prod
+        if (
+          !origin ||
+          env.corsOrigins.includes(origin) ||
+          origin.endsWith('.vercel.app') ||
+          !env.isProd
+        ) {
+          return callback(null, true);
+        }
         callback(new Error(`Origin ${origin} is not allowed`));
       },
-      methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+      methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+      credentials: true,
     }),
   );
+
+  // Normalize body if Vercel serverless runtime already parsed or passed string body
+  app.use((req, res, next) => {
+    if (req.body && typeof req.body === 'string') {
+      try {
+        req.body = JSON.parse(req.body);
+      } catch (_) {}
+    }
+    next();
+  });
 
   // Medical record uploads arrive in Phase 2 via multipart; JSON stays small.
   app.use(express.json({ limit: '64kb' }));

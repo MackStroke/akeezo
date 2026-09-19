@@ -34,10 +34,13 @@ export default function LoginPage() {
         login(data.token);
         navigate('/admin/dashboard');
       } else {
-        setError(data.error || 'Invalid username or password');
+        const errorMsg = typeof data.error === 'string'
+          ? data.error
+          : (data.error?.message || 'Invalid username or password');
+        setError(errorMsg);
       }
     } catch (err) {
-      setError('An error occurred during login');
+      setError('An error occurred during login. Please try again.');
     } finally {
       setLoading(false);
     }
