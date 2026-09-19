@@ -51,8 +51,13 @@ export default function RecommendationsPage() {
     setLoading(true);
     const token = localStorage.getItem('adminToken');
     try {
-      const res = await fetch('/api/admin/recommendations', {
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await fetch(`/api/admin/recommendations?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Cache-Control': 'no-cache, no-store',
+          Pragma: 'no-cache',
+        },
       });
       if (res.ok) {
         const json = await res.json();
@@ -67,6 +72,15 @@ export default function RecommendationsPage() {
 
   useEffect(() => {
     fetchRecommendations();
+
+    const handleFocus = () => fetchRecommendations();
+    window.addEventListener('focus', handleFocus);
+    const interval = setInterval(fetchRecommendations, 10000);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(interval);
+    };
   }, []);
 
   const handleUpdateStatus = async (id, newStatus) => {

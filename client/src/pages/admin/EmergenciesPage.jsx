@@ -11,12 +11,17 @@ export default function EmergenciesPage() {
     async function fetchCases() {
       const token = localStorage.getItem('adminToken');
       try {
-        const res = await fetch('/api/admin/emergencies', {
-          headers: { Authorization: `Bearer ${token}` }
+        const res = await fetch(`/api/admin/emergencies?_t=${Date.now()}`, {
+          cache: 'no-store',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Cache-Control': 'no-cache, no-store',
+            Pragma: 'no-cache',
+          },
         });
         if (res.ok) {
           const data = await res.json();
-          setCases(data.data);
+          setCases(data.data || []);
         }
       } catch (err) {
         console.error('Failed to fetch emergencies', err);
@@ -24,7 +29,17 @@ export default function EmergenciesPage() {
         setLoading(false);
       }
     }
+
     fetchCases();
+
+    const handleFocus = () => fetchCases();
+    window.addEventListener('focus', handleFocus);
+    const interval = setInterval(fetchCases, 10000);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(interval);
+    };
   }, []);
 
   const getStatusColor = (status) => {

@@ -26,7 +26,12 @@ async function post(path, body, { timeoutMs = 15000 } = {}) {
   try {
     response = await fetch(`${BASE}${path}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store',
+        Pragma: 'no-cache',
+      },
+      cache: 'no-store',
       body: JSON.stringify(body),
       signal: controller.signal,
     });
@@ -89,8 +94,16 @@ async function get(path, { timeoutMs = 15000 } = {}) {
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
   let response;
+  const urlWithCacheBust = `${BASE}${path}${path.includes('?') ? '&' : '?'}_t=${Date.now()}`;
   try {
-    response = await fetch(`${BASE}${path}`, { signal: controller.signal });
+    response = await fetch(urlWithCacheBust, {
+      signal: controller.signal,
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store',
+        Pragma: 'no-cache',
+      },
+    });
   } catch (err) {
     clearTimeout(timer);
     if (err.name === 'AbortError') {

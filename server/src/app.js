@@ -39,6 +39,17 @@ export function createApp() {
     }),
   );
 
+  // Disable HTTP caching on all API responses so clients always receive fresh real-time data
+  app.use('/api', (req, res, next) => {
+    res.set({
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      Pragma: 'no-cache',
+      Expires: '0',
+      'Surrogate-Control': 'no-store',
+    });
+    next();
+  });
+
   // Normalize body if Vercel serverless runtime already parsed or passed string body
   app.use((req, res, next) => {
     if (req.body && typeof req.body === 'string') {

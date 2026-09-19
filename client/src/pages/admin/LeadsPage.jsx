@@ -129,8 +129,13 @@ export default function LeadsPage() {
     async function fetchLeads() {
       try {
         const token = localStorage.getItem('adminToken');
-        const res = await fetch('/api/admin/leads', {
-          headers: { Authorization: `Bearer ${token}` }
+        const res = await fetch(`/api/admin/leads?_t=${Date.now()}`, {
+          cache: 'no-store',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Cache-Control': 'no-cache, no-store',
+            Pragma: 'no-cache',
+          },
         });
         if (res.ok) {
           const data = await res.json();
@@ -145,7 +150,18 @@ export default function LeadsPage() {
         setLoading(false);
       }
     }
+
     fetchLeads();
+
+    // Auto-refresh when tab gains focus or on 10s poll
+    const handleFocus = () => fetchLeads();
+    window.addEventListener('focus', handleFocus);
+    const interval = setInterval(fetchLeads, 10000);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(interval);
+    };
   }, []);
 
   const handleSort = (field) => {

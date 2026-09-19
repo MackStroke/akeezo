@@ -130,8 +130,13 @@ export default function DashboardPage() {
   const fetchStats = useCallback(async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch('/api/admin/stats', {
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await fetch(`/api/admin/stats?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Cache-Control': 'no-cache, no-store',
+          Pragma: 'no-cache',
+        },
       });
       if (res.ok) {
         const json = await res.json();
@@ -147,6 +152,15 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetchStats();
+
+    const handleFocus = () => fetchStats();
+    window.addEventListener('focus', handleFocus);
+    const interval = setInterval(fetchStats, 10000);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(interval);
+    };
   }, [fetchStats]);
 
   if (loading) {
