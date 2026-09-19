@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import mongoose from 'mongoose';
 import { isDatabaseConnected } from '../config/db.js';
 import { Lead } from '../models/Lead.js';
 import { EmergencyRequest } from '../models/EmergencyRequest.js';
@@ -56,22 +57,41 @@ export async function find(Model, file, query = {}) {
   });
 }
 
+function makeIdQuery(id) {
+  if (!id) return { _id: id };
+  const isMongoId = mongoose.Types.ObjectId.isValid(id) && String(new mongoose.Types.ObjectId(id)) === String(id);
+  if (isMongoId) {
+    return { $or: [{ _id: id }, { journeyId: id }, { caseId: id }, { recommendationId: id }, { slug: id }] };
+  }
+  return { $or: [{ journeyId: id }, { caseId: id }, { recommendationId: id }, { slug: id }] };
+}
+
+function matchRecord(r, id) {
+  return (
+    (r._id || r.id)?.toString() === id ||
+    r.journeyId === id ||
+    r.caseId === id ||
+    r.recommendationId === id ||
+    r.slug === id
+  );
+}
+
 export async function findById(Model, file, id) {
   if (isDatabaseConnected()) {
-    return Model.findById(id).lean();
+    return Model.findOne(makeIdQuery(id)).lean();
   }
   const rows = await readCollection(file);
-  return rows.find(r => (r._id || r.id)?.toString() === id);
+  return rows.find(r => matchRecord(r, id));
 }
 
 export async function updateById(Model, file, id, updates) {
   if (isDatabaseConnected()) {
-    const doc = await Model.findByIdAndUpdate(id, updates, { new: true }).lean();
+    const doc = await Model.findOneAndUpdate(makeIdQuery(id), updates, { new: true }).lean();
     return doc;
   }
   
   const rows = await readCollection(file);
-  const index = rows.findIndex(r => (r._id || r.id)?.toString() === id);
+  const index = rows.findIndex(r => matchRecord(r, id));
   if (index === -1) return null;
   
   const updatedDoc = { ...rows[index], ...updates, updatedAt: new Date().toISOString() };
@@ -82,8 +102,8 @@ export async function updateById(Model, file, id, updates) {
 
 export async function addNoteToLead(Model, file, id, note) {
   if (isDatabaseConnected()) {
-    const doc = await Model.findByIdAndUpdate(
-      id, 
+    const doc = await Model.findOneAndUpdate(
+      makeIdQuery(id), 
       { $push: { notes: note } },
       { new: true }
     ).lean();
@@ -91,7 +111,7 @@ export async function addNoteToLead(Model, file, id, note) {
   }
   
   const rows = await readCollection(file);
-  const index = rows.findIndex(r => (r._id || r.id)?.toString() === id);
+  const index = rows.findIndex(r => matchRecord(r, id));
   if (index === -1) return null;
   
   if (!rows[index].notes) rows[index].notes = [];
@@ -102,11 +122,11 @@ export async function addNoteToLead(Model, file, id, note) {
 
 export async function deleteById(Model, file, id) {
   if (isDatabaseConnected()) {
-    return Model.findByIdAndDelete(id).lean();
+    return Model.findOneAndDelete(makeIdQuery(id)).lean();
   }
   
   const rows = await readCollection(file);
-  const index = rows.findIndex(r => (r._id || r.id)?.toString() === id);
+  const index = rows.findIndex(r => matchRecord(r, id));
   if (index === -1) return null;
   
   const deletedDoc = rows[index];
