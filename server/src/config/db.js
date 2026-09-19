@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { env } from './env.js';
+import { syncTempDataToMongo } from '../utils/store.js';
 
 let connected = false;
 
@@ -24,6 +25,11 @@ export async function connectDatabase() {
   connected = true;
   console.log('[db] connected to MongoDB');
 
+  // Trigger background sync of any temporary offline JSON data into MongoDB
+  syncTempDataToMongo().catch((err) =>
+    console.error('[db] Error running background temp data sync:', err.message),
+  );
+
   mongoose.connection.on('disconnected', () => {
     connected = false;
     console.warn('[db] MongoDB disconnected');
@@ -31,6 +37,9 @@ export async function connectDatabase() {
   mongoose.connection.on('reconnected', () => {
     connected = true;
     console.log('[db] MongoDB reconnected');
+    syncTempDataToMongo().catch((err) =>
+      console.error('[db] Error running background temp data sync on reconnect:', err.message),
+    );
   });
 
   return true;

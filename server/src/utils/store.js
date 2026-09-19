@@ -1,6 +1,10 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { isDatabaseConnected } from '../config/db.js';
+import { Lead } from '../models/Lead.js';
+import { EmergencyRequest } from '../models/EmergencyRequest.js';
+import { Hospital } from '../models/Hospital.js';
+import { Recommendation } from '../models/Recommendation.js';
 
 const DATA_DIR = path.resolve(import.meta.dirname, '../../.data');
 
@@ -164,3 +168,52 @@ export const FILES = {
   hospitals: 'hospitals.json',
   recommendations: 'recommendations.json',
 };
+
+export async function syncTempDataToMongo() {
+  if (!isDatabaseConnected()) return;
+
+  console.log('[store] Checking and syncing local temp data to MongoDB...');
+
+  const mappings = [
+    { file: FILES.leads, Model: Lead, key: 'journeyId', clearOnSync: true },
+    { file: FILES.emergency, Model: EmergencyRequest, key: 'caseId', clearOnSync: true },
+    { file: FILES.hospitals, Model: Hospital, key: 'slug', clearOnSync: false },
+    { file: FILES.recommendations, Model: Recommendation, key: 'recommendationId', clearOnSync: true },
+  ];
+
+  for (const { file, Model, key, clearOnSync } of mappings) {
+    try {
+      const rows = await readCollection(file);
+      if (!rows || rows.length === 0) continue;
+
+      let syncedCount = 0;
+      for (const row of rows) {
+        const cleanDoc = { ...row };
+        if (typeof cleanDoc._id === 'string') {
+          delete cleanDoc._id;
+        }
+
+        const filter = row[key] ? { [key]: row[key] } : (row._id ? { _id: row._id } : null);
+        if (!filter) continue;
+
+        await Model.findOneAndUpdate(
+          filter,
+          { $set: cleanDoc },
+          { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+        syncedCount++;
+      }
+
+      if (syncedCount > 0) {
+        console.log(`[store] Synced ${syncedCount} item(s) from ${file} to MongoDB.`);
+        if (clearOnSync) {
+          await writeFile(path.join(DATA_DIR, file), JSON.stringify([], null, 2), 'utf8');
+          console.log(`[store] Cleared temporary fallback file ${file}.`);
+        }
+      }
+    } catch (err) {
+      console.error(`[store] Failed to sync ${file} to MongoDB:`, err.message);
+    }
+  }
+}
+
