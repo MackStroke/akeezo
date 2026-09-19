@@ -13,7 +13,9 @@ import {
   Sparkles,
   FileText,
   TrendingUp,
+  Download,
 } from 'lucide-react';
+import { exportCsv, BLOG_EXPORT } from '../../lib/exportCsv';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
@@ -53,6 +55,7 @@ export default function AdminBlogPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  const [selected, setSelected] = useState([]);
   
   // Editor Dialog State
   const [editorOpen, setEditorOpen] = useState(false);
@@ -207,9 +210,29 @@ export default function AdminBlogPage() {
           </p>
         </div>
 
-        <Button onClick={handleOpenCreate} className="cta-gradient text-white font-bold gap-2 shadow-md">
-          <Plus className="size-4" /> Create New Article
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            className="gap-2 font-bold"
+            onClick={() => {
+              const rows = selected.length > 0
+                ? filteredPosts.filter(p => selected.includes(p._id || p.id))
+                : filteredPosts;
+              exportCsv(
+                selected.length > 0 ? 'blog-selected' : 'blog-all',
+                BLOG_EXPORT.headers,
+                BLOG_EXPORT.keys,
+                rows,
+              );
+            }}
+          >
+            <Download className="size-4" />
+            {selected.length > 0 ? `Export Selected (${selected.length})` : 'Export All CSV'}
+          </Button>
+          <Button onClick={handleOpenCreate} className="cta-gradient text-white font-bold gap-2 shadow-md">
+            <Plus className="size-4" /> Create New Article
+          </Button>
+        </div>
       </div>
 
       {/* Metrics Row */}
@@ -315,6 +338,18 @@ export default function AdminBlogPage() {
             <table className="w-full text-sm text-left">
               <thead className="bg-muted/50 font-bold text-muted-foreground text-xs uppercase">
                 <tr className="border-b">
+                  <th className="h-11 px-4 w-10">
+                    <input
+                      type="checkbox"
+                      className="rounded border-border"
+                      checked={selected.length === filteredPosts.length && filteredPosts.length > 0}
+                      onChange={() =>
+                        setSelected(selected.length === filteredPosts.length
+                          ? []
+                          : filteredPosts.map(p => p._id || p.id))
+                      }
+                    />
+                  </th>
                   <th className="h-11 px-6">Article Details</th>
                   <th className="h-11 px-6">Category</th>
                   <th className="h-11 px-6">Status</th>
@@ -325,8 +360,21 @@ export default function AdminBlogPage() {
               </thead>
               <tbody>
                 {filteredPosts.length > 0 ? (
-                  filteredPosts.map((post) => (
-                    <tr key={post._id || post.id} className="border-b transition-colors hover:bg-muted/30">
+                  filteredPosts.map((post) => {
+                    const postId = post._id || post.id;
+                    const isSelected = selected.includes(postId);
+                    return (
+                    <tr key={postId} className={`border-b transition-colors ${isSelected ? 'bg-primary/5' : 'hover:bg-muted/30'}`}>
+                      <td className="px-4 py-4 align-middle">
+                        <input
+                          type="checkbox"
+                          className="rounded border-border"
+                          checked={isSelected}
+                          onChange={() => setSelected(prev =>
+                            prev.includes(postId) ? prev.filter(x => x !== postId) : [...prev, postId]
+                          )}
+                        />
+                      </td>
                       <td className="px-6 py-4 align-middle">
                         <div className="flex items-center gap-3">
                           <img
@@ -451,10 +499,11 @@ export default function AdminBlogPage() {
                         </div>
                       </td>
                     </tr>
-                  ))
+                   );
+                  })
                 ) : (
                   <tr>
-                    <td colSpan={6} className="h-32 text-center text-muted-foreground">
+                    <td colSpan={7} className="h-32 text-center text-muted-foreground">
                       No blog articles found. Click "Create New Article" to add one.
                     </td>
                   </tr>

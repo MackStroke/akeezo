@@ -15,6 +15,7 @@ import {
   Pencil,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
+import { exportCsv, LEAD_EXPORT } from '../../lib/exportCsv';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
@@ -283,8 +284,25 @@ export default function LeadsPage() {
               </Button>
             </>
           )}
-          <Button variant="outline" className="gap-2 shadow-sm font-bold">
-            <Download className="size-4" /> Export CSV
+          <Button
+            variant="outline"
+            className="gap-2 shadow-sm font-bold"
+            onClick={() => {
+              const rows = selectedLeads.length > 0
+                ? filteredLeads.filter(l => selectedLeads.includes(l._id || l.id))
+                : filteredLeads;
+              exportCsv(
+                selectedLeads.length > 0 ? 'leads-selected' : 'leads-all',
+                LEAD_EXPORT.headers,
+                LEAD_EXPORT.keys,
+                rows,
+              );
+            }}
+          >
+            <Download className="size-4" />
+            {selectedLeads.length > 0
+              ? `Export Selected (${selectedLeads.length})`
+              : 'Export All CSV'}
           </Button>
         </div>
       </div>
