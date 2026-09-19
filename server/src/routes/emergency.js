@@ -4,6 +4,7 @@ import { EmergencyRequest } from '../models/EmergencyRequest.js';
 import { create, FILES } from '../utils/store.js';
 import { makeCaseId } from '../utils/journeyId.js';
 import { emergencyLimiter } from '../middleware/limits.js';
+import { sendEmergencyEmail } from '../services/email.js';
 
 const router = Router();
 
@@ -71,6 +72,19 @@ router.post('/', emergencyLimiter, async (req, res, next) => {
     // Phase 3 wires this to the Emergency Control Desk: pager/SMS to the on-call
     // coordinator, an audible alert on the desk dashboard, and an auto-dial-back.
     console.warn(`[emergency] NEW CASE ${doc.caseId} — ${data.problem} — call ${data.requesterPhone}`);
+
+    // Fire-and-forget SOS email — never delay the patient's acknowledgement
+    sendEmergencyEmail({
+      caseId: doc.caseId,
+      callerName: data.requesterName,
+      callerPhone: data.requesterPhone,
+      patientName: data.patientName,
+      problem: data.problem,
+      location: data.location?.label,
+      conscious: data.conscious,
+      breathing: data.breathingNormally,
+      createdAt: doc.createdAt,
+    }).catch(err => console.error('[email] emergency notification failed:', err.message));
 
     res.status(201).json({
       ok: true,

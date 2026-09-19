@@ -9,6 +9,7 @@ import { Blog } from '../models/Blog.js';
 import adminEmergenciesRoutes from './admin-emergencies.js';
 import adminUsersRoutes from './admin-users.js';
 import adminBlogRoutes from './admin-blog.js';
+import adminEmailRoutes from './admin-email.js';
 
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev';
@@ -88,6 +89,7 @@ router.use(requireAdminAuth);
 router.use('/emergencies', adminEmergenciesRoutes);
 router.use('/users', adminUsersRoutes);
 router.use('/blog', adminBlogRoutes);
+router.use('/email', adminEmailRoutes);
 
 // Unified stats route — used by header polling AND dashboard
 router.get('/stats', async (req, res, next) => {

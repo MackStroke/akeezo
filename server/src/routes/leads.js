@@ -4,6 +4,7 @@ import { Lead } from '../models/Lead.js';
 import { create, FILES } from '../utils/store.js';
 import { makeJourneyId } from '../utils/journeyId.js';
 import { leadLimiter } from '../middleware/limits.js';
+import { sendNewLeadEmail } from '../services/email.js';
 
 const router = Router();
 
@@ -49,8 +50,9 @@ router.post('/', leadLimiter, async (req, res, next) => {
 
     const lead = await create(Lead, FILES.leads, { ...data, journeyId });
 
-    // 201 + the quotable id. The UI shows this immediately — it is the patient's
-    // only handle on the enquiry until the Phase 4 dashboard exists.
+    // Fire-and-forget — never block the patient response for email
+    sendNewLeadEmail(lead).catch(err => console.error('[email] lead notification failed:', err.message));
+
     res.status(201).json({
       ok: true,
       data: {

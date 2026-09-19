@@ -16,6 +16,7 @@ import LeadDetailsPage from './pages/admin/LeadDetailsPage';
 import AdminBlogPage from './pages/admin/AdminBlogPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminUserDetailsPage from './pages/admin/AdminUserDetailsPage';
+import AdminEmailPage from './pages/admin/AdminEmailPage';
 import SocialSettingsPage from './pages/admin/SocialSettingsPage';
 import RecommendationsPage from './pages/admin/RecommendationsPage';
 import BlogPage from './pages/BlogPage';
@@ -125,6 +126,7 @@ export default function App() {
                   <Route path="emergencies" element={<EmergenciesPage />} />
                   <Route path="emergencies/:id" element={<EmergencyDetailsPage />} />
                   <Route path="blog" element={<AdminBlogPage />} />
+                  <Route path="email" element={<AdminEmailPage />} />
                   <Route path="social" element={<SocialSettingsPage />} />
                   <Route path="tasks" element={<TasksPage />} />
                   <Route path="compliance" element={<CompliancePage />} />

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import SEO from '../../components/SEO';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Users, User, Settings, Palette, LogOut, CheckSquare, ShieldCheck, HelpCircle, Siren, AlertCircle, Search, Bell, BookOpen, UserCheck, Share2, MapPin } from 'lucide-react';
+import { LayoutDashboard, Users, User, Settings, Palette, LogOut, CheckSquare, ShieldCheck, HelpCircle, Siren, AlertCircle, Search, Bell, BookOpen, UserCheck, Share2, MapPin, Mail } from 'lucide-react';
 import { Logomark } from '../../components/Logomark';
 import { AudioAlert } from '../../components/AudioAlert';
 import {
@@ -27,6 +27,7 @@ const navItems = [
   { name: 'Recommendations', path: '/admin/recommendations', icon: MapPin },
   { name: 'Registered Users', path: '/admin/users', icon: UserCheck },
   { name: 'Blog Articles', path: '/admin/blog', icon: BookOpen },
+  { name: 'Email Notifications', path: '/admin/email', icon: Mail },
   { name: 'Social', path: '/admin/social', icon: Share2 },
   { name: 'Tasks', path: '/admin/tasks', icon: CheckSquare },
   { name: 'My Profile', path: '/admin/profile', icon: User },
