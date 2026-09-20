@@ -1,18 +1,21 @@
 import { createApp } from '../server/src/app.js';
-import { connectDatabase } from '../server/src/config/db.js';
+import { connectDatabase, isDatabaseConnected } from '../server/src/config/db.js';
 
 const app = createApp();
-let isConnected = false;
+let connecting = false;
 
 export default async function handler(req, res) {
-  if (!isConnected) {
+  // Re-check on every request — if the connection dropped (Lambda reuse after
+  // a MongoDB Atlas idle disconnect), reconnect before handling the request.
+  if (!isDatabaseConnected() && !connecting) {
+    connecting = true;
     try {
       await connectDatabase();
-      isConnected = true;
     } catch (err) {
       console.error('[db] MongoDB connection FAILED:', err.message);
       console.error('[db] MONGODB_URI set?', !!process.env.MONGODB_URI);
-      // falls through to JSON file fallback (stored in /tmp on Lambda)
+    } finally {
+      connecting = false;
     }
   }
 
