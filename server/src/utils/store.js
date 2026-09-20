@@ -20,18 +20,19 @@ async function readCollection(file) {
   }
 }
 
-async function appendToCollection(file, doc) {
+async function safeWriteCollection(file, rows) {
   try {
     await mkdir(DATA_DIR, { recursive: true });
-    const rows = await readCollection(file);
-    rows.push(doc);
     await writeFile(path.join(DATA_DIR, file), JSON.stringify(rows, null, 2), 'utf8');
   } catch (err) {
-    // Vercel / AWS Lambda run on a read-only filesystem — any write attempt fails.
-    // Swallow ALL filesystem errors so the HTTP response is never a 500.
-    // The doc is already in memory and will be returned to the caller.
-    console.warn(`[store] Filesystem fallback write failed (${err.code ?? err.message}) — continuing without persistence. Set MONGODB_URI in Vercel env vars to persist data.`);
+    console.warn(`[store] Filesystem fallback write failed (${err.code ?? err.message}) — continuing in-memory. Set MONGODB_URI in Vercel env vars to persist data.`);
   }
+}
+
+async function appendToCollection(file, doc) {
+  const rows = await readCollection(file);
+  rows.push(doc);
+  await safeWriteCollection(file, rows);
   return doc;
 }
 
@@ -105,7 +106,7 @@ export async function updateById(Model, file, id, updates) {
   
   const updatedDoc = { ...rows[index], ...updates, updatedAt: new Date().toISOString() };
   rows[index] = updatedDoc;
-  await writeFile(path.join(DATA_DIR, file), JSON.stringify(rows, null, 2), 'utf8');
+  await safeWriteCollection(file, rows);
   return updatedDoc;
 }
 
@@ -125,7 +126,7 @@ export async function addNoteToLead(Model, file, id, note) {
   
   if (!rows[index].notes) rows[index].notes = [];
   rows[index].notes.push(note);
-  await writeFile(path.join(DATA_DIR, file), JSON.stringify(rows, null, 2), 'utf8');
+  await safeWriteCollection(file, rows);
   return rows[index];
 }
 
@@ -140,7 +141,7 @@ export async function deleteById(Model, file, id) {
   
   const deletedDoc = rows[index];
   rows.splice(index, 1);
-  await writeFile(path.join(DATA_DIR, file), JSON.stringify(rows, null, 2), 'utf8');
+  await safeWriteCollection(file, rows);
   return deletedDoc;
 }
 
@@ -236,7 +237,7 @@ export async function syncTempDataToMongo() {
       if (syncedCount > 0) {
         console.log(`[store] Synced ${syncedCount} item(s) from ${file} to MongoDB.`);
         if (clearOnSync) {
-          await writeFile(path.join(DATA_DIR, file), JSON.stringify([], null, 2), 'utf8');
+          await safeWriteCollection(file, []);
           console.log(`[store] Cleared temporary fallback file ${file}.`);
         }
       }

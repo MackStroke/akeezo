@@ -41,6 +41,11 @@ router.post('/', leadLimiter, async (req, res, next) => {
       status: 'new',
     });
 
+    // Fire-and-forget email — dynamic import so email issues never block the user response
+    import('../services/email.js')
+      .then(({ sendRecommendationEmail }) => sendRecommendationEmail(rec))
+      .catch(err => console.error('[email] recommendation notification failed:', err.message));
+
     res.status(201).json({
       ok: true,
       data: {

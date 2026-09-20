@@ -181,7 +181,35 @@ export async function sendEmergencyEmail(emergency) {
   });
 }
 
-// ─── 3. Daily/Weekly Digest Report ───────────────────────────────────────────
+// ─── 3. New City / Country Recommendation Notification ─────────────────────────
+export async function sendRecommendationEmail(rec) {
+  const to = getNotifyEmails();
+  if (!to.length) return;
+
+  const body = `
+    <p>A user has suggested a new location recommendation for AKEEZO expansion.</p>
+    <div class="section-title">Recommendation Details</div>
+    <div class="kv"><span class="k">Recommendation ID</span><span class="v"><strong>${rec.recommendationId ?? '—'}</strong></span></div>
+    <div class="kv"><span class="k">Type</span><span class="v">${rec.type === 'city' ? 'City' : 'Country'}</span></div>
+    <div class="kv"><span class="k">Target Name</span><span class="v"><strong>${rec.targetName ?? '—'}</strong></span></div>
+    <div class="kv"><span class="k">Region / State</span><span class="v">${rec.region ?? '—'}</span></div>
+    <div class="kv"><span class="k">Recommended By</span><span class="v">${rec.name ?? '—'}</span></div>
+    <div class="kv"><span class="k">Phone</span><span class="v">${rec.phone ?? '—'}</span></div>
+    <div class="kv"><span class="k">Email</span><span class="v">${rec.email ?? '—'}</span></div>
+    <div class="kv"><span class="k">Reason</span><span class="v">${rec.reason ?? '—'}</span></div>
+    <div class="kv"><span class="k">Received</span><span class="v">${new Date(rec.createdAt ?? Date.now()).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</span></div>
+    <a class="cta" href="${process.env.SITE_URL ?? 'https://akeezo.com'}/admin/recommendations">View Recommendations →</a>
+  `;
+
+  return sendEmail({
+    to,
+    subject: `📍 New Recommendation: ${rec.targetName ?? 'Unknown'} (${rec.type ?? 'location'})`,
+    html: shell('New City/Country Recommendation', body),
+    text: `Recommendation for ${rec.targetName} (${rec.type}) by ${rec.name} (${rec.phone})`,
+  });
+}
+
+// ─── 4. Daily/Weekly Digest Report ───────────────────────────────────────────
 export async function sendDigestEmail({ leads = [], emergencies = [], blogs = [], period = 'Daily' }) {
   const to = getNotifyEmails();
   if (!to.length) return;
