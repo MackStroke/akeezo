@@ -4,7 +4,6 @@ import { Lead } from '../models/Lead.js';
 import { create, FILES } from '../utils/store.js';
 import { makeJourneyId } from '../utils/journeyId.js';
 import { leadLimiter } from '../middleware/limits.js';
-import { sendNewLeadEmail } from '../services/email.js';
 
 const router = Router();
 
@@ -50,8 +49,10 @@ router.post('/', leadLimiter, async (req, res, next) => {
 
     const lead = await create(Lead, FILES.leads, { ...data, journeyId });
 
-    // Fire-and-forget — never block the patient response for email
-    sendNewLeadEmail(lead).catch(err => console.error('[email] lead notification failed:', err.message));
+    // Fire-and-forget email — dynamic import so a nodemailer/config issue never blocks the response
+    import('../services/email.js')
+      .then(({ sendNewLeadEmail }) => sendNewLeadEmail(lead))
+      .catch(err => console.error('[email] lead notification failed:', err.message));
 
     res.status(201).json({
       ok: true,

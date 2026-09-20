@@ -35,7 +35,7 @@ export const errorHandler = (err, req, res, next) => {
     return res.status(409).json({ ok: false, error: { message: 'Duplicate request. Please try again.' } });
   }
 
-  console.error('[error]', err);
+  console.error('[error]', req.method, req.path, err?.message, err?.stack ?? '');
   res.status(500).json({
     ok: false,
     error: { message: 'Something went wrong on our side. Please call us instead.' },

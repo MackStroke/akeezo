@@ -25,13 +25,10 @@ async function appendToCollection(file, doc) {
     rows.push(doc);
     await writeFile(path.join(DATA_DIR, file), JSON.stringify(rows, null, 2), 'utf8');
   } catch (err) {
-    // Vercel serverless functions have a read-only filesystem — writes fail with
-    // EROFS or ENOENT. Log the warning and continue; the doc is already in memory.
-    if (err.code === 'EROFS' || err.code === 'ENOENT' || err.code === 'EACCES') {
-      console.warn(`[store] Filesystem write skipped (${err.code}) — running on read-only env. Doc saved in memory only. Set MONGODB_URI to persist data.`);
-    } else {
-      throw err;
-    }
+    // Vercel / AWS Lambda run on a read-only filesystem — any write attempt fails.
+    // Swallow ALL filesystem errors so the HTTP response is never a 500.
+    // The doc is already in memory and will be returned to the caller.
+    console.warn(`[store] Filesystem fallback write failed (${err.code ?? err.message}) — continuing without persistence. Set MONGODB_URI in Vercel env vars to persist data.`);
   }
   return doc;
 }
