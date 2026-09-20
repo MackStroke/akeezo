@@ -19,10 +19,20 @@ async function readCollection(file) {
 }
 
 async function appendToCollection(file, doc) {
-  await mkdir(DATA_DIR, { recursive: true });
-  const rows = await readCollection(file);
-  rows.push(doc);
-  await writeFile(path.join(DATA_DIR, file), JSON.stringify(rows, null, 2), 'utf8');
+  try {
+    await mkdir(DATA_DIR, { recursive: true });
+    const rows = await readCollection(file);
+    rows.push(doc);
+    await writeFile(path.join(DATA_DIR, file), JSON.stringify(rows, null, 2), 'utf8');
+  } catch (err) {
+    // Vercel serverless functions have a read-only filesystem — writes fail with
+    // EROFS or ENOENT. Log the warning and continue; the doc is already in memory.
+    if (err.code === 'EROFS' || err.code === 'ENOENT' || err.code === 'EACCES') {
+      console.warn(`[store] Filesystem write skipped (${err.code}) — running on read-only env. Doc saved in memory only. Set MONGODB_URI to persist data.`);
+    } else {
+      throw err;
+    }
+  }
   return doc;
 }
 
