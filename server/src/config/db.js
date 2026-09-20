@@ -21,7 +21,14 @@ export async function connectDatabase() {
   }
 
   mongoose.set('strictQuery', true);
-  await mongoose.connect(env.mongoUri, { serverSelectionTimeoutMS: 8000 });
+  mongoose.set('bufferCommands', false); // fail fast in serverless — never queue ops when disconnected
+
+  console.log('[db] Connecting to MongoDB...');
+  await mongoose.connect(env.mongoUri, {
+    serverSelectionTimeoutMS: 10000,
+    connectTimeoutMS: 10000,
+    socketTimeoutMS: 30000,
+  });
   connected = true;
   console.log('[db] connected to MongoDB');
 
