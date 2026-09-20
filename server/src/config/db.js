@@ -5,6 +5,15 @@ import { syncTempDataToMongo } from '../utils/store.js';
 let listenersAttached = false;
 let connectPromise = null;
 
+export function getMongoUri() {
+  let uri = process.env.MONGODB_URI || process.env.MONGO_URI || process.env.DATABASE_URL || env.mongoUri || '';
+  uri = uri.trim();
+  if (uri && !uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
+    uri = `mongodb://${uri}`;
+  }
+  return uri;
+}
+
 /**
  * Connects to MongoDB when MONGODB_URI is configured.
  *
@@ -13,7 +22,9 @@ let connectPromise = null;
  * cleanly await the same connection instead of racing or bypassing it.
  */
 export async function connectDatabase() {
-  if (!env.mongoUri) {
+  const uri = getMongoUri();
+  if (!uri) {
+    console.warn('[db] MONGODB_URI is not set — running in local file fallback mode.');
     return false;
   }
 
@@ -32,7 +43,7 @@ export async function connectDatabase() {
     mongoose.set('bufferCommands', false);
 
     console.log('[db] Connecting to MongoDB...');
-    await mongoose.connect(env.mongoUri, {
+    await mongoose.connect(uri, {
       serverSelectionTimeoutMS: 10000,
       connectTimeoutMS: 10000,
       socketTimeoutMS: 30000,

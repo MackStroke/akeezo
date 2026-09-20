@@ -26,5 +26,10 @@ export default async function handler(req, res) {
     } catch (_) {}
   }
 
-  return app(req, res);
+  // Keep Lambda container awake until Express finishes writing the response
+  return new Promise((resolve) => {
+    res.on('finish', resolve);
+    res.on('close', resolve);
+    app(req, res);
+  });
 }
