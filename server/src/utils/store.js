@@ -7,7 +7,9 @@ import { EmergencyRequest } from '../models/EmergencyRequest.js';
 import { Hospital } from '../models/Hospital.js';
 import { Recommendation } from '../models/Recommendation.js';
 
-const DATA_DIR = path.resolve(import.meta.dirname, '../../.data');
+const DATA_DIR = (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME)
+  ? '/tmp/akeezo-data'
+  : path.resolve(import.meta.dirname, '../../.data');
 
 async function readCollection(file) {
   try {

@@ -10,7 +10,9 @@ export default async function handler(req, res) {
       await connectDatabase();
       isConnected = true;
     } catch (err) {
-      console.warn('[db] Database connection failed on Vercel invocation:', err.message);
+      console.error('[db] MongoDB connection FAILED:', err.message);
+      console.error('[db] MONGODB_URI set?', !!process.env.MONGODB_URI);
+      // falls through to JSON file fallback (stored in /tmp on Lambda)
     }
   }
 
