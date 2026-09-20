@@ -264,12 +264,37 @@ router.get('/stats', async (req, res, next) => {
   }
 });
 
-// Get all leads
+// Get all leads (combines planned care inquiries and emergency SOS requests)
 router.get('/leads', async (req, res, next) => {
   try {
-    const leads = await find(Lead, FILES.leads);
-    leads.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    res.json({ ok: true, data: leads });
+    const [leads, emergencies] = await Promise.all([
+      find(Lead, FILES.leads),
+      find(EmergencyRequest, FILES.emergency),
+    ]);
+
+    const formattedEmergencies = (emergencies || []).map((e) => ({
+      _id: e._id || e.id,
+      id: e.caseId || e._id?.toString(),
+      journeyId: e.caseId,
+      caseId: e.caseId,
+      name: e.requesterName || e.patientName || 'Emergency Caller',
+      phone: e.requesterPhone,
+      email: '',
+      country: e.location?.label || 'Emergency Request',
+      intent: 'emergency',
+      type: 'Emergency Help',
+      urgency: 'emergency',
+      treatment: e.problem || 'Emergency SOS Assistance',
+      message: `Patient: ${e.patientName || 'N/A'} | Conscious: ${e.conscious || 'Unknown'} | Breathing: ${e.breathingNormally || 'Unknown'} | Location: ${e.location?.label || 'Not provided'}`,
+      status: e.status === 'received' ? 'New' : e.status === 'closed' ? 'Converted' : e.status === 'cancelled' ? 'Lost' : 'Contacted',
+      createdAt: e.createdAt,
+      updatedAt: e.updatedAt,
+      isEmergency: true,
+    }));
+
+    const combined = [...leads, ...formattedEmergencies];
+    combined.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    res.json({ ok: true, data: combined });
   } catch (err) {
     next(err);
   }
@@ -278,7 +303,31 @@ router.get('/leads', async (req, res, next) => {
 // Fetch single lead
 router.get('/leads/:id', async (req, res, next) => {
   try {
-    const lead = await findById(Lead, FILES.leads, req.params.id);
+    let lead = await findById(Lead, FILES.leads, req.params.id);
+    if (!lead) {
+      const e = await findById(EmergencyRequest, FILES.emergency, req.params.id);
+      if (e) {
+        lead = {
+          _id: e._id || e.id,
+          id: e.caseId || e._id?.toString(),
+          journeyId: e.caseId,
+          caseId: e.caseId,
+          name: e.requesterName || e.patientName || 'Emergency Caller',
+          phone: e.requesterPhone,
+          email: '',
+          country: e.location?.label || 'Emergency Request',
+          intent: 'emergency',
+          type: 'Emergency Help',
+          urgency: 'emergency',
+          treatment: e.problem || 'Emergency SOS Assistance',
+          message: `Patient: ${e.patientName || 'N/A'} | Location: ${e.location?.label || 'Not specified'}`,
+          status: e.status === 'received' ? 'New' : e.status,
+          createdAt: e.createdAt,
+          updatedAt: e.updatedAt,
+          isEmergency: true,
+        };
+      }
+    }
     if (!lead) return res.status(404).json({ error: 'Lead not found' });
     res.json({ ok: true, data: lead });
   } catch (err) {
@@ -289,7 +338,10 @@ router.get('/leads/:id', async (req, res, next) => {
 // Update lead
 router.patch('/leads/:id', async (req, res, next) => {
   try {
-    const updatedLead = await updateById(Lead, FILES.leads, req.params.id, req.body);
+    let updatedLead = await updateById(Lead, FILES.leads, req.params.id, req.body);
+    if (!updatedLead) {
+      updatedLead = await updateById(EmergencyRequest, FILES.emergency, req.params.id, req.body);
+    }
     if (!updatedLead) return res.status(404).json({ error: 'Lead not found' });
     res.json({ ok: true, data: updatedLead });
   } catch (err) {
@@ -321,7 +373,10 @@ router.post('/leads/:id/notes', async (req, res, next) => {
 // Delete lead
 router.delete('/leads/:id', async (req, res, next) => {
   try {
-    const deletedLead = await deleteById(Lead, FILES.leads, req.params.id);
+    let deletedLead = await deleteById(Lead, FILES.leads, req.params.id);
+    if (!deletedLead) {
+      deletedLead = await deleteById(EmergencyRequest, FILES.emergency, req.params.id);
+    }
     if (!deletedLead) return res.status(404).json({ error: 'Lead not found' });
     res.json({ ok: true });
   } catch (err) {

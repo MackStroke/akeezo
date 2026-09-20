@@ -85,21 +85,12 @@ const isMatchingCategory = (lead, category) => {
 
   const intent = (lead.intent || lead.type || '').toLowerCase();
   const urgency = (lead.urgency || '').toLowerCase();
-
-  if (category === 'plan') {
-    return (
-      intent.includes('plan') ||
-      intent.includes('medical_tourism') ||
-      intent.includes('treatment') ||
-      intent.includes('second_opinion') ||
-      intent.includes('consultation') ||
-      intent.includes('diagnosis') ||
-      (!intent.includes('emergency') && !intent.includes('home'))
-    );
-  }
+  const treatment = (lead.treatment || '').toLowerCase();
+  const message = (lead.message || '').toLowerCase();
 
   if (category === 'emergency') {
     return (
+      lead.isEmergency === true ||
       intent.includes('emergency') ||
       urgency === 'emergency'
     );
@@ -109,8 +100,28 @@ const isMatchingCategory = (lead, category) => {
     return (
       intent.includes('home') ||
       intent.includes('caregiver') ||
-      intent.includes('nurse')
+      intent.includes('nurse') ||
+      treatment.includes('home') ||
+      treatment.includes('nurse') ||
+      treatment.includes('caregiver') ||
+      treatment.includes('physio') ||
+      treatment.includes('elder') ||
+      treatment.includes('attendant') ||
+      message.includes('home healthcare')
     );
+  }
+
+  if (category === 'plan') {
+    const isEmg = lead.isEmergency === true || intent.includes('emergency') || urgency === 'emergency';
+    const isHome =
+      intent.includes('home') ||
+      intent.includes('caregiver') ||
+      intent.includes('nurse') ||
+      treatment.includes('home') ||
+      treatment.includes('nurse') ||
+      treatment.includes('caregiver') ||
+      treatment.includes('physio');
+    return !isEmg && !isHome;
   }
 
   return true;
@@ -140,13 +151,12 @@ export default function LeadsPage() {
         });
         if (res.ok) {
           const data = await res.json();
-          setLeads(data.data || []);
-        } else {
-          setLeads([]);
+          if (Array.isArray(data.data)) {
+            setLeads(data.data);
+          }
         }
       } catch (err) {
-        console.error(err);
-        setLeads([]);
+        console.error('Failed to fetch leads:', err);
       } finally {
         setLoading(false);
       }
@@ -469,17 +479,43 @@ export default function LeadsPage() {
                           />
                         </td>
                         <td className="px-2 py-4 align-middle">
-                          <Link to={`/admin/leads/${id}`} className="font-bold text-primary hover:underline">{lead.name || 'Anonymous User'}</Link>
-                          <div className="text-muted-foreground mt-0.5 text-xs">{lead.email || lead.phone || '-'}</div>
+                          <Link 
+                            to={lead.isEmergency ? `/admin/emergencies/${lead.caseId || id}` : `/admin/leads/${id}`} 
+                            className="font-bold text-primary hover:underline inline-flex items-center gap-1.5"
+                          >
+                            <span>{lead.name || 'Anonymous User'}</span>
+                            {lead.isEmergency && (
+                              <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider bg-emergency text-white">
+                                SOS
+                              </span>
+                            )}
+                          </Link>
+                          <div className="text-muted-foreground mt-0.5 text-xs">
+                            {lead.phone || lead.email || '-'}
+                            {lead.country && <span className="ml-1 opacity-70">· {lead.country}</span>}
+                          </div>
                         </td>
                         <td className="px-6 py-4 align-middle">
-                          <div className="font-semibold text-ink-strong capitalize">{lead.type || lead.intent?.replace('_', ' ') || 'General'}</div>
-                          {lead.treatment && <div className="text-muted-foreground mt-0.5 text-xs line-clamp-1 max-w-[200px]">{lead.treatment}</div>}
+                          <div className="font-semibold text-ink-strong capitalize">
+                            {lead.isEmergency ? (
+                              <span className="text-emergency font-bold">Emergency SOS</span>
+                            ) : lead.intent === 'home_healthcare' || (lead.treatment && (lead.treatment.toLowerCase().includes('nurse') || lead.treatment.toLowerCase().includes('caregiver'))) ? (
+                              <span className="text-emerald-600 dark:text-emerald-400 font-bold">Home Healthcare</span>
+                            ) : (
+                              <span>{lead.type || lead.intent?.replace('_', ' ') || 'Plan Treatment'}</span>
+                            )}
+                          </div>
+                          {lead.treatment && (
+                            <div className="text-muted-foreground mt-0.5 text-xs line-clamp-1 max-w-[220px]">
+                              {lead.treatment}
+                            </div>
+                          )}
                         </td>
                         <td className="px-6 py-4 align-middle">
                           <Badge variant="secondary" className={`font-bold ${
                             lead.status === 'New' || !lead.status ? 'bg-primary/10 text-primary hover:bg-primary/20' :
                             lead.status === 'Contacted' ? 'bg-navy/10 text-navy hover:bg-navy/20' :
+                            lead.status === 'Converted' ? 'bg-green-100 text-green-700' :
                             ''
                           }`}>
                             {lead.status || 'New'}
@@ -492,13 +528,13 @@ export default function LeadsPage() {
                           <div className="flex items-center justify-end gap-1">
                           {/* View */}
                           <Button variant="ghost" size="icon" asChild className="size-8 text-muted-foreground hover:text-primary">
-                            <Link to={`/admin/leads/${id}`} title="View lead">
+                            <Link to={lead.isEmergency ? `/admin/emergencies/${lead.caseId || id}` : `/admin/leads/${id}`} title="View lead">
                               <Eye className="size-4" />
                             </Link>
                           </Button>
                           {/* Edit */}
                           <Button variant="ghost" size="icon" asChild className="size-8 text-muted-foreground hover:text-primary">
-                            <Link to={`/admin/leads/${id}`} title="Edit lead">
+                            <Link to={lead.isEmergency ? `/admin/emergencies/${lead.caseId || id}` : `/admin/leads/${id}`} title="Edit lead">
                               <Pencil className="size-3.5" />
                             </Link>
                           </Button>
