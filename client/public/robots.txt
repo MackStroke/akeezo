@@ -1,56 +1,123 @@
 # https://www.robotstxt.org/robotstxt.html
+# Optimized for Search Engines & LLM / AI Crawlers
 
+# ==========================================
+# Standard Search Engine Crawlers
+# ==========================================
 User-agent: *
 Allow: /
+Allow: /hospitals/
+Allow: /blog/
 Disallow: /admin/
+Disallow: /customer/
+Disallow: /my-journey
+Disallow: /profile
+Disallow: /login
+Disallow: /signup
+Disallow: /register
+Disallow: /*?*
 
-# Explicitly allow AI / LLM search & training crawlers
+User-agent: Googlebot
+Allow: /
+Allow: /hospitals/
+Allow: /blog/
+Disallow: /admin/
+Disallow: /customer/
+Disallow: /my-journey
+Disallow: /profile
+
+User-agent: Bingbot
+Allow: /
+Allow: /hospitals/
+Allow: /blog/
+Disallow: /admin/
+Disallow: /customer/
+Disallow: /my-journey
+
+# ==========================================
+# AI / LLM Search & Training Crawlers
+# Explicitly allowing these bots to index public healthcare content
+# ==========================================
 User-agent: GPTBot
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
+Disallow: /my-journey
 
 User-agent: ChatGPT-User
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin/
+Disallow: /customer/
 
 User-agent: Google-Extended
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
 
 User-agent: ClaudeBot
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
 
 User-agent: Anthropic-ai
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
 
 User-agent: CCBot
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
 
 User-agent: Bytespider
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
 
 User-agent: cohere-ai
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
 
 User-agent: Meta-ExternalAgent
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
+
+User-agent: FacebookBot
+Allow: /
+Disallow: /admin/
+Disallow: /customer/
 
 User-agent: Diffbot
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
 
 User-agent: Applebot-Extended
 Allow: /
 Disallow: /admin/
+Disallow: /customer/
 
+User-agent: Amazonbot
+Allow: /
+Disallow: /admin/
+Disallow: /customer/
+
+User-agent: YouBot
+Allow: /
+Disallow: /admin/
+Disallow: /customer/
+
+# Sitemap location
 Sitemap: https://www.akeezo.com/sitemap.xml

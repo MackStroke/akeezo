@@ -1,5 +1,6 @@
 import { LegalLayout } from '@/components/legal/LegalLayout';
 import { AlertTriangle, Stethoscope, ShieldAlert, HeartPulse, FileCheck2 } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const TOC = [
   { id: 'sec-1', title: '1. Facilitation Role & Non-Clinical Platform' },
@@ -12,7 +13,23 @@ const TOC = [
 ];
 
 export default function MedicalDisclaimerPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Medical Disclaimer | AKEEZO',
+    url: 'https://www.akeezo.com/disclaimer',
+    description: 'AKEEZO Medical Disclaimer. Important information regarding our role as a healthcare facilitation platform.'
+  };
+
   return (
+    <>
+      <SEO 
+        title="Medical Disclaimer"
+        description="AKEEZO Medical Disclaimer. Important information regarding our role as a healthcare facilitation platform."
+        canonical="/disclaimer"
+        jsonLd={jsonLd}
+        keywords="AKEEZO Medical Disclaimer, Healthcare Facilitation, Non-Clinical Platform, Medical Disclaimer"
+      />
     <LegalLayout
       title="Medical Disclaimer & Clinical Notice"
       subtitle="Important disclosure regarding the non-clinical status of AKEEZO, physician independence, and medical evaluation guidelines."
@@ -112,5 +129,6 @@ export default function MedicalDisclaimerPage() {
 
       </div>
     </LegalLayout>
+    </>
   );
 }

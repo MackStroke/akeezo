@@ -216,7 +216,10 @@ export default function LandingPage() {
 
   return (
     <LocaleProvider>
-      <SEO jsonLd={landingPageJsonLd} />
+      <SEO 
+        jsonLd={landingPageJsonLd} 
+        keywords="AKEEZO, Healthcare Journey Platform, Medical Tourism India, Emergency Care India, Hospitals in India, Healthcare Assistance, Doctors in India"
+      />
       <div className="relative min-h-screen overflow-x-clip">
         {/* Ahead of the header, so keyboard users can bypass the nav. */}
         <a

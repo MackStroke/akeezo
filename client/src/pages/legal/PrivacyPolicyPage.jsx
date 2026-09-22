@@ -1,5 +1,6 @@
 import { LegalLayout } from '@/components/legal/LegalLayout';
 import { ShieldAlert, CheckCircle2, Lock, FileText, Globe, Key } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const TOC = [
   { id: 'sec-1', title: '1. Scope & Global Regulatory Compliance' },
@@ -13,7 +14,23 @@ const TOC = [
 ];
 
 export default function PrivacyPolicyPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Privacy Policy | AKEEZO',
+    url: 'https://www.akeezo.com/privacy',
+    description: 'AKEEZO Privacy Policy. How we collect, use, and protect your healthcare and personal data.'
+  };
+
   return (
+    <>
+      <SEO 
+        title="Privacy Policy"
+        description="AKEEZO Privacy Policy. How we collect, use, and protect your healthcare and personal data."
+        canonical="/privacy"
+        jsonLd={jsonLd}
+        keywords="AKEEZO Privacy Policy, Healthcare Data Protection, Medical Tourism Privacy, HIPAA Compliance, GDPR Compliance"
+      />
     <LegalLayout
       title="Global Privacy Policy & Health Data Protection"
       subtitle="Comprehensive data governance framework abiding by EU GDPR, US HIPAA/HITECH, UK DPA, India DPDP Act 2023, and global healthcare privacy mandates."
@@ -216,5 +233,6 @@ export default function PrivacyPolicyPage() {
 
       </div>
     </LegalLayout>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import { LegalLayout } from '@/components/legal/LegalLayout';
 import { FileText, AlertOctagon, Scale, ShieldAlert, CheckCircle2 } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const TOC = [
   { id: 'sec-1', title: '1. Agreement & Acceptance of Terms' },
@@ -14,7 +15,23 @@ const TOC = [
 ];
 
 export default function TermsOfServicePage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Terms of Service | AKEEZO',
+    url: 'https://www.akeezo.com/terms',
+    description: 'AKEEZO Terms of Service. Understand the rules and regulations for using our healthcare journey platform.'
+  };
+
   return (
+    <>
+      <SEO 
+        title="Terms of Service"
+        description="AKEEZO Terms of Service. Understand the rules and regulations for using our healthcare journey platform."
+        canonical="/terms"
+        jsonLd={jsonLd}
+        keywords="AKEEZO Terms of Service, Legal Terms, Medical Tourism Agreement, Healthcare Concierge Terms"
+      />
     <LegalLayout
       title="Terms of Service & Platform Facilitation Agreement"
       subtitle="Legal terms governing access to AKEEZO healthcare journey coordination, medical tourism logistics, cost estimates, and emergency intake services."
@@ -165,5 +182,6 @@ export default function TermsOfServicePage() {
 
       </div>
     </LegalLayout>
+    </>
   );
 }

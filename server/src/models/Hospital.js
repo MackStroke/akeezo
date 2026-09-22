@@ -7,6 +7,7 @@ const doctorSchema = new mongoose.Schema(
     designation: { type: String, trim: true, maxlength: 120 },
     experienceYears: { type: Number, min: 0 },
     languages: [{ type: String, trim: true }],
+    image: { type: String },
   },
   { _id: false },
 );
@@ -30,9 +31,12 @@ const treatmentEstimateSchema = new mongoose.Schema(
 
 const hospitalSchema = new mongoose.Schema(
   {
+    hospitalId: { type: String, trim: true, sparse: true, index: true },
     name: { type: String, required: true, trim: true, maxlength: 200 },
     slug: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    stateRegion: { type: String, trim: true },
     city: { type: String, required: true, trim: true, index: true },
+    locality: { type: String, trim: true },
     address: { type: String, trim: true, maxlength: 500 },
 
     location: {
@@ -46,8 +50,17 @@ const hospitalSchema = new mongoose.Schema(
       distanceKm: { type: Number, min: 0 },
     },
 
+    bedCapacity: { type: Number, min: 0 },
+    type: { type: String, trim: true },
+    hasEmergency: { type: Boolean, default: false },
+    facilities: [{ type: String, trim: true }],
+    rating: { type: Number, min: 0, max: 5 },
+    contact: { type: String, trim: true },
+    website: { type: String, trim: true },
+    listingStatus: { type: String, trim: true, default: 'Active' },
+
     specialties: [{ type: String, trim: true }],
-    accreditations: [{ type: String, trim: true }],
+    accreditations: [mongoose.Schema.Types.Mixed],
     centersOfExcellence: [{ type: String, trim: true }],
 
     doctors: [doctorSchema],
@@ -77,6 +90,14 @@ const hospitalSchema = new mongoose.Schema(
       enum: ['platinum', 'gold', 'silver'],
       default: 'silver',
     },
+    
+    poc: {
+      name: { type: String, trim: true },
+      email: { type: String, trim: true },
+      phone: { type: String, trim: true },
+      notes: { type: String, trim: true, maxlength: 1000 }
+    },
+
     isActive: { type: Boolean, default: true },
     isSample: { type: Boolean, default: false },
   },

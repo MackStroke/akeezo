@@ -149,7 +149,10 @@ export function SiteFooter() {
 
           <div className="flex flex-col justify-between">
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {navigation.map((group) => (
+              {navigation
+                .filter(group => group.items || group.megaMenu)
+                .flatMap(group => group.megaMenu ? group.groups : [group])
+                .map((group) => (
                 <div key={group.label}>
                   <h3 className="text-[0.7rem] font-bold tracking-[0.08em] text-muted-foreground uppercase">
                     {group.label}

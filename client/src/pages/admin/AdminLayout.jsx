@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import SEO from '../../components/SEO';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Users, User, Settings, Palette, LogOut, CheckSquare, ShieldCheck, HelpCircle, Siren, AlertCircle, Search, Bell, BookOpen, UserCheck, Share2, MapPin, Mail } from 'lucide-react';
+import { LayoutDashboard, Users, User, Settings, Wrench, Palette, LogOut, CheckSquare, ShieldCheck, HelpCircle, Siren, AlertCircle, Search, Bell, BookOpen, UserCheck, Share2, MapPin, Mail, Activity, Building2 } from 'lucide-react';
 import { Logomark } from '../../components/Logomark';
 import { AudioAlert } from '../../components/AudioAlert';
 import {
@@ -26,12 +26,16 @@ const navItems = [
   { name: 'Leads', path: '/admin/leads', icon: Users },
   { name: 'Recommendations', path: '/admin/recommendations', icon: MapPin },
   { name: 'Registered Users', path: '/admin/users', icon: UserCheck },
+  { name: 'Hospitals', path: '/admin/hospitals', icon: Building2 },
   { name: 'Blog Articles', path: '/admin/blog', icon: BookOpen },
   { name: 'Email Notifications', path: '/admin/email', icon: Mail },
   { name: 'Social', path: '/admin/social', icon: Share2 },
   { name: 'Tasks', path: '/admin/tasks', icon: CheckSquare },
   { name: 'My Profile', path: '/admin/profile', icon: User },
+  { name: 'Analytics', path: '/admin/analytics', icon: Activity },
   { name: 'Compliance', path: '/admin/compliance', icon: ShieldCheck },
+  { name: 'Locations', path: '/admin/locations', icon: MapPin },
+  { name: 'Maintenance', path: '/admin/maintenance', icon: Wrench },
   { name: 'Settings', path: '/admin/settings', icon: Settings },
   { name: 'Theme Settings', path: '/admin/theme', icon: Palette },
   { name: 'Consultancy', path: '/admin/consultancy', icon: HelpCircle },

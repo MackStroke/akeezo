@@ -7,6 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -68,7 +69,13 @@ const loadSavedEnquiryDraft = () => {
  * search button. MMT does the same thing structurally: search, then a booking
  * form that takes traveller details.
  */
-export function EnquiryDialog({ open, onOpenChange, payload }) {
+export function EnquiryDialog({ open: controlledOpen, onOpenChange: setControlledOpen, trigger, payload, customSuccessMessage }) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+  const onOpenChange = isControlled ? setControlledOpen : setUncontrolledOpen;
+
   const [state, setState] = useState('form'); // form | sending | done
   const [error, setError] = useState(null);
   const [fieldErrors, setFieldErrors] = useState(null);
@@ -136,7 +143,7 @@ export function EnquiryDialog({ open, onOpenChange, payload }) {
 
     try {
       const data = await submitLead({
-        intent: payload?.intent,
+        intent: payload?.intent || 'medical_tourism',
         treatment: payload?.treatment || undefined,
         name,
         phone: formattedPhone,
@@ -165,6 +172,7 @@ export function EnquiryDialog({ open, onOpenChange, payload }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
+      {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent className="max-h-[92dvh] overflow-y-auto sm:max-w-lg">
         {state === 'done' ? (
           <div className="animate-in fade-in zoom-in-95 duration-500 fill-mode-forwards flex flex-col pt-4 pb-2 text-center items-center">
@@ -177,9 +185,19 @@ export function EnquiryDialog({ open, onOpenChange, payload }) {
               </Badge>
               <DialogTitle className="text-2xl">{result.message}</DialogTitle>
               <DialogDescription className="text-base mt-2">
-                A coordinator will call you. Quote{' '}
-                <strong className="font-bold text-foreground">{result.journeyId}</strong> whenever
-                you contact us — it will be the handle on your journey in the AKEEZO dashboard.
+                {customSuccessMessage ? (
+                  <>
+                    {customSuccessMessage} Quote{' '}
+                    <strong className="font-bold text-foreground">{result.journeyId}</strong> whenever
+                    you contact us — it will be the handle on your journey in the AKEEZO dashboard.
+                  </>
+                ) : (
+                  <>
+                    A coordinator will call you. Quote{' '}
+                    <strong className="font-bold text-foreground">{result.journeyId}</strong> whenever
+                    you contact us — it will be the handle on your journey in the AKEEZO dashboard.
+                  </>
+                )}
               </DialogDescription>
             </DialogHeader>
 

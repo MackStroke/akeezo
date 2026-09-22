@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Ambulance, Building2, Globe, Menu, Phone, UserRound, X, LogOut, CheckCircle2, ChevronDown } from 'lucide-react';
+import { Ambulance, Building2, Globe, Menu, Phone, UserRound, X, LogOut, CheckCircle2, ChevronDown, Plane, Home, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -112,7 +112,82 @@ function UtilityBar({ onOpenLogin }) {
 /** Desktop dropdown. Radix Popover handles the top layer, Escape and dismiss. */
 function NavDropdown({ group, isScrolled }) {
   const [open, setOpen] = useState(false);
+  
+  if (group.megaMenu) {
+    return (
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger
+          className={cn(
+            'inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-bold transition-colors cursor-pointer',
+            isScrolled
+              ? 'text-foreground hover:bg-accent hover:text-primary data-[state=open]:bg-accent data-[state=open]:text-primary'
+              : 'text-white/90 hover:bg-white/15 hover:text-white data-[state=open]:bg-white/20 data-[state=open]:text-white',
+          )}
+        >
+          <span>{group.label}</span>
+          <ChevronDown
+            className={cn(
+              'size-3.5 transition-transform duration-200 opacity-75',
+              open && 'rotate-180'
+            )}
+            aria-hidden="true"
+          />
+        </PopoverTrigger>
+        <PopoverContent align="start" className="w-[850px] p-6 shadow-2xl rounded-2xl border-rule/50">
+          <div className="grid grid-cols-3 gap-8">
+            {group.groups.map((subGroup) => {
+              const Icon = subGroup.icon === 'Plane' ? Plane : subGroup.icon === 'Ambulance' ? Ambulance : Home;
+              return (
+                <div key={subGroup.id} className="space-y-4">
+                  <a href={subGroup.href} onClick={() => setOpen(false)} className="group/header flex items-start gap-3">
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover/header:bg-primary group-hover/header:text-white">
+                      <Icon className="size-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-foreground group-hover/header:text-primary transition-colors">{subGroup.label}</h4>
+                      <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{subGroup.description}</p>
+                    </div>
+                  </a>
+                  <ul className="space-y-1">
+                    {subGroup.items.map((item) => (
+                      <li key={item.label}>
+                        <a
+                          href={item.href}
+                          onClick={() => setOpen(false)}
+                          className="group flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-primary transition-colors"
+                        >
+                          <span>{item.label}</span>
+                          <ArrowRight className="size-3.5 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        </PopoverContent>
+      </Popover>
+    );
+  }
+
   const hasDropdown = Boolean(group.items && group.items.length > 0);
+
+  if (!hasDropdown) {
+    return (
+      <Link
+        to={group.href || '/'}
+        className={cn(
+          'inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-bold transition-colors cursor-pointer',
+          isScrolled
+            ? 'text-foreground hover:bg-accent hover:text-primary'
+            : 'text-white/90 hover:bg-white/15 hover:text-white',
+        )}
+      >
+        {group.label}
+      </Link>
+    );
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -192,7 +267,7 @@ export function SiteHeader() {
   }, []);
 
   const [openGroups, setOpenGroups] = useState({
-    'Medical tourism': true,
+    'Services': true,
   });
 
   const toggleGroup = (label) => {
@@ -395,6 +470,26 @@ export function SiteHeader() {
         {/* Dropdown Accordion Navigation List */}
         <nav aria-label="Site" className="space-y-2">
           {navigation.map((group) => {
+            const hasDropdown = Boolean(group.megaMenu || (group.items && group.items.length > 0));
+
+            if (!hasDropdown) {
+              return (
+                <div key={group.label} className="rounded-xl border border-rule/70 bg-card hover:border-primary/30 transition-all duration-200">
+                  <Link
+                    to={group.href || '/'}
+                    onClick={close}
+                    className="w-full flex items-center justify-between p-3 text-left text-xs sm:text-sm font-extrabold text-ink-strong hover:text-primary cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="uppercase tracking-wider text-[0.72rem] font-black">
+                        {group.label}
+                      </span>
+                    </span>
+                  </Link>
+                </div>
+              );
+            }
+
             const isOpen = Boolean(openGroups[group.label]);
 
             return (
@@ -424,19 +519,50 @@ export function SiteHeader() {
                 </button>
 
                 {isOpen && (
-                  <ul className="px-2 pb-2.5 space-y-0.5 border-t border-rule/40 pt-1.5 bg-card/60">
-                    {group.items.map((item) => (
-                      <li key={item.label}>
-                        <a
-                          href={item.href}
-                          onClick={close}
-                          className="flex items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground/90 hover:bg-primary/10 hover:text-primary transition-colors"
-                        >
-                          <span>{item.label}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="px-2 pb-2.5 border-t border-rule/40 pt-1.5 bg-card/60">
+                    {group.megaMenu ? (
+                      <div className="space-y-4 pt-1">
+                        {group.groups.map((subGroup) => {
+                          const Icon = subGroup.icon === 'Plane' ? Plane : subGroup.icon === 'Ambulance' ? Ambulance : Home;
+                          return (
+                            <div key={subGroup.id} className="space-y-1">
+                              <a href={subGroup.href} onClick={close} className="flex items-center gap-2 px-3 py-1.5 font-bold text-sm text-foreground hover:text-primary">
+                                <Icon className="size-4 text-primary" />
+                                {subGroup.label}
+                              </a>
+                              <ul className="pl-9 space-y-0.5">
+                                {subGroup.items.map((item) => (
+                                  <li key={item.label}>
+                                    <a
+                                      href={item.href}
+                                      onClick={close}
+                                      className="flex items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors"
+                                    >
+                                      <span>{item.label}</span>
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <ul className="space-y-0.5">
+                        {group.items.map((item) => (
+                          <li key={item.label}>
+                            <a
+                              href={item.href}
+                              onClick={close}
+                              className="flex items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground/90 hover:bg-primary/10 hover:text-primary transition-colors"
+                            >
+                              <span>{item.label}</span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 )}
               </div>
             );

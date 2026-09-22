@@ -28,6 +28,7 @@ function setLinkTag(rel, href) {
 export default function SEO({
   title,
   description,
+  keywords,
   canonical,
   ogImage,
   ogType = 'website',
@@ -42,6 +43,10 @@ export default function SEO({
     // Meta Description
     const metaDescription = description || DEFAULT_DESCRIPTION;
     setMetaTag('meta[name="description"]', 'name', 'description', metaDescription);
+    
+    // Keywords
+    const metaKeywords = keywords || "AKEEZO, Medical Tourism India, Emergency Care India, Healthcare Journey, Medical Visa Assistance, Hospitals in India, Doctors in India, Treatment Cost Estimates";
+    setMetaTag('meta[name="keywords"]', 'name', 'keywords', metaKeywords);
 
     // Robots Meta Tag
     const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
@@ -64,6 +69,12 @@ export default function SEO({
     setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', fullTitle);
     setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', metaDescription);
     setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', ogImage || DEFAULT_OG_IMAGE);
+    
+    // GEO and SEO Optimization
+    setMetaTag('meta[name="geo.region"]', 'name', 'geo.region', 'IN');
+    setMetaTag('meta[name="geo.placename"]', 'name', 'geo.placename', 'India');
+    setMetaTag('meta[name="geo.position"]', 'name', 'geo.position', '20.5937;78.9629');
+    setMetaTag('meta[name="ICBM"]', 'name', 'ICBM', '20.5937, 78.9629');
 
     // JSON-LD Schema Markup
     let scriptElement = document.getElementById('akeezo-jsonld');
@@ -82,7 +93,7 @@ export default function SEO({
     return () => {
       // Clean up JSON-LD on unmount if appropriate
     };
-  }, [title, description, canonical, ogImage, ogType, noindex, jsonLd]);
+  }, [title, description, keywords, canonical, ogImage, ogType, noindex, jsonLd]);
 
   return null;
 }

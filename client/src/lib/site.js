@@ -67,38 +67,65 @@ export const cities = [
 
 export const navigation = [
   {
-    label: 'Medical tourism',
-    href: '#plan',
-    items: [
-      { label: 'Find treatment', href: '#treatments' },
-      { label: 'Find a hospital', href: '/hospitals' },
-      { label: 'Find a doctor', href: '#plan' },
-      { label: 'Treatment cost estimate', href: '#cost' },
-      { label: 'International patients', href: '#plan' },
-      { label: 'The patient journey', href: '#journey' },
-    ],
+    label: 'Home',
+    href: '/',
   },
   {
-    label: 'Emergency',
-    href: '#emergency',
-    items: [
-      { label: 'Emergency assistance', href: '#emergency' },
-      { label: 'Ambulance coordination', href: '#emergency' },
-      { label: 'Hospital coordination', href: '#emergency' },
-      { label: 'Travel & tourist emergencies', href: '#emergency' },
-    ],
+    label: 'Hospitals',
+    href: '/hospitals',
   },
   {
-    label: 'Home healthcare',
-    href: '#home-care',
-    items: [
-      { label: 'Nurses', href: '#home-care' },
-      { label: 'Caregivers & attendants', href: '#home-care' },
-      { label: 'Physiotherapy', href: '#home-care' },
-      { label: 'Doctor home visits', href: '#home-care' },
-      { label: 'Post-operative care', href: '#home-care' },
-      { label: 'Elder care', href: '#home-care' },
-    ],
+    label: 'Doctors',
+    href: '/doctors',
+  },
+  {
+    label: 'Services',
+    megaMenu: true,
+    groups: [
+      {
+        id: 'medical-tourism',
+        label: 'Medical tourism',
+        description: 'Complete healthcare journeys & treatment planning.',
+        icon: 'Plane',
+        href: '#plan',
+        items: [
+          { label: 'Find treatment', href: '#treatments' },
+          { label: 'Find a hospital', href: '/hospitals' },
+          { label: 'Find a doctor', href: '#plan' },
+          { label: 'Treatment cost estimate', href: '#cost' },
+          { label: 'International patients', href: '#plan' },
+          { label: 'The patient journey', href: '#journey' },
+        ],
+      },
+      {
+        id: 'emergency',
+        label: 'Emergency',
+        description: '24/7 urgent assistance and coordination.',
+        icon: 'Ambulance',
+        href: '#emergency',
+        items: [
+          { label: 'Emergency assistance', href: '#emergency' },
+          { label: 'Ambulance coordination', href: '#emergency' },
+          { label: 'Hospital coordination', href: '#emergency' },
+          { label: 'Travel & tourist emergencies', href: '#emergency' },
+        ],
+      },
+      {
+        id: 'home-healthcare',
+        label: 'Home healthcare',
+        description: 'Professional care and support at home.',
+        icon: 'Home',
+        href: '#home-care',
+        items: [
+          { label: 'Nurses', href: '#home-care' },
+          { label: 'Caregivers & attendants', href: '#home-care' },
+          { label: 'Physiotherapy', href: '#home-care' },
+          { label: 'Doctor home visits', href: '#home-care' },
+          { label: 'Post-operative care', href: '#home-care' },
+          { label: 'Elder care', href: '#home-care' },
+        ],
+      }
+    ]
   },
   {
     label: 'For partners',

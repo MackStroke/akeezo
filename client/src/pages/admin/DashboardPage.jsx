@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../..
 import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
 import { cn } from '../../lib/utils';
+import { AnalyticsWidget } from '../../components/admin/AnalyticsWidget';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 function safeFormat(dateStr) {
@@ -403,6 +404,9 @@ export default function DashboardPage() {
 
         {/* Right column */}
         <div className="space-y-6">
+
+          {/* Analytics Widget */}
+          <AnalyticsWidget />
 
           {/* Conversion Rate Donut */}
           <Card>

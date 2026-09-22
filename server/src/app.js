@@ -10,6 +10,10 @@ import adminRoutes from './routes/admin.js';
 import blogRoutes from './routes/blog.js';
 import hospitalRoutes from './routes/hospitals.js';
 import recommendationRoutes from './routes/recommendations.js';
+import doctorRoutes from './routes/doctors.js';
+
+import configRoutes from './routes/config.js';
+import analyticsRoutes from './routes/analytics.js';
 
 export function createApp() {
   const app = express();
@@ -61,7 +65,7 @@ export function createApp() {
   });
 
   // Medical record uploads arrive in Phase 2 via multipart; JSON stays small.
-  app.use(express.json({ limit: '64kb' }));
+  app.use(express.json({ limit: '5mb' }));
 
   app.use('/api/health', healthRoutes);
   app.use('/api/leads', leadRoutes);
@@ -70,6 +74,9 @@ export function createApp() {
   app.use('/api/blog', blogRoutes);
   app.use('/api/hospitals', hospitalRoutes);
   app.use('/api/recommendations', recommendationRoutes);
+  app.use('/api/doctors', doctorRoutes);
+  app.use('/api/config', configRoutes);
+  app.use('/api/analytics', analyticsRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

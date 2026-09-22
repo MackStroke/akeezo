@@ -90,6 +90,10 @@ function extractActiveFilters(filters) {
     addValues('cities', 'city', MapPin, (v) => v);
   }
 
+  if ('country' in filters) {
+    addValues('country', 'country', MapPin, (v) => v);
+  }
+
   if ('experience' in filters) {
     addValues('experience', 'experience', Wallet, formatExperienceLabel);
   } else if ('experienceTier' in filters) {
@@ -103,6 +107,8 @@ function extractActiveFilters(filters) {
     'specialties',
     'city',
     'cities',
+    'country',
+    'countries',
     'experience',
     'experienceTier',
     'experiences',

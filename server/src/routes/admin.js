@@ -10,6 +10,9 @@ import adminEmergenciesRoutes from './admin-emergencies.js';
 import adminUsersRoutes from './admin-users.js';
 import adminBlogRoutes from './admin-blog.js';
 import adminEmailRoutes from './admin-email.js';
+import adminConfigRoutes from './admin-config.js';
+import adminAnalyticsRoutes from './admin-analytics.js';
+import adminHospitalsRoutes from './admin-hospitals.js';
 
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev';
@@ -86,10 +89,21 @@ router.post('/login', async (req, res, next) => {
 
 router.use(requireAdminAuth);
 
+// Prevent aggressive browser caching on all admin routes
+router.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
+});
+
 router.use('/emergencies', adminEmergenciesRoutes);
 router.use('/users', adminUsersRoutes);
 router.use('/blog', adminBlogRoutes);
 router.use('/email', adminEmailRoutes);
+router.use('/config', adminConfigRoutes);
+router.use('/analytics', adminAnalyticsRoutes);
+router.use('/hospitals', adminHospitalsRoutes);
 
 // Unified stats route — used by header polling AND dashboard
 router.get('/stats', async (req, res, next) => {

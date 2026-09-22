@@ -140,6 +140,7 @@ export default function BlogPostPage() {
         ogImage={post.coverImage}
         ogType="article"
         jsonLd={postJsonLd}
+        keywords={post.tags?.join(', ') || `AKEEZO Blog, ${post.category}, Medical Tourism India, Healthcare Journey`}
       />
       <SiteHeader />
 

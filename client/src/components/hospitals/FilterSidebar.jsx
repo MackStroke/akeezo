@@ -12,21 +12,16 @@ import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetClose 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-const FILTER_GROUPS = {
+import { useConfig } from '@/context/ConfigContext';
+
+const STATIC_FILTER_GROUPS = {
   city: {
     title: 'Location / City',
-    options: [
-      { id: 'Delhi NCR', label: 'Delhi NCR' },
-      { id: 'Mumbai', label: 'Mumbai' },
-      { id: 'Chennai', label: 'Chennai' },
-      { id: 'Hyderabad', label: 'Hyderabad' },
-      { id: 'Bengaluru', label: 'Bengaluru' },
-      { id: 'Kolkata', label: 'Kolkata' },
-      { id: 'Ahmedabad', label: 'Ahmedabad' },
-      { id: 'Kochi', label: 'Kochi' },
-      { id: 'Jaipur', label: 'Jaipur' },
-      { id: 'Chandigarh', label: 'Chandigarh' },
-    ]
+    options: []
+  },
+  country: {
+    title: 'Country',
+    options: []
   },
   specialty: {
     title: 'Specialty / Department',
@@ -157,6 +152,20 @@ export const FilterSidebar = ({
   resultCount = 0,
   className = ''
 }) => {
+  const { config } = useConfig();
+  
+  const FILTER_GROUPS = {
+    ...STATIC_FILTER_GROUPS,
+    city: {
+      ...STATIC_FILTER_GROUPS.city,
+      options: config.cities?.map(c => ({ id: c, label: c })) || []
+    },
+    country: {
+      ...STATIC_FILTER_GROUPS.country,
+      options: config.countries?.map(c => ({ id: c, label: c })) || []
+    }
+  };
+
   const getActiveFilterCount = () => {
     let count = 0;
     Object.values(filters || {}).forEach(val => {

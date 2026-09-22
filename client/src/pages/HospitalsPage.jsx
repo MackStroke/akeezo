@@ -74,6 +74,7 @@ export default function HospitalsPage() {
         description="Discover NABH & JCI accredited hospitals across India. Compare treatment costs, doctor availability, and international patient amenities for your medical tourism journey."
         canonical="/hospitals"
         jsonLd={hospitalsPageJsonLd}
+        keywords="Hospitals in India, Best Hospitals in India, Top Hospitals India, NABH Accredited Hospitals, JCI Accredited Hospitals, Medical Tourism India Hospitals, Compare Hospitals India"
       />
       <SiteHeader />
 
@@ -89,8 +90,8 @@ export default function HospitalsPage() {
         <section className="bg-navy text-white relative py-8 sm:py-12 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/95 to-primary/20" />
           <div className="relative mx-auto max-w-[76rem] px-4 text-center space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-sky-300 text-xs font-bold border border-white/20">
-              <HeartPulse className="size-3.5 text-primary animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold border border-white/20">
+              <HeartPulse className="size-3.5 text-primary animate-pulse" aria-hidden="true" />
               AKEEZO Hospital Discovery
             </div>
             <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white max-w-3xl mx-auto leading-tight">

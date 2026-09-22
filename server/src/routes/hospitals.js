@@ -30,6 +30,8 @@ router.get('/', async (req, res, next) => {
       amenity,
       experience,
       stayLogistic,
+      type,
+      hasEmergency,
       sort = 'recommended',
       q,
       costMin,
@@ -53,6 +55,15 @@ router.get('/', async (req, res, next) => {
     if (accreditation) {
       const accreds = accreditation.split(',').map(a => a.trim());
       filter.accreditations = { $in: accreds };
+    }
+
+    if (type) {
+      const types = type.split(',').map(t => t.trim());
+      filter.type = { $in: types };
+    }
+
+    if (hasEmergency === 'true') {
+      filter.hasEmergency = true;
     }
 
     if (amenity) {

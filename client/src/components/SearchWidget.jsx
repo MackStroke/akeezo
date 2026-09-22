@@ -15,10 +15,11 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { treatments, cities, site, formatPhone, telHref } from '@/lib/site';
+import { treatments, site, formatPhone, telHref } from '@/lib/site';
 import { CarePreferenceRow } from '@/components/CarePreferenceRow';
 import { Field, FieldSelect } from '@/components/WidgetField';
 import { useLocale } from '@/context/LocaleContext';
+import { useConfig } from '@/context/ConfigContext';
 
 /**
  * The MakeMyTrip search widget, adapted to healthcare.
@@ -104,6 +105,8 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
   const [isEmergencySubmitting, setIsEmergencySubmitting] = useState(false);
   const isSubmittingRef = useRef(false);
   const { currency, formatAmount } = useLocale();
+  const { config } = useConfig();
+  const { cities } = config;
 
   const dynamicBudgets = currency.code === 'INR'
     ? BUDGETS
@@ -261,14 +264,15 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   className="md:col-span-3"
                   id={`${id}-city`}
                   name="preferredCity"
-                  label="Where in India?"
+                  label="Preferred Location"
                   icon={MapPin}
                   defaultValue="recommend"
                   hint="We can recommend one"
                   variant="mint"
                   options={[
-                    { value: 'recommend', label: 'Recommend a city for me' },
-                    ...cities.map((c) => ({ value: c, label: c })),
+                    { value: 'recommend', label: 'Recommend a location for me' },
+                    ...(config.countries?.map((c) => ({ value: c, label: `Country: ${c}` })) || []),
+                    ...(config.cities?.map((c) => ({ value: c, label: c })) || []),
                   ]}
                 />
 

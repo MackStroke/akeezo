@@ -22,6 +22,7 @@ import RecommendationsPage from './pages/admin/RecommendationsPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import HospitalsPage from './pages/HospitalsPage';
+import DoctorsPage from './pages/DoctorsPage';
 import PrivacyPolicyPage from './pages/legal/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/legal/TermsOfServicePage';
 import MedicalDisclaimerPage from './pages/legal/MedicalDisclaimerPage';
@@ -30,7 +31,18 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import CustomerProfilePage from './pages/customer/CustomerProfilePage';
 import { CustomerAuthProvider, useCustomerAuth } from './context/CustomerAuthContext';
 import { LocaleProvider } from './context/LocaleContext';
+import { ConfigProvider } from './context/ConfigContext';
 import { TooltipProvider } from './components/ui/tooltip';
+import SEOManager from './components/SEOManager';
+import MaintenanceGuard from './components/MaintenanceGuard';
+import AnalyticsTracker from './components/AnalyticsTracker';
+import { CookieConsent } from './components/CookieConsent';
+import MaintenanceAdminPage from './pages/admin/MaintenanceAdminPage';
+import LocationsAdminPage from './pages/admin/LocationsAdminPage';
+import AnalyticsReportsPage from './pages/admin/AnalyticsReportsPage';
+import HospitalDetailsPage from './pages/HospitalDetailsPage';
+import AdminHospitalsPage from './pages/admin/AdminHospitalsPage';
+import AdminHospitalDetailsPage from './pages/admin/AdminHospitalDetailsPage';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -62,8 +74,13 @@ export default function App() {
       <LocaleProvider>
         <AuthProvider>
           <CustomerAuthProvider>
-            <TooltipProvider>
-              <Routes>
+            <ConfigProvider>
+              <TooltipProvider>
+                <SEOManager />
+                <AnalyticsTracker />
+                <MaintenanceGuard>
+                  <CookieConsent />
+                  <Routes>
                 <Route path="/" element={<LandingPage />} />
                 
                 {/* Customer Authentication Modal Routes */}
@@ -100,6 +117,10 @@ export default function App() {
 
                 {/* Hospital Discovery */}
                 <Route path="/hospitals" element={<HospitalsPage />} />
+                <Route path="/hospitals/:slug" element={<HospitalDetailsPage />} />
+
+                {/* Doctor Directory */}
+                <Route path="/doctors" element={<DoctorsPage />} />
 
                 {/* Public Blog Routes */}
                 <Route path="/blog" element={<BlogPage />} />
@@ -132,11 +153,18 @@ export default function App() {
                   <Route path="compliance" element={<CompliancePage />} />
                   <Route path="profile" element={<ProfilePage />} />
                   <Route path="settings" element={<SettingsPage />} />
+                  <Route path="maintenance" element={<MaintenanceAdminPage />} />
+                  <Route path="locations" element={<LocationsAdminPage />} />
+                  <Route path="analytics" element={<AnalyticsReportsPage />} />
+                  <Route path="hospitals" element={<AdminHospitalsPage />} />
+                  <Route path="hospitals/:id" element={<AdminHospitalDetailsPage />} />
                   <Route path="theme" element={<ThemeSettingsPage />} />
                   <Route path="consultancy" element={<ConsultancyPage />} />
                 </Route>
-            </Routes>
+              </Routes>
+            </MaintenanceGuard>
           </TooltipProvider>
+        </ConfigProvider>
         </CustomerAuthProvider>
       </AuthProvider>
     </LocaleProvider>

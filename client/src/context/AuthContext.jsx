@@ -25,8 +25,10 @@ export function AuthProvider({ children }) {
     setIsAuthenticated(false);
   };
 
+  const token = localStorage.getItem('adminToken');
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout, token }}>
       {children}
     </AuthContext.Provider>
   );

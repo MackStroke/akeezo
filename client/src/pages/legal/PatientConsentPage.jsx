@@ -1,5 +1,6 @@
 import { LegalLayout } from '@/components/legal/LegalLayout';
 import { FileCheck, ShieldCheck, Globe, Video, UserCheck, AlertCircle } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const TOC = [
   { id: 'sec-1', title: '1. Express Informed Consent Framework' },
@@ -12,7 +13,23 @@ const TOC = [
 ];
 
 export default function PatientConsentPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Patient Consent | AKEEZO',
+    url: 'https://www.akeezo.com/consent',
+    description: 'AKEEZO Patient Consent Form. Authorization for medical record review and cross-border transfer.'
+  };
+
   return (
+    <>
+      <SEO 
+        title="Patient Consent"
+        description="AKEEZO Patient Consent Form. Authorization for medical record review and cross-border transfer."
+        canonical="/consent"
+        jsonLd={jsonLd}
+        keywords="AKEEZO Patient Consent, Medical Record Authorization, PHI Transfer, Healthcare Consent Form"
+      />
     <LegalLayout
       title="Patient Data & Medical Consent Framework"
       subtitle="Formal informed consent protocol governing health record handling, cross-border hospital transmission, tele-consultations, and medical proxy authorization."
@@ -128,5 +145,6 @@ export default function PatientConsentPage() {
 
       </div>
     </LegalLayout>
+    </>
   );
 }

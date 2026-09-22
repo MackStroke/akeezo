@@ -1,0 +1,101 @@
+Hospital ID,Hospital Name,State / Region,City,Locality / Area,Primary Specialties / Centers of Excellence,Bed Capacity (approx),Accreditations,Type,Emergency / Trauma Care (24x7),Key Facilities,Rating (out of 5.0),Contact / Helpline,Website URL,Listing Status
+HOS-001,AIIMS New Delhi,Delhi NCR,New Delhi,Ansari Nagar,"Multi-Specialty, Cardiology, Neurology, Oncology",2200,"NABH, NABL",Govt,Yes,"ICU, Organ Transplant, Robotic Surgery",4.8,1800-11-3000,aiims.edu,Active
+HOS-002,Medanta - The Medicity,Delhi NCR,Gurugram,Gurugram,"Cardiology, Neurology, Oncology",1250,"JCI, NABH, NABL",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.7,1068,medanta.org,Active
+HOS-003,Indraprastha Apollo Hospitals,Delhi NCR,New Delhi,Sarita Vihar,"Multi-Specialty, Organ Transplant",718,"JCI, NABH, NABL",Private,Yes,"ICU, Organ Transplant, Robotic Surgery",4.6,1860-500-1066,apollohospitals.com,Active
+HOS-004,Fortis Memorial Research Institute (FMRI),Delhi NCR,Gurugram,Gurugram,"Oncology, Neurology, Cardiology",1000,"JCI, NABH",Private,Yes,"ICU, Cath Lab, Robotic Surgery",4.6,105010,fmri.in,Active
+HOS-005,Max Super Speciality Hospital,Delhi NCR,New Delhi,Saket,"Cardiology, Oncology, Orthopedics",500,"NABH, NABL",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,011-26515050,maxhealthcare.in,Active
+HOS-006,Sir Ganga Ram Hospital,Delhi NCR,New Delhi,Rajinder Nagar,Multi-Specialty,675,"NABH, NABL",Trust,Yes,"ICU, Organ Transplant, Cath Lab",4.5,011-25750000,sgrh.com,Active
+HOS-007,BLK-Max Super Speciality Hospital,Delhi NCR,New Delhi,Pusa Road,"Oncology, Bone Marrow Transplant",650,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.4,011-30403040,blkhospital.com,Active
+HOS-008,Artemis Hospital,Delhi NCR,Gurugram,Gurugram,"Multi-Specialty, Cardiology, Oncology",400,"JCI, NABH",Private,Yes,"ICU, Cath Lab, Robotic Surgery",4.5,0124-4511111,artemishospitals.com,Active
+HOS-009,Jaypee Hospital,Delhi NCR,Noida,Noida,"Cardiology, Orthopedics, Oncology",504,"NABH, NABL",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.3,1800-419-2222,jaypeehealthcare.com,Active
+HOS-010,Fortis Escorts Heart Institute,Delhi NCR,New Delhi,Okhla,"Cardiology, Cardiac Surgery",310,"JCI, NABH",Private,Yes,"ICU, Cath Lab",4.6,105010,fortisescorts.in,Active
+HOS-011,Kokilaben Dhirubhai Ambani Hospital,Maharashtra,Mumbai,Andheri West,"Multi-Specialty, Oncology, Neurology",750,"JCI, NABH, NABL",Private,Yes,"ICU, Robotic Surgery, Cath Lab",4.7,1800-309-1111,kokilabenhospital.com,Active
+HOS-012,Lilavati Hospital and Research Centre,Maharashtra,Mumbai,Bandra West,"Multi-Specialty, Cardiology, Orthopedics",323,NABH,Trust,Yes,"ICU, Cath Lab",4.5,022-26751000,lilavatihospital.com,Active
+HOS-013,Hinduja Hospital,Maharashtra,Mumbai,Mahim,"Multi-Specialty, Oncology, Neurology",400,"NABH, NABL",Trust,Yes,"ICU, Organ Transplant",4.6,022-24449199,hindujahospital.com,Active
+HOS-014,Tata Memorial Hospital,Maharashtra,Mumbai,Parel,Oncology,600,NABH,Govt,Yes,"ICU, Robotic Surgery",4.8,022-24177000,tmc.gov.in,Active
+HOS-015,Fortis Hospital,Maharashtra,Mumbai,Mulund,"Cardiology, Orthopedics",315,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.4,105010,fortismumbai.com,Active
+HOS-016,H. N. Reliance Foundation Hospital,Maharashtra,Mumbai,Girgaon,"Multi-Specialty, Oncology",345,"JCI, NABH",Private,Yes,"ICU, Robotic Surgery, Cath Lab",4.7,1800-221-166,rfhospital.org,Active
+HOS-017,Nanavati Max Super Speciality Hospital,Maharashtra,Mumbai,Vile Parle,"Multi-Specialty, Orthopedics",350,"NABH, NABL",Private,Yes,"ICU, Cath Lab",4.3,022-26267500,nanavatimaxhospital.org,Active
+HOS-018,Bombay Hospital and Medical Research Centre,Maharashtra,Mumbai,Marine Lines,Multi-Specialty,725,NABH,Trust,Yes,"ICU, Cath Lab",4.4,022-22067676,bombayhospital.com,Active
+HOS-019,Jaslok Hospital and Research Centre,Maharashtra,Mumbai,Pedder Road,"Multi-Specialty, Fertility, Oncology",343,NABH,Trust,Yes,"ICU, Organ Transplant",4.5,022-66573333,jaslokhospital.net,Active
+HOS-020,Breach Candy Hospital,Maharashtra,Mumbai,Bhulabhai Desai Marg,"Multi-Specialty, Cardiology",212,NABH,Trust,Yes,"ICU, Cath Lab",4.6,022-23667788,breachcandyhospital.org,Active
+HOS-021,Manipal Hospital,Karnataka,Bengaluru,HAL Old Airport Road,"Multi-Specialty, Cardiology, Oncology",600,"NABH, NABL",Private,Yes,"ICU, Organ Transplant, Robotic Surgery",4.6,1800-102-5555,manipalhospitals.com,Active
+HOS-022,Narayana Institute of Cardiac Sciences,Karnataka,Bengaluru,Bommasandra,"Cardiology, Cardiac Surgery",1000,"JCI, NABH",Private,Yes,"ICU, Cath Lab",4.7,1800-309-0309,narayanahealth.org,Active
+HOS-023,Apollo Hospital,Karnataka,Bengaluru,Bannerghatta Road,"Multi-Specialty, Oncology, Orthopedics",250,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,1860-500-1066,apollohospitals.com,Active
+HOS-024,Fortis Hospital,Karnataka,Bengaluru,Bannerghatta Road,"Multi-Specialty, Cardiology",276,"JCI, NABH",Private,Yes,"ICU, Cath Lab",4.4,105010,fortishealthcare.com,Active
+HOS-025,Aster CMI Hospital,Karnataka,Bengaluru,Hebbal,"Multi-Specialty, Neurology, Gastroenterology",500,"NABH, NABL",Private,Yes,"ICU, Organ Transplant, Robotic Surgery",4.6,080-43420100,asterhospitals.in,Active
+HOS-026,St. John's Medical College & Hospital,Karnataka,Bengaluru,Koramangala,Multi-Specialty,1350,"NABH, NABL",Trust,Yes,"ICU, Cath Lab",4.4,080-22065000,stjohns.in,Active
+HOS-027,Sakra World Hospital,Karnataka,Bengaluru,Marathahalli,"Orthopedics, Neurology",350,"NABH, NABL",Private,Yes,"ICU, Cath Lab",4.5,080-49694969,sakraworldhospital.com,Active
+HOS-028,Manipal Hospital (Columbia Asia),Karnataka,Bengaluru,Yeshwanthpur,Multi-Specialty,150,NABH,Private,Yes,"ICU, Cath Lab",4.3,1800-102-5555,manipalhospitals.com,Active
+HOS-029,BGS Gleneagles Global Hospitals,Karnataka,Bengaluru,Kengeri,"Multi-Specialty, Organ Transplant",500,NABH,Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,1800-123-11111,gleneaglesglobalhospitals.com,Active
+HOS-030,SPARSH Hospital,Karnataka,Bengaluru,Infantry Road,"Orthopedics, Multi-Specialty",250,NABH,Private,Yes,"ICU, Cath Lab",4.4,080-61222000,sparshhospital.com,Active
+HOS-031,Apollo Hospitals,Telangana,Hyderabad,Jubilee Hills,"Multi-Specialty, Cardiology, Oncology",550,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.6,1860-500-1066,apollohospitals.com,Active
+HOS-032,Yashoda Hospitals,Telangana,Hyderabad,Somajiguda,"Multi-Specialty, Cardiology",500,"NABH, NABL",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,040-45674567,yashodahospitals.com,Active
+HOS-033,KIMS Hospitals,Telangana,Hyderabad,Secunderabad,"Multi-Specialty, Organ Transplant",1000,"NABH, NABL",Private,Yes,"ICU, Organ Transplant, Robotic Surgery",4.6,040-44885000,kimshospitals.com,Active
+HOS-034,Continental Hospitals,Telangana,Hyderabad,Gachibowli,"Multi-Specialty, Oncology, Orthopedics",750,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,040-67000000,continentalhospitals.com,Active
+HOS-035,Care Hospitals,Telangana,Hyderabad,Banjara Hills,"Cardiology, Multi-Specialty",435,"NABH, NABL",Private,Yes,"ICU, Cath Lab",4.4,040-61656565,carehospitals.com,Active
+HOS-036,AIG Hospitals,Telangana,Hyderabad,Gachibowli,"Gastroenterology, Multi-Specialty",800,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.8,040-42444222,aighospitals.com,Active
+HOS-037,Nizam's Institute of Medical Sciences (NIMS),Telangana,Hyderabad,Punjagutta,Multi-Specialty,1489,NABH,Govt,Yes,"ICU, Cath Lab",4.3,040-23489000,nims.edu.in,Active
+HOS-038,Star Hospitals,Telangana,Hyderabad,Banjara Hills,"Cardiology, Cardiothoracic Surgery",310,"NABH, NABL",Private,Yes,"ICU, Cath Lab",4.5,040-44777700,starhospitals.in,Active
+HOS-039,Rainbow Children's Hospital,Telangana,Hyderabad,Banjara Hills,"Pediatrics, Obstetrics, Gynecology",250,NABH,Private,Yes,"NICU, PICU",4.7,1800-2122,rainbowhospitals.in,Active
+HOS-040,Medicover Hospitals,Telangana,Hyderabad,Hitec City,"Multi-Specialty, Cardiology",250,NABH,Private,Yes,"ICU, Cath Lab",4.4,040-68334455,medicoverhospitals.in,Active
+HOS-041,Apollo Hospitals,Tamil Nadu,Chennai,Greams Road,"Multi-Specialty, Cardiology, Oncology",700,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Robotic Surgery",4.7,1860-500-1066,apollohospitals.com,Active
+HOS-042,Gleneagles Health City,Tamil Nadu,Chennai,Perumbakkam,"Multi-Specialty, Organ Transplant",1000,"NABH, NABL",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.6,044-44773300,gleneaglesglobalhospitals.com,Active
+HOS-043,MIOT International,Tamil Nadu,Chennai,Manapakkam,"Orthopedics, Multi-Specialty",1000,NABH,Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,044-42002288,miotinternational.com,Active
+HOS-044,Fortis Malar Hospital,Tamil Nadu,Chennai,Adyar,"Cardiology, Multi-Specialty",180,NABH,Private,Yes,"ICU, Cath Lab",4.3,044-42892222,fortismalar.com,Active
+HOS-045,SIMS Hospital,Tamil Nadu,Chennai,Vadapalani,"Multi-Specialty, Cardiology",345,"NABH, NABL",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,044-20002001,simshospitals.com,Active
+HOS-046,Kauvery Hospital,Tamil Nadu,Chennai,Alwarpet,"Multi-Specialty, Geriatrics",200,NABH,Private,Yes,"ICU, Cath Lab",4.4,044-40006000,kauveryhospital.com,Active
+HOS-047,Madras Medical Mission,Tamil Nadu,Chennai,Mogappair,"Cardiology, Reproductive Medicine",300,NABH,Trust,Yes,"ICU, Cath Lab",4.6,044-26565961,madrasmedicalmission.org,Active
+HOS-048,Sri Ramachandra Medical Centre,Tamil Nadu,Chennai,Porur,Multi-Specialty,800,"JCI, NABH",Trust,Yes,"ICU, Organ Transplant, Cath Lab",4.5,044-45928500,sriramachandra.edu.in,Active
+HOS-049,Dr. Rela Institute & Medical Centre,Tamil Nadu,Chennai,Chromepet,"Multi-Specialty, Liver Transplant",450,NABH,Private,Yes,"ICU, Organ Transplant, Robotic Surgery",4.7,044-66667777,relainstitute.com,Active
+HOS-050,MGM Healthcare,Tamil Nadu,Chennai,Nelson Manickam Road,"Multi-Specialty, Heart Transplant",400,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.6,044-45242424,mgmhealthcare.in,Active
+HOS-051,Apollo Multispeciality Hospitals,West Bengal,Kolkata,EM Bypass,"Multi-Specialty, Cardiology, Oncology",700,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Robotic Surgery",4.6,1860-500-1066,apollohospitals.com,Active
+HOS-052,Fortis Hospital,West Bengal,Kolkata,Anandapur,"Multi-Specialty, Cardiology, Pulmonology",400,"NABH, NABL",Private,Yes,"ICU, Cath Lab",4.5,033-66284444,fortishealthcare.com,Active
+HOS-053,AMRI Hospitals,West Bengal,Kolkata,Dhakuria,"Multi-Specialty, Oncology, Neurology",300,NABH,Private,Yes,"ICU, Cath Lab",4.4,033-66800000,amrihospitals.in,Active
+HOS-054,Medica Superspecialty Hospital,West Bengal,Kolkata,Mukundapur,"Cardiology, Orthopedics, Neurology",400,"NABH, NABL",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,033-66520000,medicahospitals.in,Active
+HOS-055,Peerless Hospital,West Bengal,Kolkata,Panchasayar,"Multi-Specialty, Gastroenterology",400,NABH,Private,Yes,"ICU, Cath Lab",4.3,033-40111222,peerlesshospital.com,Active
+HOS-056,Belle Vue Clinic,West Bengal,Kolkata,Loudon Street,"Multi-Specialty, Nephrology",372,"NABH, NABL",Trust,Yes,"ICU, Cath Lab",4.4,033-22872321,bellevueclinic.com,Active
+HOS-057,Woodlands Multispeciality Hospital,West Bengal,Kolkata,Alipore,"Multi-Specialty, Cardiology",250,NABH,Private,Yes,"ICU, Cath Lab",4.5,033-24567075,woodlandshospital.in,Active
+HOS-058,Ruby General Hospital,West Bengal,Kolkata,Kasba,"Multi-Specialty, Trauma Care",316,NABH,Private,Yes,"ICU, Cath Lab",4.2,033-39871800,rubyhospital.com,Active
+HOS-059,Desun Hospital,West Bengal,Kolkata,Kasba Golpark,"Cardiology, Multi-Specialty",300,"NABH, NABL",Private,Yes,"ICU, Cath Lab",4.3,033-71222000,desunhospital.com,Active
+HOS-060,RN Tagore Hospital (Narayana),West Bengal,Kolkata,Mukundapur,"Cardiology, Cardiac Surgery",681,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.6,1800-309-0309,narayanahealth.org,Active
+HOS-061,Aster Medcity,Kerala,Kochi,Cheranallur,"Multi-Specialty, Cardiology, Oncology",670,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Robotic Surgery",4.8,0484-6699999,astermedcity.com,Active
+HOS-062,Amrita Hospital,Kerala,Kochi,Ponekkara,"Multi-Specialty, Organ Transplant",1300,"NABH, NABL",Trust,Yes,"ICU, Organ Transplant, Robotic Surgery",4.7,0484-2851234,amritahospitals.org,Active
+HOS-063,VPS Lakeshore Hospital,Kerala,Kochi,Nettoor,"Multi-Specialty, Gastroenterology, Oncology",350,NABH,Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,0484-2701032,vpslakeshorehospital.com,Active
+HOS-064,Rajagiri Hospital,Kerala,Kochi,Aluva,"Multi-Specialty, Cardiology, Neurology",500,"NABH, NABL",Private,Yes,"ICU, Cath Lab",4.6,0484-2905500,rajagirihospital.com,Active
+HOS-065,Medical Trust Hospital,Kerala,Kochi,MG Road,"Multi-Specialty, Trauma Care",750,NABH,Private,Yes,"ICU, Organ Transplant, Cath Lab",4.4,0484-2358001,medicaltrusthospital.com,Active
+HOS-066,Lisie Hospital,Kerala,Kochi,Kaloor,"Multi-Specialty, Cardiology",750,NABH,Trust,Yes,"ICU, Cath Lab",4.5,0484-2402044,lisiehospital.org,Active
+HOS-067,Sunrise Hospital,Kerala,Kochi,Kakkanad,"Laparoscopic Surgery, Multi-Specialty",250,NABH,Private,Yes,"ICU, Cath Lab",4.3,0484-2428970,sunrisehospital.in,Active
+HOS-068,Renai Medicity,Kerala,Kochi,Palarivattom,Multi-Specialty,500,NABH,Private,Yes,"ICU, Cath Lab",4.4,0484-2880000,renaimedicity.org,Active
+HOS-069,Lourdes Hospital,Kerala,Kochi,Pachalam,Multi-Specialty,650,NABH,Trust,Yes,"ICU, Cath Lab",4.3,0484-4123456,lourdeshospital.in,Active
+HOS-070,Apollo Adlux Hospital,Kerala,Kochi,Angamaly,"Multi-Specialty, Cardiology",300,NABH,Private,Yes,"ICU, Cath Lab",4.5,0484-2735000,apolloadlux.com,Active
+HOS-071,Goa Medical College & Hospital (GMC),Goa,Bambolim,Bambolim,Multi-Specialty,1400,Govt,Govt,Yes,"ICU, Cath Lab",4.2,0832-2458700,gmc.goa.gov.in,Active
+HOS-072,Manipal Hospital Goa,Goa,Panaji,Dona Paula,"Multi-Specialty, Oncology",235,"NABH, NABL",Private,Yes,"ICU, Cath Lab",4.5,1800-102-5555,manipalhospitals.com,Active
+HOS-073,Healthway Hospitals,Goa,Old Goa,Old Goa,Multi-Specialty,250,NABH,Private,Yes,"ICU, Cath Lab",4.4,0832-2495555,healthwayhospitals.com,Active
+HOS-074,Victor Hospital,Goa,Margao,Margao,"Multi-Specialty, Cardiology",150,NABH,Private,Yes,"ICU, Cath Lab",4.3,0832-2728888,victorhospital.com,Active
+HOS-075,Apollo Victor Hospital,Goa,Margao,Margao,Multi-Specialty,150,NABH,Private,Yes,"ICU, Cath Lab",4.4,0832-2728888,apollohospitals.com,Active
+HOS-076,SMRC Hospital,Goa,Vasco,Chicalim,Multi-Specialty,120,NABH,Private,Yes,ICU,4.3,0832-2513333,smrchospital.com,Active
+HOS-077,Galaxy Hospital,Goa,Mapusa,Mapusa,Multi-Specialty,100,NABH,Private,Yes,ICU,4.1,0832-2266666,galaxyhospitalgoa.com,Active
+HOS-078,Vision Multispecialty Hospital,Goa,Mapusa,Alto Duler,Multi-Specialty,100,NABH,Private,Yes,ICU,4.2,0832-2265555,visionhospitalgoa.com,Active
+HOS-079,Vintage Hospital,Goa,Panaji,Panaji,Multi-Specialty,80,NABH,Private,Yes,ICU,4,0832-2224444,vintagehospital.com,Active
+HOS-080,Campal Clinic,Goa,Panaji,Panaji,"General Medicine, Surgery",50,-,Private,Yes,ICU,4.1,0832-2225555,campalclinic.com,Active
+HOS-081,Sawai Man Singh (SMS) Hospital,Rajasthan,Jaipur,JL Nehru Marg,Multi-Specialty,6000,NABH,Govt,Yes,"ICU, Cath Lab",4.3,0141-2560291,education.rajasthan.gov.in,Active
+HOS-082,Eternal Hospital (EHCC),Rajasthan,Jaipur,Jawahar Circle,"Cardiology, Multi-Specialty",250,"JCI, NABH",Private,Yes,"ICU, Cath Lab",4.6,0141-7130000,eternalhospital.com,Active
+HOS-083,Fortis Escorts Hospital,Rajasthan,Jaipur,Malviya Nagar,"Multi-Specialty, Cardiology",275,"NABH, NABL",Private,Yes,"ICU, Cath Lab",4.5,0141-2547000,fortishealthcare.com,Active
+HOS-084,Narayana Multispeciality Hospital,Rajasthan,Jaipur,Pratap Nagar,"Multi-Specialty, Cardiology",330,NABH,Private,Yes,"ICU, Cath Lab",4.5,1800-309-0309,narayanahealth.org,Active
+HOS-085,Manipal Hospital Jaipur,Rajasthan,Jaipur,Vidhyadhar Nagar,Multi-Specialty,225,NABH,Private,Yes,"ICU, Cath Lab",4.4,1800-102-5555,manipalhospitals.com,Active
+HOS-086,Apex Hospitals,Rajasthan,Jaipur,Malviya Nagar,Multi-Specialty,200,NABH,Private,Yes,"ICU, Cath Lab",4.3,0141-4101111,apexhospitals.com,Active
+HOS-087,Santokba Durlabhji Memorial Hospital (SDMH),Rajasthan,Jaipur,Bapu Nagar,Multi-Specialty,551,NABH,Trust,Yes,"ICU, Cath Lab",4.5,0141-2566251,sdmh.in,Active
+HOS-088,Shalby Multi-Specialty Hospital,Rajasthan,Jaipur,Chitrakoot,"Orthopedics, Multi-Specialty",237,NABH,Private,Yes,"ICU, Cath Lab",4.4,0141-7123888,shalby.org,Active
+HOS-089,Bhagwan Mahaveer Cancer Hospital,Rajasthan,Jaipur,JL Nehru Marg,Oncology,200,NABH,Trust,Yes,"ICU, Robotic Surgery",4.6,0141-2700107,bmchrc.org,Active
+HOS-090,Rukmani Birla Hospital (RBH),Rajasthan,Jaipur,Gopalpura Bypass,Multi-Specialty,230,NABH,Private,Yes,"ICU, Cath Lab",4.4,0141-7177777,rbh.com,Active
+HOS-091,Ruby Hall Clinic,Maharashtra,Pune,Sassoon Road,"Multi-Specialty, Cardiology, Oncology",600,"NABH, NABL",Trust,Yes,"ICU, Organ Transplant, Cath Lab",4.6,020-66455150,rubyhall.com,Active
+HOS-092,Sahyadri Super Speciality Hospital,Maharashtra,Pune,Deccan Gymkhana,"Multi-Specialty, Neurology, Hematology",202,NABH,Private,Yes,"ICU, Organ Transplant",4.5,020-67215000,sahyadrihospital.com,Active
+HOS-093,Jehangir Hospital,Maharashtra,Pune,Sassoon Road,Multi-Specialty,350,"NABH, NABL",Trust,Yes,"ICU, Cath Lab",4.4,020-66819999,jehangirhospital.com,Active
+HOS-094,Deenanath Mangeshkar Hospital,Maharashtra,Pune,Erandwane,"Multi-Specialty, Oncology",800,NABH,Trust,Yes,"ICU, Organ Transplant",4.7,020-40151000,dmhospital.org,Active
+HOS-095,Manipal Hospital Pune,Maharashtra,Pune,Kharadi,Multi-Specialty,250,NABH,Private,Yes,"ICU, Cath Lab",4.4,1800-102-5555,manipalhospitals.com,Active
+HOS-096,Jupiter Hospital,Maharashtra,Pune,Baner,"Multi-Specialty, Organ Transplant",350,NABH,Private,Yes,"ICU, Organ Transplant, Cath Lab",4.6,020-27992222,jupiterhospital.com,Active
+HOS-097,Bharati Vidyapeeth Medical College & Hospital,Maharashtra,Pune,Dhankawadi,Multi-Specialty,1000,NABH,Trust,Yes,"ICU, Cath Lab",4.3,020-24361792,bvmc.bharatividyapeeth.edu,Active
+HOS-098,Sancheti Hospital,Maharashtra,Pune,Shivajinagar,Orthopedics,200,NABH,Private,Yes,"ICU, Robotic Surgery",4.7,020-25539393,sanchetihospital.org,Active
+HOS-099,Aditya Birla Memorial Hospital,Maharashtra,Pune,Chinchwad,Multi-Specialty,500,"JCI, NABH",Private,Yes,"ICU, Organ Transplant, Cath Lab",4.5,020-30717500,adityabirlahospital.com,Active
+HOS-100,Inamdar Multispeciality Hospital,Maharashtra,Pune,Fatima Nagar,Multi-Specialty,120,NABH,Private,Yes,"ICU, Cath Lab",4.2,020-66046604,inamdarhospital.com,Active

@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-const ARRAY_KEYS = ['city', 'specialty', 'accreditation', 'amenity', 'stayLogistic'];
-const SCALAR_KEYS = ['experience', 'sort', 'q'];
+const ARRAY_KEYS = ['city', 'country', 'specialty', 'accreditation', 'amenity', 'stayLogistic', 'type'];
+const SCALAR_KEYS = ['experience', 'sort', 'q', 'hasEmergency'];
 const PAGINATION_KEYS = ['page', 'limit'];
 
 function paramsToFilters(searchParams) {

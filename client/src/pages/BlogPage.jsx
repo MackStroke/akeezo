@@ -94,6 +94,7 @@ export default function BlogPage() {
         description="Expert articles and complete patient guides on medical tourism in India, hospital selection, treatment cost estimates, medical visa support, and home healthcare."
         canonical="/blog"
         jsonLd={blogPageJsonLd}
+        keywords="Healthcare Guides India, Medical Tourism India Blog, Patient Guides, Hospital Selection India, Healthcare Articles, Treatment Cost Estimates, AKEEZO Blog"
       />
       <SiteHeader />
 
@@ -102,7 +103,7 @@ export default function BlogPage() {
         <section className="bg-navy text-white relative py-12 sm:py-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/95 to-primary/20" />
           <div className="relative mx-auto max-w-[76rem] px-4 text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-sky-300 text-xs font-bold border border-white/20">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold border border-white/20">
               <HeartPulse className="size-3.5 text-primary animate-pulse" />
               AKEEZO Healthcare Knowledge Hub
             </div>

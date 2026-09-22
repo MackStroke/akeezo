@@ -343,21 +343,21 @@ export function CustomerLoginDialog({ open, onOpenChange, onSuccess, initialMode
                   className="absolute inset-0 h-full w-full object-cover opacity-25"
                 />
                 <div className="relative z-10 space-y-2">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-sky-300 border border-white/20">
-                    <ShieldCheck className="size-3.5" /> HIPAA Encrypted
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-white border border-white">
+                    <ShieldCheck className="size-3.5 text-white" /> HIPAA Encrypted
                   </span>
                   <h3 className="text-xl font-extrabold leading-tight text-white pt-2">
                     End-to-End International Medical Travel Coordination
                   </h3>
-                  <p className="text-xs text-white/80 leading-relaxed">
+                  <p className="text-xs text-white leading-relaxed">
                     100+ JCI-accredited hospitals, specialist doctor opinions in 24 hrs, medical visa letters, and 24/7 care desk support.
                   </p>
                 </div>
 
-                <div className="relative z-10 pt-6 border-t border-white/15 text-[0.72rem] text-white/70">
+                <div className="relative z-10 pt-6 border-t border-white text-[0.72rem] text-white">
                   By clicking continue, you agree to AKEEZO's{' '}
-                  <a href="#terms" className="underline text-sky-300">Terms of Service</a> and{' '}
-                  <a href="#privacy" className="underline text-sky-300">Privacy Policy</a>.
+                  <a href="#terms" className="underline text-white">Terms of Service</a> and{' '}
+                  <a href="#privacy" className="underline text-white">Privacy Policy</a>.
                 </div>
               </div>
             </CardContent>

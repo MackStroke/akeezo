@@ -28,14 +28,14 @@ export default function HospitalCard({
 }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  const images = hospital.images || [];
-  const city = hospital.location?.city || '';
-  const distanceKm = hospital.location?.airportDistanceKm || '';
-  const airportCode = hospital.location?.airportCode || '';
+  const images = hospital.images?.map(i => i.url) || [];
+  const city = hospital.city || '';
+  const distanceKm = hospital.nearestAirport?.distanceKm || '';
+  const airportCode = hospital.nearestAirport?.code || '';
   const accreditations = hospital.accreditations || [];
   const centersOfExcellence = hospital.centersOfExcellence || [];
   const languages = hospital.languages || [];
-  const estimates = hospital.estimates || [];
+  const estimates = hospital.treatmentEstimates || [];
 
   const estimate = selectedTreatment
     ? estimates.find((e) => e.treatmentId === selectedTreatment) || estimates[0]
@@ -45,10 +45,10 @@ export default function HospitalCard({
   const isCenterOfExcellence = hasSelectedTreatment && centersOfExcellence.includes(estimate.treatmentId);
 
   const doctorsMatching = hospital.doctors?.filter(
-    (d) => !hasSelectedTreatment || d.specialties?.includes(estimate.treatmentId)
+    (d) => !hasSelectedTreatment || d.specialty === estimate.treatmentId
   ) || [];
   const doctorCount = doctorsMatching.length;
-  const doctorSpecialty = estimate?.treatmentName || 'Specialists';
+  const doctorSpecialty = estimate?.treatmentLabel || 'Specialists';
 
   const handleScroll = (e) => {
     const scrollPosition = e.target.scrollLeft;
@@ -98,20 +98,59 @@ export default function HospitalCard({
       {/* Content Section */}
       <CardContent className="p-5 flex flex-col w-full lg:w-[60%] gap-4">
         <div>
-          <h3 className="text-lg font-black text-ink-strong">{hospital.name}</h3>
+          <div className="flex justify-between items-start gap-2">
+            <Link to={`/hospitals/${hospital.slug}`} className="hover:text-primary transition-colors">
+              <h3 className="text-lg font-black text-ink-strong">{hospital.name}</h3>
+            </Link>
+            {hospital.rating && (
+              <div className="flex items-center gap-1 bg-green-50 text-green-700 px-1.5 py-0.5 rounded text-sm font-bold shrink-0 border border-green-200">
+                ★ {hospital.rating}
+              </div>
+            )}
+          </div>
           <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
-              <MapPin className="w-4 h-4" />
+              <MapPin className="w-4 h-4 shrink-0" />
               <span>
-                {city} ({distanceKm}km from {airportCode})
+                {hospital.locality ? `${hospital.locality}, ${city}` : city}
               </span>
+              <span className="text-border mx-1">•</span>
+              <a 
+                href={hospital.location?.coordinates 
+                  ? `https://www.google.com/maps/search/?api=1&query=${hospital.location.coordinates[1]},${hospital.location.coordinates[0]}`
+                  : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${hospital.name}, ${hospital.city}`)}`}
+                target="_blank" 
+                rel="noreferrer"
+                className="text-primary hover:underline font-medium text-[0.8rem]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Map
+              </a>
             </div>
             {accreditations.length > 0 && (
               <div className="flex items-center gap-1">
                 <Award className="w-4 h-4" />
                 <span className="font-medium text-ink-strong">
-                  {accreditations.join(' & ')} Accredited
+                  {accreditations.join(' & ')}
                 </span>
+              </div>
+            )}
+            {hospital.type && (
+              <div className="flex items-center gap-1">
+                <span className="text-muted-foreground">•</span>
+                <span>{hospital.type}</span>
+              </div>
+            )}
+            {hospital.bedCapacity > 0 && (
+              <div className="flex items-center gap-1">
+                <span className="text-muted-foreground">•</span>
+                <span>{hospital.bedCapacity} Beds</span>
+              </div>
+            )}
+            {hospital.hasEmergency && (
+              <div className="flex items-center gap-1 text-emergency">
+                <span className="text-muted-foreground">•</span>
+                <span className="font-medium">24x7 Emergency</span>
               </div>
             )}
           </div>
@@ -121,7 +160,7 @@ export default function HospitalCard({
           {hasSelectedTreatment && (
             <div className="flex items-start gap-2">
               <Badge className="bg-secondary text-secondary-foreground text-[0.7rem] font-bold shrink-0 mt-0.5">
-                {isCenterOfExcellence ? '★ Center of Excellence for ' + estimate.treatmentName : 'Available: ' + estimate.treatmentName}
+                {isCenterOfExcellence ? '★ Center of Excellence for ' + estimate.treatmentLabel : 'Available: ' + estimate.treatmentLabel}
               </Badge>
             </div>
           )}
@@ -146,7 +185,7 @@ export default function HospitalCard({
         {estimate && (
           <div className="bg-secondary/30 rounded-md p-4 border-l-4 border-primary mt-auto">
             <h4 className="text-sm font-bold mb-2">
-              AKEEZO Journey Estimate ({estimate.treatmentName || 'Procedure'})
+              AKEEZO Journey Estimate ({estimate.treatmentLabel || 'Procedure'})
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2 text-sm">
               <div className="flex items-start gap-2">
@@ -154,7 +193,7 @@ export default function HospitalCard({
                 <div>
                   <div className="font-medium">Expected Stay</div>
                   <div className="text-muted-foreground">
-                    {estimate.minDays}-{estimate.maxDays} Days (Hospital + Hotel Recovery)
+                    {estimate.stayDays?.min}-{estimate.stayDays?.max} Days (Hospital + Hotel Recovery)
                   </div>
                 </div>
               </div>
@@ -163,7 +202,7 @@ export default function HospitalCard({
                 <div>
                   <div className="font-medium">Estimated Cost</div>
                   <div className="text-lg font-black text-primary">
-                    {formatAmount(estimate.minCost)} – {formatAmount(estimate.maxCost)}
+                    {formatAmount(estimate.costRange?.min)} – {formatAmount(estimate.costRange?.max)}
                   </div>
                 </div>
               </div>
