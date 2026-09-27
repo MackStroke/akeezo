@@ -33,32 +33,32 @@ const VALUES = [
     title: 'Patient First',
     description: 'Every decision we make is centered around the well-being and comfort of our patients. Your health is our highest priority.',
     icon: Heart,
-    color: 'text-rose-500',
-    bg: 'bg-rose-500/10'
+    color: 'text-primary',
+    bg: 'bg-primary/10'
   },
   {
     id: 'v2',
     title: 'Transparency',
     description: 'We believe in clear communication. From treatment costs to medical procedures, we ensure you have all the information.',
     icon: ShieldCheck,
-    color: 'text-blue-500',
-    bg: 'bg-blue-500/10'
+    color: 'text-primary',
+    bg: 'bg-primary/10'
   },
   {
     id: 'v3',
     title: 'Excellence',
     description: 'We partner exclusively with JCI and NABH accredited hospitals to guarantee world-class medical outcomes.',
     icon: Award,
-    color: 'text-amber-500',
-    bg: 'bg-amber-500/10'
+    color: 'text-primary',
+    bg: 'bg-primary/10'
   },
   {
     id: 'v4',
     title: 'Accessibility',
     description: 'Breaking down geographical and logistical barriers so that quality healthcare is accessible to everyone, anywhere.',
     icon: Globe,
-    color: 'text-emerald-500',
-    bg: 'bg-emerald-500/10'
+    color: 'text-primary',
+    bg: 'bg-primary/10'
   }
 ];
 
