@@ -10,7 +10,10 @@ import {
   Activity, 
   ChevronRight,
   Stethoscope,
-  Building2
+  Building2,
+  Headset,
+  Wallet,
+  Plane
 } from 'lucide-react';
 import { IconBrandLinkedin, IconBrandTwitter } from '@tabler/icons-react';
 import SEO from '../components/SEO';
@@ -241,18 +244,21 @@ export default function AboutPage() {
               <p className="text-lg text-foreground/80 leading-relaxed font-medium">
                 To provide seamless, end-to-end medical journeys that prioritize patient care, transparency, and clinical excellence. We handle the logistics so you can focus on healing.
               </p>
-              <div className="pt-4 space-y-4">
+              <div className="pt-6 grid sm:grid-cols-2 gap-4">
                 {[
-                  "Curated network of JCI and NABH accredited hospitals",
-                  "Dedicated care coordinators available 24/7",
-                  "Transparent cost estimates before travel",
-                  "Comprehensive support for medical visas and accommodations"
+                  { title: "Accredited Network", desc: "Curated JCI & NABH hospitals.", icon: ShieldCheck },
+                  { title: "24/7 Support", desc: "Dedicated care coordinators.", icon: Headset },
+                  { title: "Financial Clarity", desc: "Transparent cost estimates.", icon: Wallet },
+                  { title: "Travel & Stay", desc: "Support for visas & lodging.", icon: Plane }
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <div className="mt-1 size-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <Activity className="size-3 text-primary" />
+                  <div key={idx} className="flex items-start gap-4 p-4 rounded-2xl bg-white border border-rule shadow-sm hover:shadow-md hover:border-primary/30 transition-all group">
+                    <div className="size-10 rounded-xl bg-primary/5 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors text-primary border border-primary/10">
+                      <item.icon className="size-5" />
                     </div>
-                    <span className="font-semibold text-foreground/90">{item}</span>
+                    <div>
+                      <h4 className="font-bold text-ink-strong leading-tight">{item.title}</h4>
+                      <p className="text-sm font-medium text-muted-foreground mt-1 leading-snug">{item.desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
