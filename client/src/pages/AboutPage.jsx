@@ -349,7 +349,7 @@ export default function AboutPage() {
                   />
             
             <div className="relative z-10 max-w-2xl mx-auto text-white">
-              <h2 className="text-3xl md:text-5xl font-black mb-6">Ready to Start Your Journey?</h2>
+              <h2 className="text-3xl md:text-5xl font-black mb-6 text-white">Ready to Start Your Journey?</h2>
               <p className="text-lg md:text-xl text-white/80 mb-10 font-medium">
                 Our care team is standing by to help you find the right hospital, doctor, and treatment plan tailored to your needs.
               </p>

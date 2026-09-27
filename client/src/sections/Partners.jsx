@@ -1,4 +1,4 @@
-import { Building2, Globe2, Hotel, Plane, Shield, Briefcase } from 'lucide-react';
+import { Building2, Globe2, Hotel, Plane, Shield, Briefcase, Mail } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { site } from '@/lib/site';
@@ -64,10 +64,24 @@ export function Partners() {
           ))}
         </ul>
 
-        <p className="mt-8 text-center">
-          <Button asChild variant="outline" size="lg" className="font-bold border-primary text-primary hover:bg-primary hover:text-white">
-            <a href={`mailto:${site.partnersEmail}?subject=AKEEZO%20Partnership%20Inquiry`}>
-              Talk to the partnerships team ({site.partnersEmail})
+        <p className="mt-8 flex justify-center">
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="h-auto w-full sm:w-auto max-w-md py-3 px-4 sm:px-6 font-bold border-primary text-primary hover:bg-primary hover:text-white whitespace-normal text-center shadow-xs rounded-xl"
+          >
+            <a
+              href={`mailto:${site.partnersEmail}?subject=AKEEZO%20Partnership%20Inquiry`}
+              className="inline-flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-center"
+            >
+              <span className="inline-flex items-center gap-1.5 text-sm sm:text-base leading-snug">
+                <Mail className="size-4 shrink-0" aria-hidden="true" />
+                Talk to the partnerships team
+              </span>
+              <span className="text-xs sm:text-sm font-normal opacity-85 sm:font-bold sm:opacity-100">
+                ({site.partnersEmail})
+              </span>
             </a>
           </Button>
         </p>
