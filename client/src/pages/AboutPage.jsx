@@ -328,62 +328,7 @@ export default function AboutPage() {
             </motion.div>
           </div>
         </section>
-        
-        {/* Our Team Section */}
-        <section className="py-16 sm:py-20 mx-auto max-w-[76rem] px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="font-mono text-[0.7rem] font-black uppercase tracking-widest text-primary mb-4 inline-block">
-              Meet The Experts
-            </span>
-            <h2 className="text-3xl md:text-4xl font-black text-ink-strong tracking-tight mb-4">
-              Our Leadership Team
-            </h2>
-            <p className="text-lg text-muted-foreground font-medium">
-              A dedicated group of healthcare professionals, technologists, and patient advocates committed to your care.
-            </p>
-          </div>
 
-          <motion.div 
-            className="grid md:grid-cols-3 gap-8"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            {TEAM.map((member) => (
-              <motion.div
-                key={member.id}
-                variants={fadeIn}
-                className="group relative"
-              >
-                <div className="relative overflow-hidden rounded-[2rem] aspect-[4/5] mb-6 shadow-sm border border-rule">
-                  <img 
-                    src={member.image} 
-                    alt={member.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <div className="flex gap-3">
-                      <a href={member.socials.linkedin} className="size-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <IconBrandLinkedin className="size-4" />
-                      </a>
-                      <a href={member.socials.twitter} className="size-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <IconBrandTwitter className="size-4" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black text-ink-strong mb-1">{member.name}</h3>
-                  <p className="text-primary font-bold text-sm tracking-wide uppercase mb-3">{member.role}</p>
-                  <p className="text-muted-foreground text-sm font-medium leading-relaxed">
-                    {member.bio}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
 
         {/* CTA Section */}
         <section className="py-10 sm:py-16 mx-auto max-w-[76rem] px-4 sm:px-6 lg:px-8 text-center">
