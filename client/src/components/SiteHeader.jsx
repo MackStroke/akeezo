@@ -335,8 +335,8 @@ export function SiteHeader() {
                 </Link>
               </li>
               <li>
-                <a
-                  href="#about"
+                <Link
+                  to="/about"
                   className={cn(
                     'inline-flex items-center rounded-md px-3 py-2 text-sm font-bold transition-colors',
                     isScrolled
@@ -345,7 +345,7 @@ export function SiteHeader() {
                   )}
                 >
                   About
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
@@ -626,13 +626,13 @@ export function SiteHeader() {
                       </Link>
                     </li>
                     <li>
-                      <a
-                        href="#about"
+                      <Link
+                        to="/about"
                         onClick={close}
                         className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground/90 hover:bg-primary/10 hover:text-primary transition-colors"
                       >
                         <span>About AKEEZO</span>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 )}

@@ -259,14 +259,14 @@ export function EmergencyForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-[var(--radius)] bg-card p-5 shadow-widget sm:p-6 text-foreground border border-rule">
+    <form onSubmit={onSubmit} className="rounded-2xl bg-card p-4 sm:p-5 shadow-sm text-foreground border border-rule">
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-black text-ink-strong">Request Emergency Help</h3>
+        <h3 className="text-lg sm:text-xl font-bold text-ink-strong">Request Emergency Help</h3>
         <span className="rounded-full bg-emergency/10 px-2.5 py-0.5 text-xs font-bold text-emergency">
           Fast Intake
         </span>
       </div>
-      <p className="mt-1 text-sm text-muted-foreground">
+      <p className="mt-0.5 text-xs sm:text-sm text-muted-foreground">
         We call you back immediately. Only your name and number are required.
       </p>
 
@@ -274,10 +274,10 @@ export function EmergencyForm() {
       {critical && (
         <div
           role="alert"
-          className="mt-4 flex gap-3 rounded-md border border-emergency/40 bg-emergency-surface p-3.5"
+          className="mt-3.5 flex gap-3 rounded-md border border-emergency/40 bg-emergency-surface p-3"
         >
-          <TriangleAlert className="mt-0.5 size-5 shrink-0 text-emergency" aria-hidden="true" />
-          <p className="text-sm text-emergency-ink">
+          <TriangleAlert className="mt-0.5 size-4.5 shrink-0 text-emergency" aria-hidden="true" />
+          <p className="text-xs sm:text-sm text-emergency-ink">
             <strong className="font-bold">Do not fill in this form.</strong> If the patient is
             unconscious or not breathing normally, call now:{' '}
             <a href={telHref(site.emergencyPhone)} className="font-bold underline">
@@ -290,12 +290,12 @@ export function EmergencyForm() {
 
       {step === 1 && (<>
         {/* --- STEP 1: ESSENTIAL CONTACT --- */}
-      <div className="mt-5">
-        <h4 className="text-sm font-bold text-emergency mb-3 uppercase tracking-wider flex items-center gap-2">
+      <div className="mt-3.5">
+        <h4 className="text-xs font-bold text-emergency mb-2 uppercase tracking-wider flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full bg-emergency animate-pulse" />
           Step 1: Essential Contact
         </h4>
-        <div className="grid gap-4 sm:grid-cols-2 rounded-xl bg-emergency/5 border border-emergency/20 p-4">
+        <div className="grid gap-3 sm:grid-cols-2 rounded-xl bg-emergency/5 border border-emergency/20 p-3">
           {/* Your name * */}
           <div className="flex flex-col gap-1.5">
             <Label htmlFor={`${id}-name`} className="font-bold text-ink-strong leading-none">
@@ -359,12 +359,12 @@ export function EmergencyForm() {
 
         {step === 2 && (<>
         {/* --- STEP 2: OPTIONAL DETAILS --- */}
-      <div className="mt-8">
-        <h4 className="text-sm font-bold text-muted-foreground mb-3 uppercase tracking-wider flex items-center gap-2">
+      <div className="mt-3.5">
+        <h4 className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wider flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
           Step 2: Additional Details (Optional)
         </h4>
-        <div className="grid gap-4 sm:grid-cols-2 rounded-xl border border-border p-4 bg-background/50">
+        <div className="grid gap-3 sm:grid-cols-2 rounded-xl border border-border p-3.5 bg-background/50">
           {/* Where is the patient? */}
           <div className="flex flex-col gap-1.5">
             <Label htmlFor={`${id}-place`} className="font-bold text-ink-strong leading-none">
@@ -547,15 +547,16 @@ export function EmergencyForm() {
           now.
         </div>
       )}
+      </>)}
 
       {step === 1 ? (
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+        <div className="mt-4 flex flex-col sm:flex-row gap-2.5">
           <Button
             type="button"
             onClick={() => setStep(2)}
             disabled={!requesterName || !requesterPhone}
             variant="outline"
-            className="h-14 flex-1 text-base font-bold border-emergency/30 text-emergency hover:bg-emergency/5"
+            className="h-11 sm:h-12 flex-1 text-sm sm:text-base font-bold border-emergency/30 text-emergency hover:bg-emergency/5"
           >
             Add Details
           </Button>
@@ -565,7 +566,7 @@ export function EmergencyForm() {
               <Button
                 type="button"
                 disabled={status === 'sending' || !requesterName || !requesterPhone}
-                className="h-14 flex-[2] cta-gradient-danger text-base font-bold tracking-wide text-white uppercase shadow-md hover:shadow-lg transition-all"
+                className="h-11 sm:h-12 flex-[2] cta-gradient-danger text-sm sm:text-base font-bold tracking-wide text-white uppercase shadow-sm hover:shadow-md transition-all"
               >
                 {status === 'sending' ? <><Loader2 className="animate-spin mr-2" /> Sending…</> : 'Connect to AKEEZO'}
               </Button>
@@ -588,12 +589,12 @@ export function EmergencyForm() {
           </AlertDialog>
         </div>
       ) : (
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+        <div className="mt-4 flex flex-col sm:flex-row gap-2.5">
           <Button
             type="button"
             onClick={() => setStep(1)}
             variant="outline"
-            className="h-14 flex-1 text-base font-bold text-muted-foreground"
+            className="h-11 sm:h-12 flex-1 text-sm sm:text-base font-bold text-muted-foreground"
           >
             Back
           </Button>
@@ -603,7 +604,7 @@ export function EmergencyForm() {
               <Button
                 type="button"
                 disabled={status === 'sending' || !requesterName || !requesterPhone}
-                className="h-14 flex-[2] cta-gradient-danger text-base font-bold tracking-wide text-white uppercase shadow-md hover:shadow-lg transition-all"
+                className="h-11 sm:h-12 flex-[2] cta-gradient-danger text-sm sm:text-base font-bold tracking-wide text-white uppercase shadow-sm hover:shadow-md transition-all"
               >
                 {status === 'sending' ? <><Loader2 className="animate-spin mr-2" /> Sending…</> : 'Connect to AKEEZO'}
               </Button>
@@ -626,8 +627,7 @@ export function EmergencyForm() {
           </AlertDialog>
         </div>
       )}
-      </>)}
-      <p className="mt-3 text-center text-xs text-muted-foreground">
+      <p className="mt-2.5 text-center text-xs text-muted-foreground">
         AKEEZO coordinates emergency response. We are not a substitute for your local emergency
         number — in a life-threatening emergency, call that first.
       </p>

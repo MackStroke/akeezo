@@ -111,49 +111,78 @@ export function SiteFooter() {
 
         </div>
       
-      <div className="mt-12 pt-8 border-t border-black/10 flex flex-col lg:flex-row justify-between items-center gap-8 w-full">
-        
-        {/* Contact Details (Left) */}
-        <div className="flex flex-col sm:flex-row flex-wrap gap-6 justify-center lg:justify-start items-center text-xs sm:text-sm">
-          <div className="flex items-center gap-2">
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent text-primary">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-phone-call size-3.5" aria-hidden="true"><path d="M13 2a9 9 0 0 1 9 9"></path><path d="M13 6a5 5 0 0 1 5 5"></path><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-                </span>
-                <span className="font-bold text-ink-strong">24/7 Desk: </span>
-                <a href="tel:+918287639443" className="font-bold text-primary underline">+91 82876 39443</a>
-              </div>
-              <div className="flex flex-col sm:flex-row flex-wrap gap-6 justify-center items-center pt-0">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent text-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart-handshake size-3.5" aria-hidden="true"><path d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762"></path></svg>
-                  </span>
-                  <strong className="text-foreground font-semibold">Care Team: </strong>
-                  <a href="mailto:care@akeezo.com" className="font-bold text-primary underline">care@akeezo.com</a>
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent text-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-globe size-3.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
-                  </span>
-                  <strong className="text-foreground font-semibold">Medical Tourism: </strong>
-                  <a href="mailto:medical@akeezo.com" className="font-bold text-primary underline">medical@akeezo.com</a>
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent text-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-handshake size-3.5" aria-hidden="true"><path d="m11 17 2 2a1 1 0 1 0 3-3"></path><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"></path><path d="m21 3 1 11h-2"></path><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"></path><path d="M3 4h8"></path></svg>
-                  </span>
-                  <strong className="text-foreground font-semibold">Partners: </strong>
-                  <a href="mailto:partners@akeezo.com" className="font-bold text-primary underline">partners@akeezo.com</a>
-                </div>
-              </div>
+      <div className="mt-12 pt-8 border-t border-black/10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+
+          {/* 24/7 Desk */}
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-black/5 hover:border-primary/20 transition-colors">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-phone-call size-5" aria-hidden="true"><path d="M13 2a9 9 0 0 1 9 9"></path><path d="M13 6a5 5 0 0 1 5 5"></path><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+            </span>
+            <div className="flex flex-col min-w-0">
+              <span className="font-bold text-ink-strong text-xs">24/7 Desk</span>
+              <a href="tel:+918287639443" className="font-bold text-primary underline text-sm truncate">+91 82876 39443</a>
             </div>
+          </div>
+
+          {/* Care Team */}
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-black/5 hover:border-primary/20 transition-colors">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart-handshake size-5" aria-hidden="true"><path d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762"></path></svg>
+            </span>
+            <div className="flex flex-col min-w-0">
+              <span className="font-bold text-ink-strong text-xs">Care Team</span>
+              <a href="mailto:care@akeezo.com" className="font-bold text-primary underline text-sm truncate">care@akeezo.com</a>
+            </div>
+          </div>
+
+          {/* Medical Tourism */}
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-black/5 hover:border-primary/20 transition-colors">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-globe size-5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+            </span>
+            <div className="flex flex-col min-w-0">
+              <span className="font-bold text-ink-strong text-xs">Medical Tourism</span>
+              <a href="mailto:medical@akeezo.com" className="font-bold text-primary underline text-sm truncate">medical@akeezo.com</a>
+            </div>
+          </div>
+
+          {/* Partners */}
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-black/5 hover:border-primary/20 transition-colors">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-handshake size-5" aria-hidden="true"><path d="m11 17 2 2a1 1 0 1 0 3-3"></path><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"></path><path d="m21 3 1 11h-2"></path><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"></path><path d="M3 4h8"></path></svg>
+            </span>
+            <div className="flex flex-col min-w-0">
+              <span className="font-bold text-ink-strong text-xs">Partners</span>
+              <a href="mailto:partners@akeezo.com" className="font-bold text-primary underline text-sm truncate">partners@akeezo.com</a>
+            </div>
+          </div>
+
         </div>
+      </div>
+      </div>
         
-        {/* Social links (Right) */}
-        <div className="flex shrink-0">
+      {/* 3. Bottom Control Section */}
+      <div className="mx-auto max-w-[76rem] px-4 pb-20 sm:pb-8">
+        
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          {/* Logos & Trust Badges */}
+          <div className="flex flex-wrap justify-center items-center gap-6 opacity-80 order-1 md:order-2">
+            <img src="/images/logo-dark.svg" alt="Akeezo" className="h-5 object-contain" />
+            <div className="flex items-center gap-1.5 font-bold text-sm tracking-tight text-ink-strong">
+              <ShieldAlert className="size-4" /> Verified
+            </div>
+            <div className="flex items-center gap-1.5 font-bold text-sm tracking-tight text-ink-strong">
+              <HeartHandshake className="size-4" /> Trusted
+            </div>
+          </div>
+
+          {/* Social links (Right) */}
+        <div className="flex shrink-0 order-2 md:order-1">
 {/* Social links */}
-           <div className="flex flex-col items-center md:items-end gap-3">
+           <div className="flex flex-col items-center md:items-start gap-3">
              <span className="text-[0.68rem] font-bold uppercase tracking-wider text-muted-foreground">Connect with AKEEZO</span>
-             <div className="flex items-center justify-center md:justify-end gap-2 flex-wrap">
+             <div className="flex items-center justify-center md:justify-start gap-2 flex-wrap">
                <a href="https://facebook.com/akeezohealth" target="_blank" rel="noopener noreferrer" aria-label="AKEEZO on Facebook" className="flex size-8 items-center justify-center rounded-lg bg-accent text-primary transition-all duration-200 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-xs" title="Facebook"><svg className="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path></svg></a>
                <a href="https://instagram.com/akeezohealth" target="_blank" rel="noopener noreferrer" aria-label="AKEEZO on Instagram" className="flex size-8 items-center justify-center rounded-lg bg-accent text-primary transition-all duration-200 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-xs" title="Instagram"><svg className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></a>
                <a href="https://x.com/akeezohealth" target="_blank" rel="noopener noreferrer" aria-label="AKEEZO on Twitter / X" className="flex size-8 items-center justify-center rounded-lg bg-accent text-primary transition-all duration-200 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-xs" title="Twitter / X"><svg className="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg></a>
@@ -165,49 +194,17 @@ export function SiteFooter() {
            
 
         </div>
-        
-      </div>
-
-      {/* 3. Bottom Control Section */}
-      <div className="mx-auto max-w-[76rem] px-4 pb-20 sm:pb-8">
-        
-        {/* Language & Currency Pickers */}
-        <div className="flex gap-4 mb-6">
-          <button className="flex items-center justify-center w-8 h-8 rounded-full border border-black/20 hover:bg-black/5 transition-colors" aria-label="Language: English">
-            <img src="https://t-cf.bstatic.com/design-assets/assets/v3.202.0/images-flags/In@3x.png" alt="English (India)" className="w-5 h-5 rounded-full object-cover" />
-          </button>
-          <button className="flex items-center justify-center px-3 h-8 rounded-full border border-black/20 hover:bg-black/5 transition-colors font-medium text-xs" aria-label="Currency: INR">
-            INR
-          </button>
         </div>
 
-        <hr className="border-black/10 mb-6" aria-hidden="true" />
-        
         {/* Copyright & Disclaimer */}
-        <div className="text-center text-xs text-muted-foreground space-y-2 mb-8">
-          <p>
-            Akeezo is your trusted healthcare journey partner, seamlessly connecting you with top hospitals and doctors.
-            <br className="hidden sm:block" />
-            Healthcare services are delivered by independent medical professionals and accredited facilities.
+        <div className="mt-8 pt-8 border-t border-black/10 flex flex-col lg:flex-row justify-between items-center lg:items-end gap-6 text-center lg:text-left text-xs text-muted-foreground">
+          <p className="max-w-3xl leading-relaxed">
+            Akeezo is your trusted healthcare journey partner, seamlessly connecting you with top hospitals and doctors. Healthcare services are delivered by independent medical professionals and accredited facilities.
           </p>
-          <p>Copyright &copy; 1996&ndash;{year} Akeezo&trade;. All rights reserved.</p>
+          <p className="whitespace-nowrap font-medium text-ink-strong">
+            Copyright &copy; {year} Akeezo&trade;. All rights reserved.
+          </p>
         </div>
-        
-        {/* Social & Logos */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 border-t border-black/10 pt-8 mt-8">
-           
-           {/* Logos */}
-           <div className="flex flex-wrap justify-center md:justify-start items-center gap-8 opacity-80">
-             <img src="/images/logo-dark.svg" alt="Akeezo" className="h-6 object-contain" />
-             <div className="h-6 flex items-center gap-2 font-bold text-lg tracking-tight">
-               <ShieldAlert className="size-5" /> Verified
-             </div>
-             <div className="h-6 flex items-center gap-2 font-bold text-lg tracking-tight">
-               <HeartHandshake className="size-5" /> Trusted
-             </div>
-           </div>
-
-                              </div>
 
       </div>
     </footer>

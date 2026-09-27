@@ -100,8 +100,7 @@ export function CostEstimate() {
         {/* Right Column: Authentic Paper-Style Hospital Bill Invoice */}
         <div className="lg:col-span-7 w-full min-w-0">
           <div className="relative rounded-xl border border-[#e2ddd3] dark:border-rule bg-[#fcfbf9] dark:bg-[#0c1a17] text-foreground shadow-[0_16px_45px_-10px_rgba(0,0,0,0.15),0_4px_16px_rgba(0,0,0,0.08)] overflow-hidden">
-            {/* Top Perforation & Brand Color Accent Bar */}
-            <div className="h-1.5 w-full bg-gradient-to-r from-navy via-mint to-navy" />
+
 
             {/* Verified Watermark Stamp Effect */}
             <div aria-hidden="true" className="absolute top-16 sm:top-20 right-3 sm:right-10 pointer-events-none select-none z-10 rotate-[-12deg] opacity-20 sm:opacity-35 scale-75 xs:scale-90 sm:scale-100 origin-top-right">

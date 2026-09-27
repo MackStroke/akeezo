@@ -147,10 +147,16 @@ export default function AboutPage() {
                 <div className="flex flex-wrap gap-4">
                   <div className="flex items-center gap-3">
                     <div className="flex -space-x-3">
-                      <img className="size-10 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="Patient" />
-                      <img className="size-10 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" alt="Patient" />
-                      <img className="size-10 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Patient" />
-                      <div className="size-10 rounded-full border-2 border-white bg-primary flex items-center justify-center text-xs font-bold text-white shadow-sm">
+                      <div className="size-10 rounded-full border-2 border-white bg-white shadow-sm flex items-center justify-center p-1 z-30">
+                        <img className="w-full h-full object-contain" src="https://upload.wikimedia.org/wikipedia/en/thumb/8/87/Apollo_Hospitals_Logo.svg/300px-Apollo_Hospitals_Logo.svg.png" alt="Apollo Hospitals" />
+                      </div>
+                      <div className="size-10 rounded-full border-2 border-white bg-white shadow-sm flex items-center justify-center p-1 z-20">
+                        <img className="w-full h-full object-contain" src="https://upload.wikimedia.org/wikipedia/en/thumb/9/91/Fortis_Healthcare_logo.svg/300px-Fortis_Healthcare_logo.svg.png" alt="Fortis Healthcare" />
+                      </div>
+                      <div className="size-10 rounded-full border-2 border-white bg-white shadow-sm flex items-center justify-center p-1 z-10">
+                        <img className="w-full h-full object-contain" src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Medanta_logo.svg/300px-Medanta_logo.svg.png" alt="Medanta" />
+                      </div>
+                      <div className="size-10 rounded-full border-2 border-white bg-primary flex items-center justify-center text-xs font-bold text-white shadow-sm z-0">
                         50+
                       </div>
                     </div>

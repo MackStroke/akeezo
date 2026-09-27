@@ -20,29 +20,64 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '../.
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
 
-const navItems = [
-  { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-  { name: 'Emergencies', path: '/admin/emergencies', icon: Siren },
-  { name: 'Leads', path: '/admin/leads', icon: Users },
-  { name: 'Medicine & Supplements', path: '/admin/medicines', icon: Pill },
-  { name: 'Recommendations', path: '/admin/recommendations', icon: MapPin },
-  { name: 'Registered Users', path: '/admin/users', icon: UserCheck },
-  { name: 'Hospitals', path: '/admin/hospitals', icon: Building2 },
-  { name: 'Packages', path: '/admin/packages', icon: Package },
-  { name: 'Blog Articles', path: '/admin/blog', icon: BookOpen },
-  { name: 'Email Notifications', path: '/admin/email', icon: Mail },
-  { name: 'Social', path: '/admin/social', icon: Share2 },
-  { name: 'Tasks', path: '/admin/tasks', icon: CheckSquare },
-  { name: 'My Profile', path: '/admin/profile', icon: User },
-  { name: 'Analytics', path: '/admin/analytics', icon: Activity },
-  { name: 'Compliance', path: '/admin/compliance', icon: ShieldCheck },
-  { name: 'Locations', path: '/admin/locations', icon: MapPin },
-  { name: 'Maintenance', path: '/admin/maintenance', icon: Wrench },
-  { name: 'Settings', path: '/admin/settings', icon: Settings },
-  { name: 'Home Page', path: '/admin/home', icon: Home },
-  { name: 'Form Dropdowns', path: '/admin/forms', icon: Settings },
-  { name: 'Theme Settings', path: '/admin/theme', icon: Palette },
-  { name: 'Consultancy', path: '/admin/consultancy', icon: HelpCircle },
+const navGroups = [
+  {
+    label: null, // No label for the primary group
+    items: [
+      { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+      { name: 'Emergencies', path: '/admin/emergencies', icon: Siren },
+    ],
+  },
+  {
+    label: 'CRM',
+    items: [
+      { name: 'Leads', path: '/admin/leads', icon: Users },
+      { name: 'Recommendations', path: '/admin/recommendations', icon: Share2 },
+      { name: 'Registered Users', path: '/admin/users', icon: UserCheck },
+      { name: 'Tasks', path: '/admin/tasks', icon: CheckSquare },
+    ],
+  },
+  {
+    label: 'Catalogue',
+    items: [
+      { name: 'Hospitals', path: '/admin/hospitals', icon: Building2 },
+      { name: 'Medicine & Supplements', path: '/admin/medicines', icon: Pill },
+      { name: 'Packages', path: '/admin/packages', icon: Package },
+      { name: 'Consultancy', path: '/admin/consultancy', icon: HelpCircle },
+    ],
+  },
+  {
+    label: 'Content',
+    items: [
+      { name: 'Blog Articles', path: '/admin/blog', icon: BookOpen },
+      { name: 'Home Page', path: '/admin/home', icon: Home },
+      { name: 'Social', path: '/admin/social', icon: Share2 },
+    ],
+  },
+  {
+    label: 'Reports',
+    items: [
+      { name: 'Analytics', path: '/admin/analytics', icon: Activity },
+      { name: 'Compliance', path: '/admin/compliance', icon: ShieldCheck },
+    ],
+  },
+  {
+    label: 'Configuration',
+    items: [
+      { name: 'Settings', path: '/admin/settings', icon: Settings },
+      { name: 'Locations', path: '/admin/locations', icon: MapPin },
+      { name: 'Form Dropdowns', path: '/admin/forms', icon: Settings },
+      { name: 'Email Notifications', path: '/admin/email', icon: Mail },
+      { name: 'Theme Settings', path: '/admin/theme', icon: Palette },
+      { name: 'Maintenance', path: '/admin/maintenance', icon: Wrench },
+    ],
+  },
+  {
+    label: null,
+    items: [
+      { name: 'My Profile', path: '/admin/profile', icon: User },
+    ],
+  },
 ];
 
 export default function AdminLayout() {
@@ -100,27 +135,32 @@ export default function AdminLayout() {
           <span className="bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded">Admin</span>
         </Link>
         
-        <nav className="flex flex-col gap-1.5 flex-1">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            // Exact match or prefix match for active state
-            const isActive = location.pathname.startsWith(item.path);
-            
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-all ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                }`}
-              >
-                <Icon className="h-4 w-4" strokeWidth={isActive ? 2.5 : 2} />
-                {item.name}
-              </Link>
-            );
-          })}
+        <nav className="flex flex-col gap-1 flex-1">
+          {navGroups.map((group, gi) => (
+            <div key={gi} className={gi > 0 ? 'mt-4' : ''}>
+              {group.label && (
+                <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">{group.label}</p>
+              )}
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname.startsWith(item.path);
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-bold transition-all ${
+                      isActive
+                        ? 'bg-primary text-primary-foreground shadow-sm'
+                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" strokeWidth={isActive ? 2.5 : 2} />
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
         {/* Bottom User Area */}

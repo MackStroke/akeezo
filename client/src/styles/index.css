@@ -141,63 +141,8 @@
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #061e1b;
-    --foreground: #f1f5f9;
-    --ink-strong: #ffffff;
 
-    --card: #0b2b27;
-    --card-foreground: #f1f5f9;
-    --popover: #0b2b27;
-    --popover-foreground: #f1f5f9;
 
-    --primary: #ff6b00;
-    --primary-foreground: #ffffff;
-
-    --secondary: #0f3d37;
-    --secondary-foreground: #40e0d0;
-
-    --muted: #0d342f;
-    --muted-foreground: #94a3b8;
-
-    --accent: #331500;
-    --accent-foreground: #ff9d4d;
-
-    --destructive: #e5342a;
-    --destructive-foreground: #ffffff;
-
-    --border: #144f48;
-    --rule: #144f48;
-    --input: #1b635b;
-    --ring: #ff6b00;
-
-    --sunk: #041412;
-
-    --hero-band: #061e1b;
-
-    --navy: #041412;
-    --navy-foreground: #ffffff;
-
-    --mint: #00c7be;
-
-    --emergency: #d92d20;
-    --emergency-strong: #a32118;
-    --emergency-surface: #2a0f0d;
-    --emergency-ink: #ff9d95;
-
-    --cta-from: #ff6b00;
-    --cta-to: #e05b00;
-    --cta-from-hover: #ff7a1a;
-    --cta-to-hover: #c64e00;
-
-    --widget-shadow: 0 2px 4px rgb(0 0 0 / 0.45), 0 8px 28px rgb(0 0 0 / 0.55);
-    --widget-shadow-orange: 0 2px 4px rgb(255 107 0 / 0.15), 0 8px 28px rgb(255 107 0 / 0.25);
-    --widget-shadow-emergency: 0 2px 4px rgb(217 45 32 / 0.18), 0 8px 28px rgb(217 45 32 / 0.28);
-    --card-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px rgb(0 0 0 / 0.45);
-    --tab-shadow: 0 1px 6px rgb(0 0 0 / 0.5);
-  }
-}
 
 @layer base {
   * {
@@ -205,6 +150,7 @@
   }
 
   html {
+    color-scheme: light only;
     scroll-padding-top: 7.5rem;
     -webkit-text-size-adjust: 100%;
   }
@@ -320,13 +266,5 @@
   }
 }
 
-.dark {
-  --sidebar: hsl(240 5.9% 10%);
-  --sidebar-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-primary: hsl(224.3 76.3% 48%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(240 3.7% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(240 3.7% 15.9%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
-}
+
+
