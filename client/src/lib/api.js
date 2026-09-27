@@ -135,3 +135,6 @@ export const fetchHospitals = (params) =>
 export const fetchHospital = (slug) =>
   get(`/api/hospitals/${encodeURIComponent(slug)}`);
 
+/** Fetches FAQs */
+export const fetchFaqs = () => get(`/api/faqs`);
+

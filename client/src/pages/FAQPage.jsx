@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import SEO from '../components/SEO';
-import { HelpCircle, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 import { SiteHeader } from '../components/SiteHeader';
 import { SiteFooter } from '../components/SiteFooter';
 import {
@@ -9,8 +9,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '../components/ui/accordion';
+import { fetchFaqs } from '../lib/api';
 
-const GENERAL_FAQS = [
+const DEFAULT_GENERAL_FAQS = [
   {
     question: "How does Akeezo help patients?",
     answer: "Akeezo is an end-to-end healthcare journey platform. We help you discover the right doctors and hospitals, book appointments, arrange medical visas for international travel, and provide ongoing care coordination through your entire treatment journey."
@@ -29,7 +30,7 @@ const GENERAL_FAQS = [
   }
 ];
 
-const PARTNER_FAQS = [
+const DEFAULT_PARTNER_FAQS = [
   {
     question: "How do I list my hospital on Akeezo?",
     answer: "You can apply by filling out the 'List your Hospital' form on the Join as Partner page. Our onboarding team will review your JCI/NABH accreditations and get back to you within 48 hours to initiate the contract and integration process."
@@ -49,8 +50,32 @@ const PARTNER_FAQS = [
 ];
 
 export default function FAQPage() {
+  const [faqsByCategory, setFaqsByCategory] = useState({
+    'General & Patient FAQs': DEFAULT_GENERAL_FAQS,
+    'Partner Help Center': DEFAULT_PARTNER_FAQS
+  });
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    
+    async function loadFaqs() {
+      try {
+        const data = await fetchFaqs();
+        if (data && data.length > 0) {
+          const grouped = {};
+          data.forEach(faq => {
+            const cat = faq.category || 'General';
+            if (!grouped[cat]) grouped[cat] = [];
+            grouped[cat].push(faq);
+          });
+          setFaqsByCategory(grouped);
+        }
+      } catch (err) {
+        console.error('Failed to load FAQs:', err);
+      }
+    }
+    
+    loadFaqs();
   }, []);
 
   return (
@@ -77,42 +102,26 @@ export default function FAQPage() {
 
         {/* FAQ Content */}
         <div className="mx-auto max-w-4xl px-4 mt-[-2rem] relative z-10">
-          <div className="bg-white rounded-2xl shadow-xl border border-black/5 p-6 md:p-10 mb-12">
-            
-            <h2 className="text-2xl font-bold text-ink-strong mb-6 flex items-center gap-3">
-              General & Patient FAQs
-            </h2>
-            <Accordion type="single" collapsible className="w-full">
-              {GENERAL_FAQS.map((faq, i) => (
-                <AccordionItem key={`general-${i}`} value={`general-${i}`} className="border-b border-black/5">
-                  <AccordionTrigger className="text-left font-semibold text-ink hover:text-primary py-5">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-xl border border-black/5 p-6 md:p-10" id="partner-help">
-            <h2 className="text-2xl font-bold text-ink-strong mb-6 flex items-center gap-3">
-              Partner Help Center
-            </h2>
-            <Accordion type="single" collapsible className="w-full">
-              {PARTNER_FAQS.map((faq, i) => (
-                <AccordionItem key={`partner-${i}`} value={`partner-${i}`} className="border-b border-black/5">
-                  <AccordionTrigger className="text-left font-semibold text-ink hover:text-primary py-5">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
+          
+          {Object.entries(faqsByCategory).map(([category, faqs], index) => (
+            <div key={category} className={`bg-white rounded-2xl shadow-xl border border-black/5 p-6 md:p-10 ${index !== Object.keys(faqsByCategory).length - 1 ? 'mb-12' : ''}`} id={category.toLowerCase().replace(/\s+/g, '-')}>
+              <h2 className="text-2xl font-bold text-ink-strong mb-6 flex items-center gap-3">
+                {category}
+              </h2>
+              <Accordion type="single" collapsible className="w-full">
+                {faqs.map((faq, i) => (
+                  <AccordionItem key={`${category}-${i}`} value={`${category}-${i}`} className="border-b border-black/5">
+                    <AccordionTrigger className="text-left font-semibold text-ink hover:text-primary py-5">
+                      {faq.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          ))}
 
           {/* Contact Support CTA */}
           <div className="mt-12 text-center bg-slate-50 border border-black/10 rounded-2xl p-8">

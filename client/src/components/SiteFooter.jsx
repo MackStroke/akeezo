@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { ShieldAlert, HeartHandshake } from 'lucide-react';
-import { site, formatPhone, telHref } from '@/lib/site';
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -66,7 +65,6 @@ export function SiteFooter() {
               <li><a href="#telehealth" className="hover:underline">Online Consultations</a></li>
               <li><a href="#post-op" className="hover:underline">Post-Surgery Recovery</a></li>
               <li><a href="#visa" className="hover:underline">Medical Visa Assistance</a></li>
-              <li><a href={telHref(site.emergencyPhone)} className="hover:underline font-semibold text-ink-strong">Call: {formatPhone(site.emergencyPhone)}</a></li>
             </ul>
           </div>
 
@@ -99,7 +97,7 @@ export function SiteFooter() {
           <div className="space-y-4">
             <h3 className="font-bold text-lg mb-4">Partners</h3>
             <ul className="space-y-3 text-muted-foreground">
-              <li><Link to="/faq#partner-help" className="hover:underline">Partner Help Center</Link></li>
+              <li><Link to="/insurance-agent-partner" className="hover:underline">Insurance Agents</Link></li>
               <li><Link to="/join-partner" className="hover:underline">List your Hospital</Link></li>
               <li><Link to="/join-partner" className="hover:underline">Join as a Doctor</Link></li>
               <li><Link to="/join-partner" className="hover:underline">Join as Attendant</Link></li>

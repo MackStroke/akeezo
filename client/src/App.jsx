@@ -21,6 +21,7 @@ import SocialSettingsPage from './pages/admin/SocialSettingsPage';
 import RecommendationsPage from './pages/admin/RecommendationsPage';
 import DynamicPage from './pages/DynamicPage';
 import JoinPartnerPage from './pages/JoinPartnerPage';
+import InsuranceAgentPage from './pages/InsuranceAgentPage';
 import FAQPage from './pages/FAQPage';
 import AdminPagesPage from './pages/admin/AdminPagesPage';
 import BlogPage from './pages/BlogPage';
@@ -56,6 +57,7 @@ import AdminPackagesPage from './pages/admin/AdminPackagesPage';
 import AdminPackageDetailsPage from './pages/admin/AdminPackageDetailsPage';
 import MedicinesPage from './pages/MedicinesPage';
 import AdminMedicinesPage from './pages/admin/AdminMedicinesPage';
+import AdminFAQPage from './pages/admin/AdminFAQPage';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -141,6 +143,7 @@ export default function App() {
                 {/* Public Blog Routes */}
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/join-partner" element={<JoinPartnerPage />} />
+                <Route path="/insurance-agent-partner" element={<InsuranceAgentPage />} />
                 <Route path="/faq" element={<FAQPage />} />
                 <Route path="/contact" element={<DynamicPage slug="contact" />} />
                 <Route path="/blog" element={<BlogPage />} />
@@ -167,6 +170,7 @@ export default function App() {
                   <Route path="emergencies" element={<EmergenciesPage />} />
                   <Route path="emergencies/:id" element={<EmergencyDetailsPage />} />
                   <Route path="pages" element={<AdminPagesPage />} />
+                  <Route path="faqs" element={<AdminFAQPage />} />
                   <Route path="blog" element={<AdminBlogPage />} />
                   <Route path="email" element={<AdminEmailPage />} />
                   <Route path="social" element={<SocialSettingsPage />} />

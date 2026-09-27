@@ -13,7 +13,17 @@ import {
   Building2,
   Headset,
   Wallet,
-  Plane
+  Plane,
+  Pill,
+  TestTube,
+  Microscope,
+  Cross,
+  Syringe,
+  BedDouble,
+  HeartHandshake,
+  MapPin,
+  CheckCircle2,
+  PhoneCall
 } from 'lucide-react';
 import { IconBrandLinkedin, IconBrandTwitter } from '@tabler/icons-react';
 import SEO from '../components/SEO';
@@ -62,31 +72,31 @@ const VALUES = [
   }
 ];
 
-const TEAM = [
-  {
-    id: 1,
-    name: 'Dr. Sarah Mitchell',
-    role: 'Chief Medical Officer',
-    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&auto=format&fit=crop',
-    bio: 'Former head of surgery with 15+ years experience in international healthcare coordination.',
-    socials: { linkedin: '#', twitter: '#' }
-  },
-  {
-    id: 2,
-    name: 'James Wilson',
-    role: 'Head of Patient Care',
-    image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400&auto=format&fit=crop',
-    bio: 'Dedicated to ensuring every patient receives compassionate, personalized support throughout their journey.',
-    socials: { linkedin: '#', twitter: '#' }
-  },
-  {
-    id: 3,
-    name: 'Dr. Amit Patel',
-    role: 'Director of Global Partnerships',
-    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=400&auto=format&fit=crop',
-    bio: 'Builds and maintains our exclusive network of JCI and NABH accredited hospital partners.',
-    socials: { linkedin: '#', twitter: '#' }
-  },
+const SERVICES = [
+  { id: 1, title: 'Doctor Consultations', description: 'Specialist & General', icon: Stethoscope },
+  { id: 2, title: 'Treatment & Surgery', description: 'Hospitals, treatments, surgeries, rehabilitation', icon: BedDouble },
+  { id: 3, title: 'Affordable Healthcare', description: 'Discounted prices & suitable options across India - treated under your budget', icon: Wallet },
+  { id: 4, title: 'Home Healthcare', description: 'Nursing, on-call nurses, attendants, caregivers', icon: HeartHandshake },
+  { id: 5, title: 'Diagnostics & Lab', description: 'Lab tests, home sample collection, diagnostic coordination', icon: Microscope },
+  { id: 6, title: 'Medicines', description: 'Coordination & delivery', icon: Pill },
+  { id: 7, title: 'Medical Equipment', description: 'DVT mattresses & essential equipment', icon: Activity },
+  { id: 8, title: 'Rehab & Physiotherapy', description: 'Physiotherapy, rehab support, post-discharge care', icon: Users },
+  { id: 9, title: 'Dialysis Care at Home', description: 'ICU at home, post-operative care, dedicated staff & vendors', icon: Syringe },
+  { id: 10, title: 'Complete Support', description: 'One point of contact from consultation to recovery. Under one roof.', icon: ShieldCheck },
+  { id: 11, title: 'Medical Tourism', description: 'Treatment & surgery support for patients worldwide', icon: Plane }
+];
+
+const NETWORK_STATS = [
+  { label: 'Partner Hospital Networks', sub: 'Across India & Worldwide', value: '3', icon: Building2 },
+  { label: 'Cities on the Map', sub: 'In India & Abroad', value: '36', icon: MapPin },
+  { label: 'Centres Across Networks', sub: 'With trusted partners', value: '83', icon: Cross },
+  { label: 'Akeezo Care Line', sub: 'Always here for you', value: '24x7', icon: PhoneCall }
+];
+
+const NETWORK_PARTNERS = [
+  { name: 'ASG Eye Hospitals', region: 'North, East & Central India', centres: 38, cities: 20 },
+  { name: 'Vasan Eye Care', region: 'South & East India', centres: 33, cities: 14 },
+  { name: 'Sharp Sight Eye Hospitals', region: 'Delhi NCR, Jammu & Srinagar', centres: 12, cities: 7 }
 ];
 
 const fadeIn = {
@@ -291,6 +301,70 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Our Services */}
+        <section className="py-16 sm:py-20 mx-auto max-w-[76rem] px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="font-mono text-[0.7rem] font-black uppercase tracking-widest text-primary mb-4 inline-block">
+              Comprehensive Care
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black text-ink-strong tracking-tight mb-4">
+              Our Services
+            </h2>
+            <p className="text-lg text-muted-foreground font-medium">
+              Akeezo is your trusted healthcare partner, connecting you to the right treatment, the best hospitals and expert care — across the world.
+            </p>
+          </div>
+
+          <motion.div 
+            className="grid lg:grid-cols-3 gap-8 lg:gap-12"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            <div className="lg:col-span-2 grid sm:grid-cols-2 gap-x-6 gap-y-10">
+              {SERVICES.map((service) => (
+                <motion.div key={service.id} variants={fadeIn} className="flex items-start gap-4">
+                  <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                    <service.icon className="size-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-ink-strong mb-1">{service.title}</h3>
+                    <p className="text-sm text-muted-foreground font-medium leading-relaxed">{service.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div variants={fadeIn} className="space-y-8">
+              <div className="bg-primary/5 rounded-[2rem] p-8 border border-primary/10">
+                <Globe className="size-8 text-primary mb-4" />
+                <h3 className="text-xl font-bold text-ink-strong mb-3">We Help All Patients</h3>
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed">
+                  Whether you're international or Indian, Akeezo finds the right treatment or surgery within your budget and coordinates everything — including visas and arrangements — till you fly back home.
+                </p>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-900/40 rounded-[2rem] p-8 border border-rule">
+                <h3 className="text-xl font-bold text-ink-strong mb-4">Why Choose Akeezo?</h3>
+                <ul className="space-y-3">
+                  {[
+                    "Trusted hospital partners",
+                    "Expert healthcare professionals",
+                    "End-to-end coordination",
+                    "Personalized care",
+                    "Support, every step of the way"
+                  ].map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-3 text-sm font-medium text-muted-foreground">
+                      <CheckCircle2 className="size-4 text-primary shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          </motion.div>
+        </section>
+
         {/* Core Values */}
         <section className="py-16 sm:py-20 bg-slate-50 dark:bg-slate-900/40 border-y border-rule">
           <div className="mx-auto max-w-[76rem] px-4 sm:px-6 lg:px-8">
@@ -335,6 +409,56 @@ export default function AboutPage() {
           </div>
         </section>
 
+
+        {/* Global Network */}
+        <section className="py-16 sm:py-20 mx-auto max-w-[76rem] px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="font-mono text-[0.7rem] font-black uppercase tracking-widest text-primary mb-4 inline-block">
+              Everywhere You Need Us
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black text-ink-strong tracking-tight mb-4">
+              Our Global & Indian Network
+            </h2>
+            <p className="text-lg text-muted-foreground font-medium">
+              World-class hospitals. Trusted partners. Care, wherever you are.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {NETWORK_STATS.map((stat, idx) => (
+              <motion.div key={idx} variants={fadeIn} className="bg-white border border-rule rounded-2xl p-6 shadow-sm text-center">
+                <div className="size-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                  <stat.icon className="size-6" />
+                </div>
+                <h3 className="text-3xl font-black text-ink-strong mb-1">{stat.value}</h3>
+                <p className="font-bold text-ink-strong text-sm mb-1">{stat.label}</p>
+                <p className="text-xs text-muted-foreground font-medium">{stat.sub}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {NETWORK_PARTNERS.map((partner, idx) => (
+              <motion.div key={idx} variants={fadeIn} className="bg-slate-50 dark:bg-slate-900/40 border border-rule rounded-2xl p-6">
+                <h4 className="font-bold text-ink-strong mb-2 flex items-center gap-2">
+                  <Building2 className="size-4 text-primary" />
+                  {partner.name}
+                </h4>
+                <p className="text-sm text-muted-foreground font-medium mb-4">{partner.region}</p>
+                <div className="flex divide-x divide-rule border-t border-rule pt-4">
+                  <div className="flex-1 text-center">
+                    <p className="text-xl font-black text-ink-strong">{partner.centres}</p>
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Centres</p>
+                  </div>
+                  <div className="flex-1 text-center">
+                    <p className="text-xl font-black text-ink-strong">{partner.cities}</p>
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Cities</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
         {/* CTA Section */}
         <section className="py-10 sm:py-16 mx-auto max-w-[76rem] px-4 sm:px-6 lg:px-8 text-center">

@@ -50,6 +50,7 @@ const navGroups = [
     label: 'Content',
     items: [
       { name: 'Blog Articles', path: '/admin/blog', icon: BookOpen },
+      { name: 'FAQs', path: '/admin/faqs', icon: HelpCircle },
       { name: 'Home Page', path: '/admin/home', icon: Home },
       { name: 'Social', path: '/admin/social', icon: Share2 },
     ],
