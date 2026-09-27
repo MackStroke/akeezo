@@ -13,6 +13,8 @@ import {
   Layers,
   Eye,
   Pencil,
+  Pill,
+  Package,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { exportCsv, LEAD_EXPORT } from '../../lib/exportCsv';
@@ -111,6 +113,14 @@ const isMatchingCategory = (lead, category) => {
     );
   }
 
+  if (category === 'packages') {
+    return intent === 'healthcare_package' || intent.includes('package');
+  }
+
+  if (category === 'medicines') {
+    return intent.includes('medicine') || intent === 'pharmacy' || treatment.includes('medicine') || message.includes('medicine');
+  }
+
   if (category === 'plan') {
     const isEmg = lead.isEmergency === true || intent.includes('emergency') || urgency === 'emergency';
     const isHome =
@@ -121,7 +131,9 @@ const isMatchingCategory = (lead, category) => {
       treatment.includes('nurse') ||
       treatment.includes('caregiver') ||
       treatment.includes('physio');
-    return !isEmg && !isHome;
+    const isPkg = intent === 'healthcare_package' || intent.includes('package');
+    const isMed = intent.includes('medicine') || intent === 'pharmacy';
+    return !isEmg && !isHome && !isPkg && !isMed;
   }
 
   return true;
@@ -189,6 +201,8 @@ export default function LeadsPage() {
     plan: leads.filter(l => l.status !== 'Deleted' && isMatchingCategory(l, 'plan')).length,
     emergency: leads.filter(l => l.status !== 'Deleted' && isMatchingCategory(l, 'emergency')).length,
     home: leads.filter(l => l.status !== 'Deleted' && isMatchingCategory(l, 'home')).length,
+    medicines: leads.filter(l => l.status !== 'Deleted' && isMatchingCategory(l, 'medicines')).length,
+    packages: leads.filter(l => l.status !== 'Deleted' && isMatchingCategory(l, 'packages')).length,
   };
 
   const filteredLeads = leads
@@ -351,6 +365,22 @@ export default function LeadsPage() {
             icon: HouseHeart,
             count: categoryCounts.home,
             color: 'text-emerald-600 bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-950/60',
+          },
+          {
+            id: 'packages',
+            label: 'Healthcare Packages',
+            desc: 'Subscription Plans',
+            icon: Package,
+            count: categoryCounts.packages || 0,
+            color: 'text-orange-600 bg-orange-100 dark:text-orange-400 dark:bg-orange-950/60',
+          },
+          {
+            id: 'medicines',
+            label: 'Medicines',
+            desc: 'Prescription Orders',
+            icon: Pill,
+            count: categoryCounts.medicines || 0,
+            color: 'text-purple-600 bg-purple-100 dark:text-purple-400 dark:bg-purple-950/60',
           },
         ].map((chip) => {
           const Icon = chip.icon;

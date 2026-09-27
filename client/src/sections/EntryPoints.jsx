@@ -54,7 +54,7 @@ const ENTRIES = [
 
 export function EntryPoints() {
   return (
-    <section aria-labelledby="entry-heading" className="bg-sunk py-12">
+    <section id="entry-points" aria-labelledby="entry-heading" className="bg-sunk py-12">
       <div className="mx-auto max-w-[76rem] px-4">
         <h2 id="entry-heading" className="text-2xl sm:text-[1.75rem]">
           How Akeezo can help?

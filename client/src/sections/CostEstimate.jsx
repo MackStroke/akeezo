@@ -268,6 +268,10 @@ export function CostEstimate() {
                 </div>
               </div>
             </div>
+            
+            <p className="mt-3 text-center text-[0.65rem] sm:text-xs font-medium text-muted-foreground/80">
+              * The bill shown above is for representation purposes only. The original may vary according to the treatment.
+            </p>
           </div>
         </div>
       </div>

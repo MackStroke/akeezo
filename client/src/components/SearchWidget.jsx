@@ -1,4 +1,4 @@
-import { useId, useState, useRef } from 'react';
+import { useId, useState, useRef, useEffect } from 'react';
 import {
   Ambulance,
   CalendarDays,
@@ -7,6 +7,7 @@ import {
   Loader2,
   MapPin,
   Phone,
+  Pill,
   Stethoscope,
   Wallet,
 } from 'lucide-react';
@@ -14,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { treatments, site, formatPhone, telHref } from '@/lib/site';
 import { CarePreferenceRow } from '@/components/CarePreferenceRow';
@@ -36,8 +38,9 @@ import { useConfig } from '@/context/ConfigContext';
 
 const TABS = [
   { value: 'plan', label: 'Plan Treatment', icon: Stethoscope },
-  { value: 'emergency', label: 'Emergency Help', icon: Ambulance, urgent: true },
   { value: 'home', label: 'Home Healthcare', icon: HouseHeart },
+  { value: 'emergency', label: 'Emergency Help', icon: Ambulance, urgent: true },
+  { value: 'medicines', label: 'Medicines and Supplements', icon: Pill },
 ];
 
 const URGENCY = [
@@ -59,54 +62,40 @@ const BUDGETS = [
   { value: 'not_sure', label: 'Not sure' },
 ];
 
-const HOME_SERVICES = [
-  'Nurse',
-  'Caregiver / attendant',
-  'Physiotherapist',
-  'Doctor home visit',
-  'Post-operative care',
-  'Elder care',
-  'Palliative care',
-  'Home diagnostics',
+const COUNTRIES = [
+  { value: 'India', label: 'India' },
+  { value: 'UAE', label: 'UAE' },
+  { value: 'USA', label: 'USA' },
 ];
 
-const PLACE_TYPES = [
-  { value: 'home', label: 'Home' },
-  { value: 'hotel', label: 'Hotel' },
-  { value: 'airport', label: 'Airport' },
-  { value: 'railway_station', label: 'Railway station' },
-  { value: 'office', label: 'Office' },
-  { value: 'road', label: 'Road / in transit' },
-  { value: 'other', label: 'Somewhere else' },
-];
+const STATES = {
+  'India': ['Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh', 'Dadra and Nagar Haveli', 'Daman and Diu', 'Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Ladakh', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'],
+  'UAE': ['Abu Dhabi', 'Ajman', 'Dubai', 'Fujairah', 'Ras Al Khaimah', 'Sharjah', 'Umm Al Quwain'],
+  'USA': ['California', 'New York', 'Texas', 'Florida', 'Illinois', 'Pennsylvania', 'Ohio', 'Georgia', 'North Carolina', 'Michigan'],
+};
 
-const PROBLEMS = [
-  'Accident',
-  'Chest pain',
-  'Difficulty breathing',
-  'Unconscious',
-  'Severe bleeding',
-  'Stroke symptoms',
-  'Seizure',
-  'Severe allergic reaction',
-  'Burn',
-  'Poisoning',
-  'Pregnancy-related emergency',
-  'Fall or injury',
-  'Fever or illness',
-  'Other',
-  "I don't know",
-];
-
-export function SearchWidget({ onPlan, onEmergency, onHome }) {
+export function SearchWidget({ onPlan, onEmergency, onHome, onMedicines, onTabChange }) {
   const id = useId().replace(/:/g, '');
   const [tab, setTab] = useState('plan');
+  const handleTabChange = (val) => { setTab(val); onTabChange?.(val); };
   const [journeyType, setJourneyType] = useState('treatment');
   const [isEmergencySubmitting, setIsEmergencySubmitting] = useState(false);
+  const [isMedicinesSubmitting, setIsMedicinesSubmitting] = useState(false);
+  const [medicinesCountry, setMedicinesCountry] = useState('India');
   const isSubmittingRef = useRef(false);
   const { currency, formatAmount } = useLocale();
   const { config } = useConfig();
   const { cities } = config;
+
+  useEffect(() => {
+    const handleSwitchTab = (e) => {
+      if (e.detail) {
+        setTab(e.detail);
+      }
+    };
+    window.addEventListener('akeezo:switch-tab', handleSwitchTab);
+    return () => window.removeEventListener('akeezo:switch-tab', handleSwitchTab);
+  }, []);
 
   const dynamicBudgets = currency.code === 'INR'
     ? BUDGETS
@@ -120,6 +109,35 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
         { value: '50l_plus', label: `${formatAmount(5000000)}+` },
         { value: 'not_sure', label: 'Not sure' },
       ];
+
+  const handleMedicinesSubmit = async (e) => {
+    e.preventDefault();
+    if (isSubmittingRef.current || isMedicinesSubmitting) return;
+    isSubmittingRef.current = true;
+    setIsMedicinesSubmitting(true);
+    try {
+      const formData = new FormData(e.currentTarget);
+      const data = Object.fromEntries(formData);
+      
+      const file = formData.get('prescriptionFile');
+      if (file && file.size > 0) {
+        const reader = new FileReader();
+        const base64Promise = new Promise((resolve) => {
+          reader.onload = (ev) => resolve(ev.target.result);
+          reader.readAsDataURL(file);
+        });
+        data.prescriptionBase64 = await base64Promise;
+        data.prescriptionFileName = file.name;
+      }
+      
+      await onMedicines?.(data);
+    } finally {
+      setIsMedicinesSubmitting(false);
+      setTimeout(() => {
+        isSubmittingRef.current = false;
+      }, 300);
+    }
+  };
 
   const handlePlanSubmit = (e) => {
     e.preventDefault();
@@ -166,7 +184,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
   return (
     <div className="relative">
       {/* Icon tab strip — MMT floats this above the card, half-overlapping it. */}
-      <Tabs value={tab} onValueChange={setTab}>
+      <Tabs value={tab} onValueChange={handleTabChange}>
         <div className="rounded-[var(--radius)] bg-card shadow-widget border border-rule">
           {/* The `strip` variant lives in components/ui/tabs.jsx — the icon
               rail, tall triggers and active underline are all part of it, so
@@ -176,6 +194,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
               <TabsTrigger
                 key={value}
                 value={value}
+                data-tab={value}
                 className={cn(
                   'group/tab-item',
                   urgent
@@ -255,7 +274,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   hint="Not sure? Pick the last option."
                   variant="mint"
                   options={[
-                    ...treatments.map((t) => ({ value: t.label, label: t.label })),
+                    ...(config.planTreatments || []).map((t) => ({ value: t.label, label: t.label })),
                     { value: 'Not sure — help me decide', label: "I'm not sure — help me decide" },
                   ]}
                 />
@@ -284,7 +303,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   icon={CalendarDays}
                   defaultValue="not_sure"
                   variant="mint"
-                  options={URGENCY}
+                  options={(config.planTimelines || []).map(t => ({ value: t, label: t }))}
                 />
 
                 <FieldSelect
@@ -331,7 +350,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   label="Where is the patient?"
                   icon={MapPin}
                   defaultValue="other"
-                  options={PLACE_TYPES}
+                  options={(config.emergencyPlaceTypes || []).map(p => ({ value: p, label: p }))}
                 />
 
                 <Field
@@ -357,7 +376,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   label="What happened?"
                   icon={Ambulance}
                   defaultValue="I don't know"
-                  options={PROBLEMS.map((p) => ({ value: p, label: p }))}
+                  options={(config.emergencyProblems || []).map((p) => ({ value: p, label: p }))}
                 />
 
                 <Field
@@ -399,10 +418,9 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                 </Field>
               </div>
 
-              <p className="mt-3 text-xs text-muted-foreground">
+              <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
                 Only your name and mobile number are required — we work the rest out on the phone.
-                AKEEZO coordinates emergency response and is not a substitute for your local
-                emergency number.
+                Akeezo acts solely as a healthcare facilitator; services are delivered by independent healthcare professionals and service providers. Healthcare services are delivered by qualified professionals and trusted service providers.
               </p>
 
               <WidgetSubmit label="Connect Me To AKEEZO" danger loading={isEmergencySubmitting} disabled={isEmergencySubmitting} />
@@ -420,7 +438,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   label="Who do you need?"
                   icon={HouseHeart}
                   defaultValue="Nurse"
-                  options={HOME_SERVICES.map((s) => ({ value: s, label: s }))}
+                  options={(config.homeServices || []).map((s) => ({ value: s, label: s }))}
                 />
 
                 <Field
@@ -446,14 +464,7 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
                   label="For how long?"
                   icon={CalendarDays}
                   defaultValue="not_sure"
-                  options={[
-                    { value: 'one_visit', label: 'A single visit' },
-                    { value: 'few_days', label: 'A few days' },
-                    { value: '1_2_weeks', label: '1–2 weeks' },
-                    { value: '1_month_plus', label: 'A month or more' },
-                    { value: 'ongoing', label: 'Ongoing / long term' },
-                    { value: 'not_sure', label: 'Not sure' },
-                  ]}
+                  options={(config.homeDurations || []).map((d) => ({ value: d, label: d }))}
                 />
 
                 <Field
@@ -478,6 +489,96 @@ export function SearchWidget({ onPlan, onEmergency, onHome }) {
               </div>
 
               <WidgetSubmit label="Find Care At Home" />
+            </form>
+          </TabsContent>
+
+          <TabsContent value="medicines" className="mt-0 p-4 sm:p-5">
+            <form onSubmit={handleMedicinesSubmit} className="space-y-6">
+              <input type="hidden" name="intent" value="medicines" />
+              <div className="grid grid-cols-1 divide-y divide-rule/60 md:grid-cols-5 md:divide-x md:divide-y-0">
+                <Field
+                  className="md:col-span-1"
+                  id={`${id}-medicines-name`}
+                  label="Full Name"
+                  hint="Who is ordering?"
+                >
+                  <Input
+                    id={`${id}-medicines-name`}
+                    name="name"
+                    autoComplete="name"
+                    required
+                    maxLength={100}
+                    placeholder="Enter Name"
+                    className="h-auto border-0 bg-transparent p-0 text-lg font-bold shadow-none placeholder:font-normal placeholder:text-muted-foreground focus-visible:ring-0 md:text-lg"
+                  />
+                </Field>
+
+                <Field
+                  className="md:col-span-1"
+                  id={`${id}-medicines-phone`}
+                  label="Mobile No."
+                  hint="We will contact you"
+                >
+                  <Input
+                    id={`${id}-medicines-phone`}
+                    name="phone"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    required
+                    minLength={6}
+                    maxLength={32}
+                    placeholder="+91 98xxx xxxxx"
+                    className="h-auto border-0 bg-transparent p-0 text-lg font-bold shadow-none placeholder:font-normal placeholder:text-muted-foreground focus-visible:ring-0 md:text-lg"
+                  />
+                </Field>
+
+                <FieldSelect
+                  className="md:col-span-1"
+                  id={`${id}-medicines-country`}
+                  name="country"
+                  label="Country"
+                  hint="Select country"
+                  value={medicinesCountry}
+                  onValueChange={setMedicinesCountry}
+                  options={COUNTRIES}
+                />
+
+                <FieldSelect
+                  className="md:col-span-1"
+                  id={`${id}-medicines-state`}
+                  name="state"
+                  label="State / UT"
+                  hint="Select state"
+                  options={(STATES[medicinesCountry] || []).map(s => ({ value: s, label: s }))}
+                />
+
+                <FieldSelect
+                  className="md:col-span-1"
+                  id={`${id}-medicines-need`}
+                  name="needType"
+                  label="What you Need?"
+                  hint="Medicine or Supplements"
+                  options={(config.medicinesNeedTypes || []).map((n) => ({ value: n, label: n }))}
+                />
+              </div>
+
+              <div className="flex items-start gap-2.5 px-2">
+                <Checkbox
+                  id="med-consent"
+                  name="consent"
+                  required
+                  className="mt-0.5"
+                />
+                <Label
+                  htmlFor="med-consent"
+                  className="text-xs leading-relaxed font-normal text-muted-foreground"
+                >
+                  I declare that the information provided is accurate, and I consent to AKEEZO contacting me regarding this order. *
+                </Label>
+              </div>
+
+              <WidgetSubmit label="Order Medicines" loading={isMedicinesSubmitting} />
             </form>
           </TabsContent>
         </div>

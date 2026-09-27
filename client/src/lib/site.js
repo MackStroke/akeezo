@@ -79,6 +79,10 @@ export const navigation = [
     href: '/doctors',
   },
   {
+    label: 'Packages',
+    href: '/packages',
+  },
+  {
     label: 'Services',
     megaMenu: true,
     groups: [
@@ -124,21 +128,62 @@ export const navigation = [
           { label: 'Post-operative care', href: '#home-care' },
           { label: 'Elder care', href: '#home-care' },
         ],
+      },
+      {
+        id: 'medicines-supplements',
+        label: 'Medicines & Supplements',
+        description: 'Order your health essentials.',
+        icon: 'Pill',
+        href: '/medicines',
+        items: [
+          { label: 'Prescription Medicines', href: '/medicines' },
+          { label: 'Health Supplements', href: '/medicines' },
+        ],
       }
     ]
   },
+];
+
+export const partnerLinks = {
+  label: 'For partners',
+  href: '#partners',
+  items: [
+    { label: 'Hospitals', href: '#partners' },
+    { label: 'International agents', href: '#partners' },
+    { label: 'Hotels', href: '#partners' },
+    { label: 'Corporates', href: '#partners' },
+    { label: 'Insurance & TPAs', href: '#partners' },
+    { label: 'Embassies', href: '#partners' },
+  ],
+};
+
+export const footerNavigation = [
   {
-    label: 'For partners',
-    href: '#partners',
+    label: 'Explore',
     items: [
-      { label: 'Hospitals', href: '#partners' },
-      { label: 'International agents', href: '#partners' },
-      { label: 'Hotels', href: '#partners' },
-      { label: 'Corporates', href: '#partners' },
-      { label: 'Insurance & TPAs', href: '#partners' },
-      { label: 'Embassies', href: '#partners' },
-    ],
+      { label: 'Hospitals', href: '/hospitals' },
+      { label: 'Doctors', href: '/doctors' },
+      { label: 'Packages', href: '/packages' },
+      { label: 'Medicines & Supplements', href: '/medicines' },
+    ]
   },
+  {
+    label: 'Company',
+    items: [
+      { label: 'About Us', href: '/#about' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Contact', href: '/#contact' },
+    ]
+  },
+  {
+    label: 'Legal',
+    items: [
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Medical Disclaimer', href: '/disclaimer' },
+      { label: 'Patient Consent', href: '/consent' },
+    ]
+  }
 ];
 
 export const faqs = [

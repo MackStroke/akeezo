@@ -19,10 +19,16 @@ import AdminUserDetailsPage from './pages/admin/AdminUserDetailsPage';
 import AdminEmailPage from './pages/admin/AdminEmailPage';
 import SocialSettingsPage from './pages/admin/SocialSettingsPage';
 import RecommendationsPage from './pages/admin/RecommendationsPage';
+import DynamicPage from './pages/DynamicPage';
+import JoinPartnerPage from './pages/JoinPartnerPage';
+import FAQPage from './pages/FAQPage';
+import AdminPagesPage from './pages/admin/AdminPagesPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import HospitalsPage from './pages/HospitalsPage';
 import DoctorsPage from './pages/DoctorsPage';
+import PackagesPage from './pages/PackagesPage';
+import AboutPage from './pages/AboutPage';
 import PrivacyPolicyPage from './pages/legal/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/legal/TermsOfServicePage';
 import MedicalDisclaimerPage from './pages/legal/MedicalDisclaimerPage';
@@ -37,12 +43,19 @@ import SEOManager from './components/SEOManager';
 import MaintenanceGuard from './components/MaintenanceGuard';
 import AnalyticsTracker from './components/AnalyticsTracker';
 import { CookieConsent } from './components/CookieConsent';
+import { ScrollToTopButton } from './components/ScrollToTopButton';
 import MaintenanceAdminPage from './pages/admin/MaintenanceAdminPage';
 import LocationsAdminPage from './pages/admin/LocationsAdminPage';
 import AnalyticsReportsPage from './pages/admin/AnalyticsReportsPage';
+import AdminFormsConfigPage from './pages/admin/AdminFormsConfigPage';
+import AdminHomePage from './pages/admin/AdminHomePage';
 import HospitalDetailsPage from './pages/HospitalDetailsPage';
 import AdminHospitalsPage from './pages/admin/AdminHospitalsPage';
 import AdminHospitalDetailsPage from './pages/admin/AdminHospitalDetailsPage';
+import AdminPackagesPage from './pages/admin/AdminPackagesPage';
+import AdminPackageDetailsPage from './pages/admin/AdminPackageDetailsPage';
+import MedicinesPage from './pages/MedicinesPage';
+import AdminMedicinesPage from './pages/admin/AdminMedicinesPage';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -80,6 +93,7 @@ export default function App() {
                 <AnalyticsTracker />
                 <MaintenanceGuard>
                   <CookieConsent />
+                  <ScrollToTopButton />
                   <Routes>
                 <Route path="/" element={<LandingPage />} />
                 
@@ -118,11 +132,17 @@ export default function App() {
                 {/* Hospital Discovery */}
                 <Route path="/hospitals" element={<HospitalsPage />} />
                 <Route path="/hospitals/:slug" element={<HospitalDetailsPage />} />
+                <Route path="/packages" element={<PackagesPage />} />
+                <Route path="/medicines" element={<MedicinesPage />} />
 
                 {/* Doctor Directory */}
                 <Route path="/doctors" element={<DoctorsPage />} />
 
                 {/* Public Blog Routes */}
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/join-partner" element={<JoinPartnerPage />} />
+                <Route path="/faq" element={<FAQPage />} />
+                <Route path="/contact" element={<DynamicPage slug="contact" />} />
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:slug" element={<BlogPostPage />} />
                 
@@ -146,6 +166,7 @@ export default function App() {
                   <Route path="users/:id" element={<AdminUserDetailsPage />} />
                   <Route path="emergencies" element={<EmergenciesPage />} />
                   <Route path="emergencies/:id" element={<EmergencyDetailsPage />} />
+                  <Route path="pages" element={<AdminPagesPage />} />
                   <Route path="blog" element={<AdminBlogPage />} />
                   <Route path="email" element={<AdminEmailPage />} />
                   <Route path="social" element={<SocialSettingsPage />} />
@@ -154,10 +175,15 @@ export default function App() {
                   <Route path="profile" element={<ProfilePage />} />
                   <Route path="settings" element={<SettingsPage />} />
                   <Route path="maintenance" element={<MaintenanceAdminPage />} />
+                  <Route path="forms" element={<AdminFormsConfigPage />} />
+                  <Route path="home" element={<AdminHomePage />} />
                   <Route path="locations" element={<LocationsAdminPage />} />
                   <Route path="analytics" element={<AnalyticsReportsPage />} />
                   <Route path="hospitals" element={<AdminHospitalsPage />} />
                   <Route path="hospitals/:id" element={<AdminHospitalDetailsPage />} />
+                  <Route path="packages" element={<AdminPackagesPage />} />
+                  <Route path="packages/:id" element={<AdminPackageDetailsPage />} />
+                  <Route path="medicines" element={<AdminMedicinesPage />} />
                   <Route path="theme" element={<ThemeSettingsPage />} />
                   <Route path="consultancy" element={<ConsultancyPage />} />
                 </Route>

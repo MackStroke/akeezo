@@ -8,6 +8,7 @@ import {
   HeartHandshake,
   ShieldCheck,
   UserCheck,
+  Pill,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SearchWidget } from '@/components/SearchWidget';
@@ -48,29 +49,50 @@ const PROOF = [
   },
 ];
 
-export function Hero({ onPlan, onEmergency, onHome }) {
+export function Hero({ onPlan, onEmergency, onHome, onMedicines }) {
+  const [activeTab, setActiveTab] = useState('plan');
+  
+  const THEME_COLORS = {
+    plan: { start: '#00c7be', end: '#009b94' },
+    home: { start: '#ff6b00', end: '#db5800' },
+    emergency: { start: '#d92d20', end: '#a32118' },
+    medicines: { start: '#ff6b00', end: '#db5800' },
+  };
+  
+  const currentColors = THEME_COLORS[activeTab] || THEME_COLORS.plan;
+
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % MISSION_SLIDES.length);
-    }, 4000);
+    }, 7000);
     return () => clearInterval(timer);
   }, []);
 
   return (
     <section id="top" aria-labelledby="hero-heading" className="relative">
       {/* Colour band & hero background image behind the widget. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[26rem] sm:h-[24rem] bg-hero-band overflow-hidden bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)), url("/images/hero section.webp")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
+              <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-[353px] sm:h-[400px] w-full overflow-hidden z-0"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 1440 256" 
+            fill="none" 
+            preserveAspectRatio="xMidYMax slice"
+            className="absolute inset-0 w-full h-full"
+          >
+            <path fill="url(#curveGradient)" fillRule="evenodd" d="M1440 167.207C1224.62 223.655 980.573 255.5 722 255.5c-260.175 0-505.644-32.241-722-89.345V0h1440v167.207Z" clipRule="evenodd"/>
+            <defs>
+              <linearGradient id="curveGradient" x1="0" x2="1048.73" y1="0" y2="787.836" gradientUnits="userSpaceOnUse">
+                <stop stopColor={currentColors.start} className="transition-all duration-500 ease-in-out" />
+                <stop offset="1" stopColor={currentColors.end} className="transition-all duration-500 ease-in-out" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
 
       <div className="relative mx-auto max-w-[76rem] px-4 pt-10 pb-16 sm:pt-12">
         <div className="mb-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
@@ -80,12 +102,10 @@ export function Hero({ onPlan, onEmergency, onHome }) {
               className="text-3xl text-white sm:text-4xl lg:text-[2.75rem] font-black leading-tight tracking-tight"
               style={{ color: '#fff' }}
             >
-              Too many hospitals, Too many quotations,
-              <br />
-              Low on budget or not sure from where to get treated?
+              Looking for the right treatment within your budget?
             </h1>
             <p className="mt-3 max-w-2xl text-[0.98rem] sm:text-base text-white/90 font-medium leading-relaxed">
-              Whether you’re looking for treatment in India or any other country, Akeezo helps you find suitable healthcare options based on your medical needs and budget.
+              Akeezo helps you explore suitable healthcare options based on your medical needs and budget, helping you make informed choices for your care.
             </p>
           </div>
 
@@ -162,7 +182,7 @@ export function Hero({ onPlan, onEmergency, onHome }) {
           </div>
         </div>
 
-        <SearchWidget onPlan={onPlan} onEmergency={onEmergency} onHome={onHome} />
+        <SearchWidget onTabChange={setActiveTab} onPlan={onPlan} onEmergency={onEmergency} onHome={onHome} onMedicines={onMedicines} />
 
         {/* MMT-style Explore More / Care Features strip */}
         <div data-cy="tertiaryRowContainer" className="choosFrom mt-12 mb-4">
@@ -205,6 +225,31 @@ export function Hero({ onPlan, onEmergency, onHome }) {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+
+        {/* Mobile-only Medicines CTA Banner */}
+        <div className="block lg:hidden mt-4 rounded-[var(--radius)] bg-primary/5 border border-primary/20 p-4 shadow-sm text-center relative overflow-hidden">
+          <div className="absolute -right-4 -top-4 opacity-5">
+            <Pill className="size-24" />
+          </div>
+          <div className="relative z-10 flex flex-col items-center gap-2">
+            <div className="flex items-center gap-2 text-primary font-black text-sm uppercase tracking-widest">
+              <Pill className="size-4" />
+              <span>Medicines & Supplements</span>
+            </div>
+            <p className="text-xs text-muted-foreground font-medium mb-1">
+              Tell us what you need and we'll handle the rest. Delivery straight to your door.
+            </p>
+            <button 
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.dispatchEvent(new CustomEvent('akeezo:switch-tab', { detail: 'medicines' }));
+              }}
+              className="mt-2 w-full max-w-[200px] rounded-full bg-primary py-2 text-xs font-bold text-primary-foreground shadow-md transition-transform active:scale-95"
+            >
+              Order Now
+            </button>
           </div>
         </div>
       </div>

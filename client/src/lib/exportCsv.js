@@ -59,3 +59,17 @@ export function prepareEmergencyRows(rows) {
     _locationLabel: r.location?.label || r.location?.placeType || '',
   }));
 }
+
+export const PACKAGE_EXPORT = {
+  headers: ['Plan ID', 'Title', 'Tagline', 'Monthly Price', 'Yearly Price', 'Yearly Discount', 'Status', 'Key Features', 'Popular Services'],
+  keys:    ['planId', 'title', 'tagline', 'monthlyPrice', 'yearlyPrice', 'yearlyDiscount', 'isActive', '_keyFeatures', '_popularServices'],
+};
+
+export function preparePackageRows(rows) {
+  return rows.map(r => ({
+    ...r,
+    _keyFeatures: (r.keyFeatures || []).join(' | '),
+    _popularServices: (r.popularServices || []).join(' | '),
+    isActive: r.isActive ? 'Active' : 'Inactive'
+  }));
+}

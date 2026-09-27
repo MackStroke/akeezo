@@ -6,6 +6,7 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { FloatingActions } from '@/components/FloatingActions';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { EmergencyResultDialog } from '@/components/EmergencyResultDialog';
+import { MedicinesResultDialog } from '@/components/MedicinesResultDialog';
 import { Hero } from '@/sections/Hero';
 import { JourneySlider } from '@/sections/JourneySlider';
 import { EntryPoints } from '@/sections/EntryPoints';
@@ -17,7 +18,8 @@ import { HomeCare } from '@/sections/HomeCare';
 import { Continuum } from '@/sections/Continuum';
 import { Partners } from '@/sections/Partners';
 import { Faq } from '@/sections/Faq';
-import { submitEmergency } from '@/lib/api';
+import { WhyUs } from '@/sections/WhyUs';
+import { submitEmergency, submitLead } from '@/lib/api';
 
 const landingPageJsonLd = {
   '@context': 'https://schema.org',
@@ -145,6 +147,7 @@ const JOURNEY_LABELS = {
 export default function LandingPage() {
   const [enquiry, setEnquiry] = useState(null);
   const [emergency, setEmergency] = useState(null);
+  const [medicinesResult, setMedicinesResult] = useState(null);
 
   /**
    * The widget gathers what the patient needs; the dialog then collects who
@@ -193,6 +196,28 @@ export default function LandingPage() {
     });
   };
 
+  const handleMedicines = async (form) => {
+    setMedicinesResult({ pending: true });
+    try {
+      const data = await submitLead({
+        intent: 'medicines',
+        name: form.name,
+        phone: form.phone,
+        country: form.country,
+        state: form.state,
+        treatment: form.needType,
+        message: [
+          `Need: ${form.needType}`,
+          `Location: ${form.state}, ${form.country}`,
+        ].join('\n'),
+        consent: true,
+      });
+      setMedicinesResult({ result: data });
+    } catch (err) {
+      setMedicinesResult({ error: err.message });
+    }
+  };
+
   /**
    * Emergency submits straight through — no confirmation step, no consent
    * gate. Someone reporting a collapse is not going to read a checkbox, and a
@@ -232,7 +257,7 @@ export default function LandingPage() {
         <SiteHeader />
 
         <main id="content" tabIndex={-1}>
-          <Hero onPlan={handlePlan} onEmergency={handleEmergency} onHome={handleHome} />
+          <Hero onPlan={handlePlan} onEmergency={handleEmergency} onHome={handleHome} onMedicines={handleMedicines} />
           <JourneySlider />
           <EntryPoints />
           <Journey />
@@ -242,6 +267,7 @@ export default function LandingPage() {
           <HomeCare />
           <Continuum />
           <Partners />
+          <WhyUs />
           <Faq />
         </main>
 
@@ -260,6 +286,13 @@ export default function LandingPage() {
         onOpenChange={(open) => !open && setEmergency(null)}
         result={emergency?.result}
         error={emergency?.error}
+      />
+
+      <MedicinesResultDialog
+        open={Boolean(medicinesResult) && !medicinesResult.pending}
+        onOpenChange={(open) => !open && setMedicinesResult(null)}
+        result={medicinesResult?.result}
+        error={medicinesResult?.error}
       />
     </LocaleProvider>
   );

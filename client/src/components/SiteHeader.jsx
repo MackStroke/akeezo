@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Ambulance, Building2, Globe, Menu, Phone, UserRound, X, LogOut, CheckCircle2, ChevronDown, Plane, Home, ArrowRight } from 'lucide-react';
+import { Ambulance, Building2, Globe, Menu, Phone, UserRound, X, LogOut, CheckCircle2, ChevronDown, Plane, Home, ArrowRight, Pill } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -41,7 +41,7 @@ function UtilityBar({ onOpenLogin }) {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-emergency opacity-75 motion-reduce:animate-none" />
             <span className="relative inline-flex size-2 rounded-full bg-emergency" />
           </span>
-          <span className="text-white/90">Medical emergency?</span>
+          <span className="text-white/90 uppercase">EMERGENCY?</span>
 
           <a
             href={telHref(site.emergencyPhone)}
@@ -133,10 +133,10 @@ function NavDropdown({ group, isScrolled }) {
             aria-hidden="true"
           />
         </PopoverTrigger>
-        <PopoverContent align="start" className="w-[850px] p-6 shadow-2xl rounded-2xl border-rule/50">
-          <div className="grid grid-cols-3 gap-8">
+        <PopoverContent align="start" className="w-[950px] p-6 shadow-2xl rounded-2xl border-rule/50">
+          <div className="grid grid-cols-4 gap-8">
             {group.groups.map((subGroup) => {
-              const Icon = subGroup.icon === 'Plane' ? Plane : subGroup.icon === 'Ambulance' ? Ambulance : Home;
+              const Icon = subGroup.icon === 'Plane' ? Plane : subGroup.icon === 'Ambulance' ? Ambulance : subGroup.icon === 'Pill' ? Pill : Home;
               return (
                 <div key={subGroup.id} className="space-y-4">
                   <a href={subGroup.href} onClick={() => setOpen(false)} className="group/header flex items-start gap-3">
@@ -308,7 +308,7 @@ export function SiteHeader() {
             aria-label="AKEEZO home"
           >
             <img
-              src={isScrolled ? '/images/logo-dark.svg' : '/images/logo-light.svg'}
+              src={isScrolled ? '/images/logo with tagline-dark.svg' : '/images/logo with tagline-light.svg'}
               alt="AKEEZO"
               className="h-7 sm:h-8 w-auto transition-opacity duration-300 hover:opacity-90"
             />
@@ -420,8 +420,8 @@ export function SiteHeader() {
             className="flex items-center gap-2 cursor-pointer"
             aria-label="AKEEZO home"
           >
-            <img src="/images/logo-dark.svg" alt="AKEEZO" className="h-7 w-auto dark:hidden" />
-            <img src="/images/logo-light.svg" alt="AKEEZO" className="h-7 w-auto hidden dark:block" />
+            <img src="/images/logo with tagline-dark.svg" alt="AKEEZO" className="h-7 w-auto dark:hidden" />
+            <img src="/images/logo with tagline-light.svg" alt="AKEEZO" className="h-7 w-auto hidden dark:block" />
           </Link>
           <Button
             variant="ghost"
@@ -523,7 +523,7 @@ export function SiteHeader() {
                     {group.megaMenu ? (
                       <div className="space-y-4 pt-1">
                         {group.groups.map((subGroup) => {
-                          const Icon = subGroup.icon === 'Plane' ? Plane : subGroup.icon === 'Ambulance' ? Ambulance : Home;
+                          const Icon = subGroup.icon === 'Plane' ? Plane : subGroup.icon === 'Ambulance' ? Ambulance : subGroup.icon === 'Pill' ? Pill : Home;
                           return (
                             <div key={subGroup.id} className="space-y-1">
                               <a href={subGroup.href} onClick={close} className="flex items-center gap-2 px-3 py-1.5 font-bold text-sm text-foreground hover:text-primary">

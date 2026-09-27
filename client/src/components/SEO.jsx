@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-const DEFAULT_TITLE = "AKEEZO — Healthcare Journey Platform | Medical Tourism & Emergency Care in India";
-const DEFAULT_DESCRIPTION = "Tell AKEEZO what you need and we plan the healthcare journey — hospital and doctor options, treatment cost estimates, travel and visa support, 24/7 emergency assistance and home healthcare across India.";
+const DEFAULT_TITLE = "AKEEZO - Healthcare Journey Platform | Medical Tourism & Emergency Care in India";
+const DEFAULT_DESCRIPTION = "Tell AKEEZO what you need and we plan the healthcare journey - hospital and doctor options, treatment cost estimates, travel and visa support, 24/7 emergency assistance and home healthcare across India.";
 const DEFAULT_OG_IMAGE = "https://www.akeezo.com/images/medical_tourism_plan.webp";
 const SITE_URL = "https://www.akeezo.com";
 
@@ -37,7 +37,9 @@ export default function SEO({
 }) {
   useEffect(() => {
     // Title
-    const fullTitle = title ? `${title} | AKEEZO` : DEFAULT_TITLE;
+    const fullTitle = title 
+      ? (title.includes('AKEEZO') ? title : `${title} | AKEEZO`)
+      : DEFAULT_TITLE;
     document.title = fullTitle;
 
     // Meta Description

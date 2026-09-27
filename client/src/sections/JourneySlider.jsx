@@ -80,7 +80,7 @@ export function JourneySlider({ slides = DEFAULT_SLIDES }) {
   };
 
   return (
-    <section className="relative py-12 sm:py-16 bg-card border-b border-rule/80 overflow-hidden select-none font-sans">
+    <section id="journey-slider" className="relative py-12 sm:py-16 bg-card border-b border-rule/80 overflow-hidden select-none font-sans">
       <div className="mx-auto max-w-[76rem] px-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Coordination Copy */}

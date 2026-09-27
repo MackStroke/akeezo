@@ -11,6 +11,7 @@ import blogRoutes from './routes/blog.js';
 import hospitalRoutes from './routes/hospitals.js';
 import recommendationRoutes from './routes/recommendations.js';
 import doctorRoutes from './routes/doctors.js';
+import packageRoutes from './routes/packages.js';
 
 import configRoutes from './routes/config.js';
 import analyticsRoutes from './routes/analytics.js';
@@ -77,6 +78,7 @@ export function createApp() {
   app.use('/api/doctors', doctorRoutes);
   app.use('/api/config', configRoutes);
   app.use('/api/analytics', analyticsRoutes);
+  app.use('/api/packages', packageRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

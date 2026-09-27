@@ -13,6 +13,7 @@ import adminEmailRoutes from './admin-email.js';
 import adminConfigRoutes from './admin-config.js';
 import adminAnalyticsRoutes from './admin-analytics.js';
 import adminHospitalsRoutes from './admin-hospitals.js';
+import adminPackagesRoutes from './admin-packages.js';
 
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev';
@@ -104,6 +105,7 @@ router.use('/email', adminEmailRoutes);
 router.use('/config', adminConfigRoutes);
 router.use('/analytics', adminAnalyticsRoutes);
 router.use('/hospitals', adminHospitalsRoutes);
+router.use('/packages', adminPackagesRoutes);
 
 // Unified stats route — used by header polling AND dashboard
 router.get('/stats', async (req, res, next) => {

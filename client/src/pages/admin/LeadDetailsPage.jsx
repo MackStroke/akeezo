@@ -260,6 +260,23 @@ export default function LeadDetailsPage() {
                   {lead.message || 'No additional message provided.'}
                 </div>
               </div>
+
+              {lead.prescriptionBase64 && (
+                <div className="mt-6 p-4 border border-purple-200 bg-purple-50 dark:bg-purple-950/20 dark:border-purple-900/50 rounded-xl">
+                  <span className="block text-xs font-bold text-purple-700 dark:text-purple-400 uppercase tracking-wide mb-2">Prescription Attached</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">{lead.prescriptionFileName || 'Prescription Document'}</span>
+                    <a
+                      href={lead.prescriptionBase64}
+                      download={lead.prescriptionFileName || 'prescription.pdf'}
+                      className="inline-flex items-center gap-2 text-xs font-bold bg-white dark:bg-black px-3 py-1.5 rounded-lg border shadow-sm hover:bg-muted transition-colors"
+                    >
+                      <Download className="size-3.5" />
+                      Download
+                    </a>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
 

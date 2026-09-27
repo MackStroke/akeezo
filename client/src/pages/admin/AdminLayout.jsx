@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import SEO from '../../components/SEO';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Users, User, Settings, Wrench, Palette, LogOut, CheckSquare, ShieldCheck, HelpCircle, Siren, AlertCircle, Search, Bell, BookOpen, UserCheck, Share2, MapPin, Mail, Activity, Building2 } from 'lucide-react';
+import { LayoutDashboard, Users, User, Settings, Wrench, Palette, LogOut, CheckSquare, ShieldCheck, HelpCircle, Siren, AlertCircle, Search, Bell, BookOpen, UserCheck, Share2, MapPin, Mail, Activity, Building2, Package, Pill, Home } from 'lucide-react';
 import { Logomark } from '../../components/Logomark';
 import { AudioAlert } from '../../components/AudioAlert';
 import {
@@ -24,9 +24,11 @@ const navItems = [
   { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
   { name: 'Emergencies', path: '/admin/emergencies', icon: Siren },
   { name: 'Leads', path: '/admin/leads', icon: Users },
+  { name: 'Medicine & Supplements', path: '/admin/medicines', icon: Pill },
   { name: 'Recommendations', path: '/admin/recommendations', icon: MapPin },
   { name: 'Registered Users', path: '/admin/users', icon: UserCheck },
   { name: 'Hospitals', path: '/admin/hospitals', icon: Building2 },
+  { name: 'Packages', path: '/admin/packages', icon: Package },
   { name: 'Blog Articles', path: '/admin/blog', icon: BookOpen },
   { name: 'Email Notifications', path: '/admin/email', icon: Mail },
   { name: 'Social', path: '/admin/social', icon: Share2 },
@@ -37,6 +39,8 @@ const navItems = [
   { name: 'Locations', path: '/admin/locations', icon: MapPin },
   { name: 'Maintenance', path: '/admin/maintenance', icon: Wrench },
   { name: 'Settings', path: '/admin/settings', icon: Settings },
+  { name: 'Home Page', path: '/admin/home', icon: Home },
+  { name: 'Form Dropdowns', path: '/admin/forms', icon: Settings },
   { name: 'Theme Settings', path: '/admin/theme', icon: Palette },
   { name: 'Consultancy', path: '/admin/consultancy', icon: HelpCircle },
 ];
@@ -89,7 +93,7 @@ export default function AdminLayout() {
     <div className="flex min-h-screen bg-muted/20 font-sans text-foreground">
       <SEO title="AKEEZO Admin Workspace" noindex={true} />
       {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 flex flex-col border-r bg-card p-6">
+      <aside className="w-64 flex-shrink-0 flex flex-col border-r bg-card p-6 sticky top-0 h-screen overflow-y-auto">
         <Link to="/admin/dashboard" className="flex items-center gap-3 px-2 mb-8 group">
           <img src="/images/logo-dark.svg" alt="AKEEZO" className="h-7 w-auto dark:hidden transition-opacity group-hover:opacity-80" />
           <img src="/images/logo-light.svg" alt="AKEEZO" className="h-7 w-auto hidden dark:block transition-opacity group-hover:opacity-80" />

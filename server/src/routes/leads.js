@@ -18,7 +18,7 @@ const phone = z
   .regex(/^[+0-9][0-9\s()\-.]*$/, 'Please enter a valid phone number.');
 
 const leadSchema = z.object({
-  intent: z.enum(['medical_tourism', 'home_healthcare', 'general_enquiry']).default('general_enquiry'),
+  intent: z.enum(['medical_tourism', 'home_healthcare', 'general_enquiry', 'medicines', 'healthcare_package']).default('general_enquiry'),
   treatment: z.string().trim().max(120).optional(),
   name: z.string().trim().min(2, 'Please tell us your name.').max(120),
   email: z.string().trim().toLowerCase().email('Please enter a valid email address.').max(160).optional().or(z.literal('')),

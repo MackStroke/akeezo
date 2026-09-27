@@ -6,12 +6,13 @@ import { Lead } from '../models/Lead.js';
 import { EmergencyRequest } from '../models/EmergencyRequest.js';
 import { Hospital } from '../models/Hospital.js';
 import { Recommendation } from '../models/Recommendation.js';
+import { Package } from '../models/Package.js';
 
 const DATA_DIR = (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME)
   ? '/tmp/akeezo-data'
   : path.resolve(import.meta.dirname, '../../.data');
 
-async function readCollection(file) {
+export async function readCollection(file) {
   try {
     return JSON.parse(await readFile(path.join(DATA_DIR, file), 'utf8'));
   } catch (err) {
@@ -197,6 +198,7 @@ export const FILES = {
   emergency: 'emergency-requests.json',
   hospitals: 'hospitals.json',
   recommendations: 'recommendations.json',
+  packages: 'packages.json',
 };
 
 export async function syncTempDataToMongo() {
@@ -209,6 +211,7 @@ export async function syncTempDataToMongo() {
     { file: FILES.emergency, Model: EmergencyRequest, key: 'caseId', clearOnSync: true },
     { file: FILES.hospitals, Model: Hospital, key: 'slug', clearOnSync: false },
     { file: FILES.recommendations, Model: Recommendation, key: 'recommendationId', clearOnSync: true },
+    { file: FILES.packages, Model: Package, key: 'planId', clearOnSync: false },
   ];
 
   for (const { file, Model, key, clearOnSync } of mappings) {

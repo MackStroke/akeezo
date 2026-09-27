@@ -112,7 +112,8 @@ const COUNTRY_CODES = [
  */
 export function EmergencyForm() {
   const id = useId().replace(/:/g, '');
-  const [status, setStatus] = useState('idle'); // idle | locating | sending | done
+  const [status, setStatus] = useState('idle');
+  const [step, setStep] = useState(1); // idle | locating | sending | done
   const [coords, setCoords] = useState(null);
   const [locationNote, setLocationNote] = useState('');
 
@@ -287,7 +288,8 @@ export function EmergencyForm() {
         </div>
       )}
 
-      {/* --- STEP 1: ESSENTIAL CONTACT --- */}
+      {step === 1 && (<>
+        {/* --- STEP 1: ESSENTIAL CONTACT --- */}
       <div className="mt-5">
         <h4 className="text-sm font-bold text-emergency mb-3 uppercase tracking-wider flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-emergency animate-pulse" />
@@ -353,7 +355,10 @@ export function EmergencyForm() {
         </div>
       </div>
 
-      {/* --- STEP 2: OPTIONAL DETAILS --- */}
+      </>)}
+
+        {step === 2 && (<>
+        {/* --- STEP 2: OPTIONAL DETAILS --- */}
       <div className="mt-8">
         <h4 className="text-sm font-bold text-muted-foreground mb-3 uppercase tracking-wider flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
@@ -543,51 +548,85 @@ export function EmergencyForm() {
         </div>
       )}
 
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
+      {step === 1 ? (
+        <div className="mt-6 flex flex-col sm:flex-row gap-3">
           <Button
             type="button"
-            disabled={status === 'sending' || !requesterName || !requesterPhone}
-            className="mt-6 h-14 w-full cta-gradient-danger text-base font-bold tracking-wide text-white uppercase shadow-md hover:shadow-lg transition-all"
+            onClick={() => setStep(2)}
+            disabled={!requesterName || !requesterPhone}
+            variant="outline"
+            className="h-14 flex-1 text-base font-bold border-emergency/30 text-emergency hover:bg-emergency/5"
           >
-            {status === 'sending' ? (
-              <>
-                <Loader2 className="animate-spin" aria-hidden="true" />
-                Sending…
-              </>
-            ) : (
-              'Connect me to AKEEZO'
-            )}
+            Add Details
           </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-emergency font-black flex items-center gap-2">
-              <TriangleAlert className="size-5" /> Confirm Emergency Dispatch Request
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-xs sm:text-sm space-y-2">
-              <p>
-                You are requesting immediate emergency intake for{' '}
-                <strong className="text-foreground">{patientName || requesterName || 'the patient'}</strong>.
-              </p>
-              <p className="text-muted-foreground">
-                AKEEZO desk staff will immediately call{' '}
-                <strong className="text-foreground">{countryCode} {requesterPhone}</strong> to coordinate local medical response.
-              </p>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="text-xs font-bold">Edit Details</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={onSubmit}
-              className="bg-emergency hover:bg-emergency-strong text-white font-bold text-xs"
-            >
-              Confirm Emergency Dispatch
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
+          
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                type="button"
+                disabled={status === 'sending' || !requesterName || !requesterPhone}
+                className="h-14 flex-[2] cta-gradient-danger text-base font-bold tracking-wide text-white uppercase shadow-md hover:shadow-lg transition-all"
+              >
+                {status === 'sending' ? <><Loader2 className="animate-spin mr-2" /> Sending…</> : 'Connect to AKEEZO'}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle className="text-emergency font-black flex items-center gap-2">
+                  <TriangleAlert className="size-5" /> Confirm Emergency Request
+                </AlertDialogTitle>
+                <AlertDialogDescription className="text-xs sm:text-sm space-y-2">
+                  <p>You are requesting immediate emergency intake for <strong className="text-foreground">{patientName || requesterName || 'the patient'}</strong>.</p>
+                  <p className="text-muted-foreground">AKEEZO desk staff will immediately call <strong className="text-foreground">{countryCode} {requesterPhone}</strong> to coordinate local medical response.</p>
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="text-xs font-bold">Edit Details</AlertDialogCancel>
+                <AlertDialogAction onClick={onSubmit} className="bg-emergency hover:bg-emergency-strong text-white font-bold text-xs">Confirm Dispatch</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      ) : (
+        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+          <Button
+            type="button"
+            onClick={() => setStep(1)}
+            variant="outline"
+            className="h-14 flex-1 text-base font-bold text-muted-foreground"
+          >
+            Back
+          </Button>
+          
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                type="button"
+                disabled={status === 'sending' || !requesterName || !requesterPhone}
+                className="h-14 flex-[2] cta-gradient-danger text-base font-bold tracking-wide text-white uppercase shadow-md hover:shadow-lg transition-all"
+              >
+                {status === 'sending' ? <><Loader2 className="animate-spin mr-2" /> Sending…</> : 'Connect to AKEEZO'}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle className="text-emergency font-black flex items-center gap-2">
+                  <TriangleAlert className="size-5" /> Confirm Emergency Request
+                </AlertDialogTitle>
+                <AlertDialogDescription className="text-xs sm:text-sm space-y-2">
+                  <p>You are requesting immediate emergency intake for <strong className="text-foreground">{patientName || requesterName || 'the patient'}</strong>.</p>
+                  <p className="text-muted-foreground">AKEEZO desk staff will immediately call <strong className="text-foreground">{countryCode} {requesterPhone}</strong> to coordinate local medical response.</p>
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="text-xs font-bold">Edit Details</AlertDialogCancel>
+                <AlertDialogAction onClick={onSubmit} className="bg-emergency hover:bg-emergency-strong text-white font-bold text-xs">Confirm Dispatch</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      )}
+      </>)}
       <p className="mt-3 text-center text-xs text-muted-foreground">
         AKEEZO coordinates emergency response. We are not a substitute for your local emergency
         number — in a life-threatening emergency, call that first.

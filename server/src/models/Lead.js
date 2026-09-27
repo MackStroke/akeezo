@@ -13,10 +13,13 @@ const leadSchema = new mongoose.Schema(
     intent: {
       type: String,
       required: true,
-      enum: ['medical_tourism', 'home_healthcare', 'general_enquiry'],
+      enum: ['medical_tourism', 'home_healthcare', 'general_enquiry', 'medicines', 'healthcare_package', 'partner_enrollment'],
       index: true,
     },
+    prescriptionBase64: { type: String }, // For storing the uploaded prescription
+    prescriptionFileName: { type: String },
     treatment: { type: String, trim: true, maxlength: 120 },
+    partnerType: { type: String, trim: true },
 
     // Who is asking.
     name: { type: String, required: true, trim: true, maxlength: 120 },
