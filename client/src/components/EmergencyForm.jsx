@@ -259,10 +259,10 @@ export function EmergencyForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl bg-card p-4 sm:p-5 shadow-sm text-foreground border border-rule">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg sm:text-xl font-bold text-ink-strong">Request Emergency Help</h3>
-        <span className="rounded-full bg-emergency/10 px-2.5 py-0.5 text-xs font-bold text-emergency">
+    <form onSubmit={onSubmit} className="rounded-2xl bg-card p-3.5 sm:p-5 shadow-sm text-foreground border border-rule">
+      <div className="flex items-center justify-between gap-2">
+        <h3 className="text-base sm:text-xl font-bold text-ink-strong leading-tight">Request Emergency Help</h3>
+        <span className="shrink-0 rounded-full bg-emergency/10 px-2 py-0.5 text-[0.7rem] sm:text-xs font-bold text-emergency">
           Fast Intake
         </span>
       </div>
@@ -274,9 +274,9 @@ export function EmergencyForm() {
       {critical && (
         <div
           role="alert"
-          className="mt-3.5 flex gap-3 rounded-md border border-emergency/40 bg-emergency-surface p-3"
+          className="mt-3.5 flex gap-2.5 sm:gap-3 rounded-md border border-emergency/40 bg-emergency-surface p-3"
         >
-          <TriangleAlert className="mt-0.5 size-4.5 shrink-0 text-emergency" aria-hidden="true" />
+          <TriangleAlert className="mt-0.5 size-4 sm:size-4.5 shrink-0 text-emergency" aria-hidden="true" />
           <p className="text-xs sm:text-sm text-emergency-ink">
             <strong className="font-bold">Do not fill in this form.</strong> If the patient is
             unconscious or not breathing normally, call now:{' '}
@@ -295,10 +295,10 @@ export function EmergencyForm() {
           <div className="w-2 h-2 rounded-full bg-emergency animate-pulse" />
           Step 1: Essential Contact
         </h4>
-        <div className="grid gap-3 sm:grid-cols-2 rounded-xl bg-emergency/5 border border-emergency/20 p-3">
+        <div className="grid gap-3 sm:grid-cols-2 rounded-xl bg-emergency/5 border border-emergency/20 p-3 sm:p-3.5">
           {/* Your name * */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-name`} className="font-bold text-ink-strong leading-none">
+            <Label htmlFor={`${id}-name`} className="font-bold text-ink-strong leading-none text-xs sm:text-sm">
               Your name *
             </Label>
             <Input
@@ -311,18 +311,18 @@ export function EmergencyForm() {
               required
               minLength={2}
               maxLength={120}
-              className="h-10 bg-background font-medium text-foreground border-input"
+              className="h-10 bg-background font-medium text-foreground border-input text-base sm:text-sm"
             />
           </div>
 
           {/* Your mobile number * */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-phone`} className="font-bold text-ink-strong leading-none">
+            <Label htmlFor={`${id}-phone`} className="font-bold text-ink-strong leading-none text-xs sm:text-sm">
               Your mobile number *
             </Label>
             <div className="flex gap-1.5">
               <Select value={countryCode} onValueChange={setCountryCode}>
-                <SelectTrigger className="h-10 w-[6.5rem] shrink-0 font-medium bg-background text-foreground border-input px-2.5 text-xs sm:text-sm">
+                <SelectTrigger className="h-10 w-[5.5rem] sm:w-[6.5rem] shrink-0 font-medium bg-background text-foreground border-input px-2 sm:px-2.5 text-xs sm:text-sm">
                   <SelectValue placeholder="+91">
                     {triggerText}
                   </SelectValue>
@@ -364,15 +364,15 @@ export function EmergencyForm() {
           <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
           Step 2: Additional Details (Optional)
         </h4>
-        <div className="grid gap-3 sm:grid-cols-2 rounded-xl border border-border p-3.5 bg-background/50">
+        <div className="grid gap-3 sm:grid-cols-2 rounded-xl border border-border p-3 sm:p-3.5 bg-background/50">
           {/* Where is the patient? */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-place`} className="font-bold text-ink-strong leading-none">
+            <Label htmlFor={`${id}-place`} className="font-bold text-ink-strong leading-none text-xs sm:text-sm">
               Where is the patient?
             </Label>
             <div className="flex gap-2">
               <Select value={placeType} onValueChange={setPlaceType}>
-                <SelectTrigger id={`${id}-place`} className="h-10 min-w-0 flex-1 font-medium bg-background text-foreground border-input">
+                <SelectTrigger id={`${id}-place`} className="h-10 min-w-0 flex-1 font-medium bg-background text-foreground border-input text-xs sm:text-sm">
                   <SelectValue placeholder="Select location type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -389,10 +389,10 @@ export function EmergencyForm() {
                 variant="outline"
                 onClick={requestLocation}
                 aria-describedby={`${id}-loc-note`}
-                className="h-10 shrink-0 font-bold border-input bg-background hover:bg-muted text-xs sm:text-sm px-3"
+                className="h-10 shrink-0 font-bold border-input bg-background hover:bg-muted text-xs sm:text-sm px-2.5 sm:px-3"
               >
-                <MapPin aria-hidden="true" className="size-4 text-primary shrink-0" />
-                <span>{status === 'locating' ? 'Locating…' : 'Use location'}</span>
+                <MapPin aria-hidden="true" className="size-3.5 sm:size-4 text-primary shrink-0" />
+                <span>{status === 'locating' ? 'Locating…' : 'Location'}</span>
               </Button>
             </div>
           </div>
@@ -550,15 +550,15 @@ export function EmergencyForm() {
       </>)}
 
       {step === 1 ? (
-        <div className="mt-4 flex flex-col sm:flex-row gap-2.5">
+        <div className="mt-4 flex flex-col-reverse sm:flex-row gap-2 sm:gap-2.5">
           <Button
             type="button"
             onClick={() => setStep(2)}
             disabled={!requesterName || !requesterPhone}
             variant="outline"
-            className="h-11 sm:h-12 flex-1 text-sm sm:text-base font-bold border-emergency/30 text-emergency hover:bg-emergency/5"
+            className="h-10 sm:h-12 flex-1 text-xs sm:text-base font-bold border-emergency/30 text-emergency hover:bg-emergency/5 active:scale-[0.99]"
           >
-            Add Details
+            Add Details (Optional)
           </Button>
           
           <AlertDialog>
@@ -566,35 +566,35 @@ export function EmergencyForm() {
               <Button
                 type="button"
                 disabled={status === 'sending' || !requesterName || !requesterPhone}
-                className="h-11 sm:h-12 flex-[2] cta-gradient-danger text-sm sm:text-base font-bold tracking-wide text-white uppercase shadow-sm hover:shadow-md transition-all"
+                className="h-11 sm:h-12 flex-[2] cta-gradient-danger text-sm sm:text-base font-bold tracking-wide text-white uppercase shadow-sm hover:shadow-md transition-all active:scale-[0.99]"
               >
                 {status === 'sending' ? <><Loader2 className="animate-spin mr-2" /> Sending…</> : 'Connect to AKEEZO'}
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="w-[calc(100vw-2rem)] max-w-lg p-4 sm:p-6 rounded-2xl">
               <AlertDialogHeader>
-                <AlertDialogTitle className="text-emergency font-black flex items-center gap-2">
-                  <TriangleAlert className="size-5" /> Confirm Emergency Request
+                <AlertDialogTitle className="text-emergency font-black flex items-center gap-2 text-base sm:text-lg">
+                  <TriangleAlert className="size-4.5 sm:size-5 shrink-0" /> Confirm Emergency Request
                 </AlertDialogTitle>
                 <AlertDialogDescription className="text-xs sm:text-sm space-y-2">
                   <p>You are requesting immediate emergency intake for <strong className="text-foreground">{patientName || requesterName || 'the patient'}</strong>.</p>
                   <p className="text-muted-foreground">AKEEZO desk staff will immediately call <strong className="text-foreground">{countryCode} {requesterPhone}</strong> to coordinate local medical response.</p>
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel className="text-xs font-bold">Edit Details</AlertDialogCancel>
-                <AlertDialogAction onClick={onSubmit} className="bg-emergency hover:bg-emergency-strong text-white font-bold text-xs">Confirm Dispatch</AlertDialogAction>
+              <AlertDialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-0 mt-3 sm:mt-0">
+                <AlertDialogCancel className="text-xs font-bold w-full sm:w-auto">Edit Details</AlertDialogCancel>
+                <AlertDialogAction onClick={onSubmit} className="bg-emergency hover:bg-emergency-strong text-white font-bold text-xs w-full sm:w-auto">Confirm Dispatch</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         </div>
       ) : (
-        <div className="mt-4 flex flex-col sm:flex-row gap-2.5">
+        <div className="mt-4 flex flex-col-reverse sm:flex-row gap-2 sm:gap-2.5">
           <Button
             type="button"
             onClick={() => setStep(1)}
             variant="outline"
-            className="h-11 sm:h-12 flex-1 text-sm sm:text-base font-bold text-muted-foreground"
+            className="h-10 sm:h-12 flex-1 text-xs sm:text-base font-bold text-muted-foreground active:scale-[0.99]"
           >
             Back
           </Button>
@@ -604,30 +604,30 @@ export function EmergencyForm() {
               <Button
                 type="button"
                 disabled={status === 'sending' || !requesterName || !requesterPhone}
-                className="h-11 sm:h-12 flex-[2] cta-gradient-danger text-sm sm:text-base font-bold tracking-wide text-white uppercase shadow-sm hover:shadow-md transition-all"
+                className="h-11 sm:h-12 flex-[2] cta-gradient-danger text-sm sm:text-base font-bold tracking-wide text-white uppercase shadow-sm hover:shadow-md transition-all active:scale-[0.99]"
               >
                 {status === 'sending' ? <><Loader2 className="animate-spin mr-2" /> Sending…</> : 'Connect to AKEEZO'}
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="w-[calc(100vw-2rem)] max-w-lg p-4 sm:p-6 rounded-2xl">
               <AlertDialogHeader>
-                <AlertDialogTitle className="text-emergency font-black flex items-center gap-2">
-                  <TriangleAlert className="size-5" /> Confirm Emergency Request
+                <AlertDialogTitle className="text-emergency font-black flex items-center gap-2 text-base sm:text-lg">
+                  <TriangleAlert className="size-4.5 sm:size-5 shrink-0" /> Confirm Emergency Request
                 </AlertDialogTitle>
                 <AlertDialogDescription className="text-xs sm:text-sm space-y-2">
                   <p>You are requesting immediate emergency intake for <strong className="text-foreground">{patientName || requesterName || 'the patient'}</strong>.</p>
                   <p className="text-muted-foreground">AKEEZO desk staff will immediately call <strong className="text-foreground">{countryCode} {requesterPhone}</strong> to coordinate local medical response.</p>
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel className="text-xs font-bold">Edit Details</AlertDialogCancel>
-                <AlertDialogAction onClick={onSubmit} className="bg-emergency hover:bg-emergency-strong text-white font-bold text-xs">Confirm Dispatch</AlertDialogAction>
+              <AlertDialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-0 mt-3 sm:mt-0">
+                <AlertDialogCancel className="text-xs font-bold w-full sm:w-auto">Edit Details</AlertDialogCancel>
+                <AlertDialogAction onClick={onSubmit} className="bg-emergency hover:bg-emergency-strong text-white font-bold text-xs w-full sm:w-auto">Confirm Dispatch</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         </div>
       )}
-      <p className="mt-2.5 text-center text-xs text-muted-foreground">
+      <p className="mt-2.5 text-center text-[0.7rem] sm:text-xs text-muted-foreground leading-normal px-1">
         AKEEZO coordinates emergency response. We are not a substitute for your local emergency
         number — in a life-threatening emergency, call that first.
       </p>
