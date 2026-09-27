@@ -69,7 +69,7 @@ const HELP = [
 ];
 
 const RELATIONSHIPS = [
-  { value: 'family', label: 'Family member (Spouse, Son, Parent, Sibling)' },
+  { value: 'family', label: 'Family member (Spouse, Child, Parent)' },
   { value: 'self', label: 'Patient (Self)' },
   { value: 'friend', label: 'Friend or companion' },
   { value: 'colleague', label: 'Colleague or employer' },
@@ -399,7 +399,7 @@ export function EmergencyForm() {
 
           {/* Address or landmark */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-address`} className="font-bold text-ink-strong leading-none">
+            <Label htmlFor={`${id}-address`} className="font-bold text-ink-strong leading-tight text-xs sm:text-sm">
               Address or landmark
             </Label>
             <Input
@@ -408,22 +408,22 @@ export function EmergencyForm() {
               value={locationLabel}
               onChange={(e) => setLocationLabel(e.target.value)}
               autoComplete="street-address"
-              placeholder="e.g., Hotel Taj Palace, Sardar Patel Marg, New Delhi"
+              placeholder="Hotel name, landmark, or street"
               maxLength={300}
-              className="h-10 bg-background font-medium text-foreground border-input"
+              className="h-10 bg-background font-medium text-foreground border-input text-base sm:text-sm"
             />
-            <span id={`${id}-loc-note`} aria-live="polite" className="text-[0.72rem] text-muted-foreground">
+            <span id={`${id}-loc-note`} aria-live="polite" className="text-[0.7rem] text-muted-foreground leading-tight">
               {locationNote || 'A hotel name, building or nearby landmark is enough.'}
             </span>
           </div>
 
           {/* What happened? */}
           <div className="flex flex-col gap-1.5 sm:col-span-2">
-            <Label htmlFor={`${id}-problem`} className="font-bold text-ink-strong leading-none">
+            <Label htmlFor={`${id}-problem`} className="font-bold text-ink-strong leading-tight text-xs sm:text-sm">
               What happened?
             </Label>
             <Select value={problem} onValueChange={setProblem}>
-              <SelectTrigger id={`${id}-problem`} className="h-10 w-full font-medium bg-background text-foreground border-input">
+              <SelectTrigger id={`${id}-problem`} className="h-10 w-full font-medium bg-background text-foreground border-input text-xs sm:text-sm">
                 <SelectValue placeholder="Select what happened" />
               </SelectTrigger>
               <SelectContent className="max-h-72">
@@ -437,53 +437,56 @@ export function EmergencyForm() {
             <input type="hidden" name="problem" value={problem} />
           </div>
 
-          {/* Is the patient conscious? */}
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-conscious`} className="font-bold text-ink-strong leading-none">
-              Is the patient conscious?
-            </Label>
-            <Select value={conscious} onValueChange={setConscious}>
-              <SelectTrigger id={`${id}-conscious`} className="h-10 w-full font-medium bg-background text-foreground border-input">
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                {YES_NO.map((o) => (
-                  <SelectItem key={o.value} value={o.value}>
-                    {o.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <input type="hidden" name="conscious" value={conscious} />
-          </div>
+          {/* Quick Vitals Check: 2-column on mobile & desktop */}
+          <div className="grid grid-cols-2 gap-2.5 sm:col-span-2">
+            {/* Is the patient conscious? */}
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor={`${id}-conscious`} className="font-bold text-ink-strong leading-tight text-xs sm:text-sm">
+                Conscious?
+              </Label>
+              <Select value={conscious} onValueChange={setConscious}>
+                <SelectTrigger id={`${id}-conscious`} className="h-10 w-full font-medium bg-background text-foreground border-input text-xs sm:text-sm">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  {YES_NO.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>
+                      {o.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <input type="hidden" name="conscious" value={conscious} />
+            </div>
 
-          {/* Breathing normally? */}
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-breathing`} className="font-bold text-ink-strong leading-none">
-              Breathing normally?
-            </Label>
-            <Select value={breathing} onValueChange={setBreathing}>
-              <SelectTrigger id={`${id}-breathing`} className="h-10 w-full font-medium bg-background text-foreground border-input">
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                {YES_NO.map((o) => (
-                  <SelectItem key={o.value} value={o.value}>
-                    {o.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <input type="hidden" name="breathingNormally" value={breathing} />
+            {/* Breathing normally? */}
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor={`${id}-breathing`} className="font-bold text-ink-strong leading-tight text-xs sm:text-sm">
+                Breathing?
+              </Label>
+              <Select value={breathing} onValueChange={setBreathing}>
+                <SelectTrigger id={`${id}-breathing`} className="h-10 w-full font-medium bg-background text-foreground border-input text-xs sm:text-sm">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  {YES_NO.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>
+                      {o.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <input type="hidden" name="breathingNormally" value={breathing} />
+            </div>
           </div>
 
           {/* What help do you need? */}
           <div className="flex flex-col gap-1.5 sm:col-span-2">
-            <Label htmlFor={`${id}-help`} className="font-bold text-ink-strong leading-none">
+            <Label htmlFor={`${id}-help`} className="font-bold text-ink-strong leading-tight text-xs sm:text-sm">
               What help do you need?
             </Label>
             <Select value={helpNeeded} onValueChange={setHelpNeeded}>
-              <SelectTrigger id={`${id}-help`} className="h-10 w-full font-medium bg-background text-foreground border-input">
+              <SelectTrigger id={`${id}-help`} className="h-10 w-full font-medium bg-background text-foreground border-input text-xs sm:text-sm">
                 <SelectValue placeholder="Select help required" />
               </SelectTrigger>
               <SelectContent>
@@ -499,7 +502,7 @@ export function EmergencyForm() {
 
           {/* Patient name */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-patient`} className="font-bold text-ink-strong leading-none">
+            <Label htmlFor={`${id}-patient`} className="font-bold text-ink-strong leading-tight text-xs sm:text-sm">
               Patient name
             </Label>
             <Input
@@ -509,17 +512,17 @@ export function EmergencyForm() {
               onChange={(e) => setPatientName(e.target.value)}
               placeholder="Patient's name (optional)"
               maxLength={120}
-              className="h-10 bg-background font-medium text-foreground border-input"
+              className="h-10 bg-background font-medium text-foreground border-input text-base sm:text-sm"
             />
           </div>
 
           {/* Relationship */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-rel`} className="font-bold text-ink-strong leading-none">
+            <Label htmlFor={`${id}-rel`} className="font-bold text-ink-strong leading-tight text-xs sm:text-sm">
               You are the patient&apos;s…
             </Label>
             <Select value={relationship} onValueChange={setRelationship}>
-              <SelectTrigger id={`${id}-rel`} className="h-10 w-full font-medium bg-background text-foreground border-input">
+              <SelectTrigger id={`${id}-rel`} className="h-10 w-full font-medium bg-background text-foreground border-input text-xs sm:text-sm">
                 <SelectValue placeholder="Select relationship" />
               </SelectTrigger>
               <SelectContent>
@@ -589,12 +592,12 @@ export function EmergencyForm() {
           </AlertDialog>
         </div>
       ) : (
-        <div className="mt-4 flex flex-col-reverse sm:flex-row gap-2 sm:gap-2.5">
+        <div className="mt-4 flex flex-row gap-2 sm:gap-2.5">
           <Button
             type="button"
             onClick={() => setStep(1)}
             variant="outline"
-            className="h-10 sm:h-12 flex-1 text-xs sm:text-base font-bold text-muted-foreground active:scale-[0.99]"
+            className="h-11 sm:h-12 w-20 sm:w-auto sm:flex-1 text-xs sm:text-base font-bold text-muted-foreground shrink-0 active:scale-[0.99]"
           >
             Back
           </Button>
@@ -604,7 +607,7 @@ export function EmergencyForm() {
               <Button
                 type="button"
                 disabled={status === 'sending' || !requesterName || !requesterPhone}
-                className="h-11 sm:h-12 flex-[2] cta-gradient-danger text-sm sm:text-base font-bold tracking-wide text-white uppercase shadow-sm hover:shadow-md transition-all active:scale-[0.99]"
+                className="h-11 sm:h-12 flex-1 sm:flex-[2] cta-gradient-danger text-xs sm:text-base font-bold tracking-wide text-white uppercase shadow-sm hover:shadow-md transition-all active:scale-[0.99]"
               >
                 {status === 'sending' ? <><Loader2 className="animate-spin mr-2" /> Sending…</> : 'Connect to AKEEZO'}
               </Button>

@@ -133,8 +133,8 @@ export default function AboutPage() {
                   </span>
                 </div>
                 
-                <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-black tracking-tight mb-6 leading-[1.1]">
-                  Democratizing Access to <br className="hidden lg:block" />
+                <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-black tracking-tight mb-6 leading-[1.1] text-balance">
+                  Democratizing Access to{' '}
                   <span className="text-primary">
                     World-Class Healthcare
                   </span>
