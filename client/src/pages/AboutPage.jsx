@@ -148,13 +148,13 @@ export default function AboutPage() {
                   <div className="flex items-center gap-3">
                     <div className="flex -space-x-3">
                       <div className="size-10 rounded-full border-2 border-white bg-white shadow-sm flex items-center justify-center p-1 z-30">
-                        <img className="w-full h-full object-contain" src="https://upload.wikimedia.org/wikipedia/en/thumb/8/87/Apollo_Hospitals_Logo.svg/300px-Apollo_Hospitals_Logo.svg.png" alt="Apollo Hospitals" />
+                        <img className="w-full h-full object-contain" src="https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://apollohospitals.com&size=128" alt="Apollo Hospitals" />
                       </div>
                       <div className="size-10 rounded-full border-2 border-white bg-white shadow-sm flex items-center justify-center p-1 z-20">
-                        <img className="w-full h-full object-contain" src="https://upload.wikimedia.org/wikipedia/en/thumb/9/91/Fortis_Healthcare_logo.svg/300px-Fortis_Healthcare_logo.svg.png" alt="Fortis Healthcare" />
+                        <img className="w-full h-full object-contain" src="https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://fortishealthcare.com&size=128" alt="Fortis Healthcare" />
                       </div>
                       <div className="size-10 rounded-full border-2 border-white bg-white shadow-sm flex items-center justify-center p-1 z-10">
-                        <img className="w-full h-full object-contain" src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Medanta_logo.svg/300px-Medanta_logo.svg.png" alt="Medanta" />
+                        <img className="w-full h-full object-contain" src="https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://medanta.org&size=128" alt="Medanta" />
                       </div>
                       <div className="size-10 rounded-full border-2 border-white bg-primary flex items-center justify-center text-xs font-bold text-white shadow-sm z-0">
                         50+
